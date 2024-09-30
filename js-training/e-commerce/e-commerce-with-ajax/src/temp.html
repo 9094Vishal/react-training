@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style/output.css" />
+  </head>
+  <body class="antialiased bg-white">
+    <div tabindex="0" class="group relative inline-block p-5">
+      <button
+        class="p-2 bg-green-500 text-[16px] text-white focus:outline-none"
+      >
+        Options
+      </button>
+      <ul
+        class="hidden group-focus-within:block list-none absolute bg-gray-50 w-40 z-1 shadow-lg animate-slideIn"
+      >
+        <li
+          class="py-3 px-4 cursor-pointer hover:bg-gray-200 hover:text-blue-700"
+        >
+          Option 1
+        </li>
+        <li
+          class="py-3 px-4 cursor-pointer hover:bg-gray-200 hover:text-blue-700"
+        >
+          Option 2
+        </li>
+        <li
+          class="py-3 px-4 cursor-pointer hover:bg-gray-200 hover:text-blue-700"
+        >
+          Option 3
+        </li>
+      </ul>
+    </div>
+    <script>
+      const options = document.querySelectorAll("li");
+      for (let i = 0; i < options.length; i++) {
+        options[i].onclick = () => {
+          document.activeElement.blur();
+        };
+      }
+    </script>
+  </body>
+</html>

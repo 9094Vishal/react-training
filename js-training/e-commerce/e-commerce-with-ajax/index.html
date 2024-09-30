@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product</title>
+    <link rel="stylesheet" href="src/style/product.css" />
+    <link rel="stylesheet" href="/src/style/output.css" />
+    <link rel="stylesheet" href="src/style/star.css" />
+
+    <link rel="stylesheet" href="/src/style/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
+    />
+    <script
+      async
+      custom-element="amp-form"
+      src="https://cdn.ampproject.org/v0/amp-form-0.1.js"
+    ></script>
+    <script
+      async
+      custom-template="amp-mustache"
+      src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <style></style>
+  </head>
+  <body class="relative">
+    <div
+      class="notification-box flex flex-col items-center top-0 right-0 fixed w-full z-50 p-3"
+    >
+      <!-- Notification container -->
+    </div>
+    <nav></nav>
+    <!-- <div
+      id="hamburger-menu"
+      class="hidden absolute top-0 right-0 h-screen w-full sm:w-1/4 bg-white z-10 border border-black"
+    ></div> -->
+    <main>
+      <div class="sm:flex sm:gap-2">
+        <div class="sm:h-screen sm:w-[30%] md:w-[20%] md:py-5 md:pl-[20px]">
+          <div class="flex gap-2 sm:block">
+            <div class="w-1/2 sm:w-full">
+              <h3>Price</h3>
+              <div
+                class="range-slider h-[5px] relative mt-[12px] bg-[#e1e9f6] rounded-sm"
+              >
+                <span
+                  class="range-selected h-full left-0 right-0 top-[-1px] z-[1] absolute rounded-md bg-[#1a374d]"
+                ></span>
+              </div>
+              <div class="range-input relative">
+                <input
+                  type="range"
+                  class="min"
+                  min="0"
+                  max="1000"
+                  value="0"
+                  step="1"
+                />
+                <input
+                  type="range"
+                  class="max"
+                  min="0"
+                  max="1000"
+                  value="1000"
+                  step="1"
+                />
+              </div>
+              <div
+                class="range-price my-2 mx-0 w-full flex justify-between items-center"
+              >
+                <label for="min">$0</label>
+                <label for="max">$1000</label>
+              </div>
+            </div>
+
+            <form
+              id="rating"
+              method="post"
+              action-xhr="https://amp.dev/documentation/examples/interactivity-dynamic-content/star_rating/set"
+              target="_blank"
+              class="w-1/2 sm:w-full"
+            >
+              <h3>Rating</h3>
+              <fieldset class="star-rating">
+                <input
+                  name="rating"
+                  type="radio"
+                  id="rating5"
+                  value="5"
+                  on="change:rating.submit"
+                />
+                <label for="rating5" title="5 stars">☆</label>
+
+                <input
+                  name="rating"
+                  type="radio"
+                  id="rating4"
+                  value="4"
+                  on="change:rating.submit"
+                />
+                <label for="rating4" title="4 stars">☆</label>
+
+                <input
+                  name="rating"
+                  type="radio"
+                  id="rating3"
+                  value="3"
+                  on="change:rating.submit"
+                />
+                <label for="rating3" title="3 stars">☆</label>
+
+                <input
+                  name="rating"
+                  type="radio"
+                  id="rating2"
+                  value="2"
+                  on="change:rating.submit"
+                />
+                <label for="rating2" title="2 stars">☆</label>
+
+                <input
+                  name="rating"
+                  type="radio"
+                  id="rating1"
+                  value="1"
+                  on="change:rating.submit"
+                />
+                <label for="rating1" title="1 stars">☆</label>
+              </fieldset>
+            </form>
+          </div>
+          <div class="sidebar-filter-btns">
+            <button id="clear-filter-btn">Clear Filter</button>
+          </div>
+        </div>
+
+        <div class="product-card-wrapper w-full sm:w-[70%] md:w-[80%]">
+          <section
+            id="products-card"
+            class="md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-2 p-[15px]"
+          >
+            <!-- <div class="product-wrapper mb-3">
+              <div class="">
+                <div class="slideshow-container">
+                  <div class="mySlides fade">
+                    <div class="img">
+                      <img
+                        src="https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg"
+                        alt="Image not found"
+                      />
+                    </div>
+                  </div>
+
+                  <a class="prev slide-btns">❮</a>
+                  <a class="next slide-btns">❯</a>
+                </div>
+                <br />
+
+                <div class="product-detail-wrapper">
+                  <p>Title:</p>
+                  <div class="title">${item?.title}</div>
+                </div>
+                <div class="product-detail-wrapper">
+                  <p>Category:</p>
+                  <div class="category">${item.category}</div>
+                </div>
+                <div class="product-detail-wrapper">
+                  <p>Price:</p>
+                  <div class="price">$${item?.price}</div>
+                </div>
+
+                <div class="product-detail-wrapper">
+                  <p>Rating:</p>
+                  <div class="rating">
+                    ${item.rating.rate}(${item.rating.count})
+                  </div>
+                </div>
+                <div class="product-detail-wrapper">
+                  <p>Description:</p>
+                  <div class="discription">${item.description}</div>
+                </div>
+              </div>
+            </div>
+            <button class="add-to-cart-btn" data-product="${item.id}">
+              Add to cart
+            </button> -->
+          </section>
+          <div
+            class="p-4 flex w-full gap-2 md:gap-5 items-center md:justify-start justify-between"
+            id="pagination"
+          ></div>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="./main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script type="module" src="/src/script/products.js"></script>
+  </body>
+</html>

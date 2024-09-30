@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/src/style/output.css" />
+    <link rel="stylesheet" href="/src/style/style.css" />
+  </head>
+  <body>
+    <main class="flex h-screen w-full items-center justify-center">
+      <div class="bg-white p-7 rounded-lg">
+        <h1 class="text-center mb-2 font-semibold">Login Page</h1>
+
+        <form class="flex flex-col gap-2" action="" id="login-form">
+          <div class="form-input flex gap-2">
+            <label class="w-[6rem]" for="username">Username</label>
+            <div class="form-input-wrapper w-full flex flex-col gap-1">
+              <input
+                type="text"
+                class="p-1 border rounded-md border-black"
+                id="username"
+              />
+              <p id="username-error" class="error text-red-700"></p>
+            </div>
+          </div>
+          <div class="form-input flex gap-2">
+            <label class="w-[6rem]" for="password">Password</label>
+            <div class="form-input-wrapper w-full flex flex-col gap-1">
+              <input
+                type="password"
+                class="p-1 border rounded-md border-black"
+                id="password"
+              />
+              <p id="password-error" class="error text-red-700"></p>
+              <div class="">
+                <input id="showpass" type="checkbox" />
+                <label for="showpass">Show password</label>
+              </div>
+              <p id="error" class="error text-red-700"></p>
+            </div>
+          </div>
+          <div class="form-input">
+            <div class="form-input-wrapper w-full flex flex-col gap-1">
+              <button type="submit" class="py-2">Log in</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+    <script type="module" src="/src/script/login.js"></script>
+  </body>
+</html>

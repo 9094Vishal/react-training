@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./output.css" />
+    <style>
+      #imgList::-webkit-scrollbar {
+        display: none;
+      }
+      #imgList {
+        -webkit-overflow-scrolling: touch;
+      }
+      .active {
+        background-color: #ee6c4d !important;
+      }
+      .swiper {
+        width: 100%;
+        /* height: 100%; */
+      }
+
+      .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .swiper-pagination-bullet-active {
+        background-color: #ee6c4d !important;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+  </head>
+  <body class="dark:text-white text-black dark:bg-darkBg transition-colors">
+    <nav
+      class="dark:bg-[#3D5A80] bg-[#F9F9F9] flex items-center justify-between px-4 sm:px-[25px] md:px-[55px] lg:px-[75px] xl:px-[81px] border-b dark:border-[#0000001F]"
+    >
+      <div class="text-[18px] font-bold cursor-pointer">
+        <a href="#">IWMYWF</a>
+      </div>
+      <div class="sm:hidden">&#9776;</div>
+      <ul
+        class="items-center hidden sm:flex sm:gap-[22px] lg:gap-[38px] xl:gap-[48px] py-[20px]"
+      >
+        <li class="cursor-pointer hover:text-gray-400 inline-block text-base">
+          <a href="#"> Home</a>
+        </li>
+        <li class="cursor-pointer hover:text-gray-400 inline-block text-base">
+          <a href="#about">About Me</a>
+        </li>
+        <li class="cursor-pointer hover:text-gray-400 inline-block text-base">
+          <a href="#work">Works</a>
+        </li>
+        <li class="cursor-pointer hover:text-gray-400 inline-block text-base">
+          <a href="#clients">Clients</a>
+        </li>
+        <li class="cursor-pointer hover:text-gray-400 inline-block text-base">
+          <div
+            class="bg-gray-500 w-20 mx-auto cursor-pointer rounded-3xl toggler dark:bg-darkBg"
+          >
+            <div
+              class="bg-white w-10 h-10 scale-75 rounded-3xl transition-transform dark:bg-black"
+            ></div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <section
+      id="home"
+      class="dark:bg-[#3D5A80] bg-[#F9F9F9] flex h-[545px] gap-3 flex-col-reverse md:flex-row"
+    >
+      <div class="md:w-[65%] lg:w-[70%] w-full">
+        <div
+          class="px-5 md:px-0 md:pt-[75px] md:pl-[100px] lg:pt[80px] lg:pl-[140px] xl:pt-[123px] xl:pl-[160px] w-full"
+        >
+          <div class="lg:w-[500px] xl:w-[526px]">
+            <h1
+              class="text-base sm:text-lg md:text-xl lg:text-3xl xl:text-[40px] font-bold mb-4"
+            >
+              Create your website <br />
+              in
+              <span class="text-btn">less than 12days </span>
+            </h1>
+            <p class="text-sm md:text-lg mb-6">
+              Hey, I’m Mark Essein. A fullstack web developer with 7 years
+              experience building successful websites and applications. I can
+              build a high converting website for you as quick as possible!
+            </p>
+            <a href="#get-in-touch">
+              <button
+                class="text-sm md:text-base bg-btn py-3 px-[46px] rounded-[5px] mb-5"
+              >
+                Get in Touch
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="w-full md:w-[35%] lg:w-[30%] h-[293px] md:h-fit">
+        <div
+          class="mx-auto md:mx-0 h-[150px] w-[150px] md:w-[200px] md:h-[200px] lg:h-[273px] lg:w-[273px] relative bg-darkBg rounded-full md:mt-[48px]"
+        >
+          <img
+            class="h-[270px] w-[200px] md:h-[474px] top-[23px] md:w-[315px] absolute"
+            src="./assets/men.png"
+            alt=""
+          />
+        </div>
+      </div>
+    </section>
+    <section class="md:h-[745px]" id="about">
+      <div
+        class="p-4 md:p-0 flex gap-3 flex-col md:flex-row flex-shrink-0 mb-[65px]"
+      >
+        <div
+          class="pt-[101px] md:pl-[120px] lg:pl-[165px] xl:pl-[192px] w-full md:w-1/2"
+        >
+          <div
+            class="w-[275px] h-[275px] sm:w-[300px] sm:h-[200px] lg:w-[351px] mx-auto lg:h-[297px] xl:w-[371px] xl:h-[308px]"
+          >
+            <img
+              src="./assets/language.png"
+              class="w-full h-full object-contain"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 pt-[79px] md:pr-[160px] lg:pr-[182px]">
+          <div class="" id="aboutme"></div>
+        </div>
+      </div>
+
+      <div class="dark:bg-[#2F3746] w-full bg-[#F9F9F9] py-[48px]">
+        <div class="w-full text-center">
+          <h1 class="mx-auto text-[20px] md:text-[24px] lg:text-[28px]">
+            Companies I have worked for
+          </h1>
+          <div class="bg-btn h-[3px] mx-auto my-[16px] w-[132px]"></div>
+        </div>
+        <div id="companys" class="text-center pt-[48px]"></div>
+      </div>
+    </section>
+    <section class="w-full py-[48px]" id="work">
+      <div class="w-fit mx-auto">
+        <div class="w-full">
+          <h1 class="text-[20px] md:text-[24px] lg:text-[28px]">
+            My Recent Works
+          </h1>
+          <div class="bg-btn h-[3px] my-[16px] w-[187px]"></div>
+        </div>
+        <div
+          class="pt-[40px] w-fit grid-cols-1 md:grid-cols-2 grid lg:grid-cols-3 gap-[42px] pb-[64px]"
+          id="mywork"
+        ></div>
+        <div class="w-full mx-auto text-center">
+          <button
+            class="w-fit text-btn border border-btn rounded-[5px] py-3 px-[56.5px]"
+          >
+            See More
+          </button>
+        </div>
+      </div>
+    </section>
+    <section
+      class="dark:bg-[#2F3746] w-full bg-[#F9F9F9] py-[48px]"
+      id="clients"
+    >
+      <div class="w-full text-center">
+        <h1 class="mx-auto text-[20px] md:text-[24px] lg:text-[28px]">
+          What my clients say
+        </h1>
+        <div class="bg-btn h-[3px] mx-auto my-[16px] w-[132px]"></div>
+      </div>
+      <div class="pt-[48px] flex gap-[30px] mx-auto">
+        <div class="w-full relative">
+          <div
+            class="swiper mySwiper clients md:!h-[250px] lg:!h-[260px] xl:!h-[226px] !px-4 md:!px-[158px]"
+          >
+            <div class="swiper-wrapper" id="client"></div>
+            <div
+              class="swiper-button-next !hidden md:!block md:!right-[70px] !text-btn dark:!text-white"
+            ></div>
+            <div
+              class="swiper-button-prev md:!left-[70px] !hidden md:!block !text-btn dark:!text-white"
+            ></div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="dark:bg-[#3D5A80] bg-[#F9F9F9] p-4 sm:p-0 sm:pb-4 lg:pb-0 flex lg:h-[483px]"
+      id="get-in-touch"
+    >
+      <div class="w-fit mx-auto pt-[48px]">
+        <div class="w-[90%] sm:w-[80%] xl:w-[1034px]">
+          <h1 class="text-[20px] md:text-[24px] lg:text-[28px]">
+            Tell me about your project
+          </h1>
+          <div class="bg-btn h-[3px] mt-[17px] w-[187px]"></div>
+        </div>
+        <div class="pt-[24px] w-fit dark:text-white text-btn">
+          <div class="flex gap-[30px] flex-col sm:flex-row xl:w-[1034px]">
+            <input
+              type="text"
+              class="bg-[#26384F] p-[14px] w-full"
+              placeholder="Name"
+            /><input
+              type="text"
+              placeholder="Email Address"
+              class="bg-[#26384F] p-[14px] w-full"
+            />
+          </div>
+          <textarea
+            name=""
+            row="15"
+            class="bg-[#26384F] p-[14px] w-full my-[17px] h-[180px]"
+            placeholder="Message description"
+            id=""
+          ></textarea>
+          <button class="bg-btn py-3 px-[56px] text-white">Send</button>
+        </div>
+      </div>
+    </section>
+
+    <footer
+      class="py-[52px] px-5 gap-5 md:px-[81px] flex sm:items-center sm:justify-between flex-col sm:flex-row"
+    >
+      <a href="#"
+        ><h1 class="text-base md:text-lg cursor-pointer">IWMYWF</h1></a
+      >
+      <p>&#169; Copyright 2021. All right reserved</p>
+      <div class="flex items-center gap-4">
+        Connect with me:
+        <i class="fa-brands fa-facebook cursor-pointer"></i
+        ><i class="fa-brands fa-square-twitter cursor-pointer"></i
+        ><i class="fa-brands fa-github cursor-pointer"></i>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

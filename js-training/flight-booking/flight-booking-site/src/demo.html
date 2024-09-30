@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Contact Form Template</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="./output.css" />
+  </head>
+  <body class="h-screen">
+    <div class="z-10 w-full h-full flex items-center justify-center">
+      <button
+        id="modal-button"
+        class="w-64 h-12 text-lg text-white bg-blue-500 rounded-md px-4 py-2"
+      >
+        Open Modal
+      </button>
+      <!--Open Modal -->
+    </div>
+    <div
+      id="modal"
+      class="hidden items-center justify-center h-screen w-screen fixed top-0 bg-black bg-opacity-60"
+    >
+      <!--Modal Dialog -->
+      <div class="bg-white max-w-lg w-full rounded-md">
+        <!--Modal Content -->
+        <div
+          class="p-3 flex items-center justify-between border-b border-b-gray-300"
+        >
+          <!--Modal Header -->
+          <h3 class="font-semibold text-xl">Make Payment</h3>
+          <span class="modal-close cursor-pointer text-3xl">×</span>
+          <!-- Close Modal -->
+        </div>
+        <div class="p-3 border-b border-b-gray-300">
+          <div class="flex items-center justify-between">
+            <span>Name</span>
+            <span>Vishal</span>
+          </div>
+          <div
+            class="flex items-center justify-between border-b border-b-gray-300 pb-2"
+          >
+            <span>Phone</span>
+            <span>9016451303</span>
+          </div>
+          <div class="flex items-center font-semibold justify-between pt-2">
+            <span>Total</span>
+            <span>$500</span>
+          </div>
+          <!--Modal Body -->
+        </div>
+        <div class="p-3 flex items-center justify-start">
+          <!--Modal Footer -->
+          <div>
+            <button
+              class="text-sm text-white bg-[#09203C] rounded-md px-4 py-2"
+            >
+              Make payment
+            </button>
+            <button
+              class="modal-close text-sm text-gray-500 border rounded-md px-4 py-2"
+            >
+              Cancel
+            </button>
+            <!-- Close Modal -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./js/demo.js"></script>
+  </body>
+</html>

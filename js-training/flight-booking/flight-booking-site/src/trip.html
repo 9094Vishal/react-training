@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" style="--range-progress: calc(100% + (-16px))">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./output.css" />
+    <title>Document</title>
+    <style>
+      .range-slider {
+        width: 100%;
+        margin: 0 auto;
+        position: relative;
+        margin-top: 2.5rem;
+        margin-bottom: 2rem;
+      }
+
+      #range {
+        -webkit-appearance: none;
+        width: 100%;
+      }
+      #range:focus {
+        outline: none;
+      }
+
+      /* #range::before,
+      #range::after {
+        position: absolute;
+        top: 2rem;
+        color: #333;
+        font-size: 14px;
+        line-height: 1;
+        padding: 3px 5px;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+      } */
+      /* #range::before {
+        left: 0;
+        content: attr(data-min);
+      }
+      #range::after {
+        right: 0;
+        content: attr(data-max);
+      } */
+
+      #range::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 1rem;
+        cursor: pointer;
+        animate: 0.2s;
+        background: linear-gradient(
+          90deg,
+          #3b82f6 var(--range-progress),
+          #dee4ec var(--range-progress)
+        );
+        border-radius: 1rem;
+      }
+      #range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border: 0.25rem solid #3b82f6;
+        box-shadow: 0 1px 3px rgba(0, 0, 255, 0.3);
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+        height: 32px;
+        width: 32px;
+        transform: translateY(calc(-50% + 8px));
+      }
+
+      #tooltip {
+        position: absolute;
+        top: -2.25rem;
+      }
+      #tooltip span {
+        position: absolute;
+        text-align: center;
+        display: block;
+        line-height: 1;
+        padding: 0.125rem 0.25rem;
+        color: #fff;
+        border-radius: 0.125rem;
+        background: #3b82f6;
+        font-size: 1.25rem;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+      #tooltip span:before {
+        position: absolute;
+        content: "";
+        left: 50%;
+        bottom: -8px;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border: 4px solid transparent;
+        border-top-color: #3b82f6;
+      }
+    </style>
+  </head>
+  <body class="relative">
+    <div
+      class="notification-box flex flex-col items-center top-0 right-0 fixed w-full z-50 p-3"
+    ></div>
+    <header></header>
+    <section class="flex gap-6">
+      <div class="w-[20%] p-5 shadow-lg">
+        <div class="shadow mt-2">
+          <span class="font-semibold">Price</span>
+          <div class="range-slider mt-2">
+            <div id="tooltip"></div>
+            <input id="range" type="range" step="1" min="0" max="800" />
+          </div>
+        </div>
+        <div class="shadow">
+          <span class="font-semibold">Airlines</span>
+          <div class="mt-2" id="airlines"></div>
+        </div>
+      </div>
+      <div class="flex-1">
+        <h1 id="desti"></h1>
+        <div class="" id="flight-wraper">
+          <div class="mx-3 mt-2 bg-gray-200 p-3 rounded-md">
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <img
+                src="https://media.istockphoto.com/id/155439315/photo/passenger-airplane-flying-above-clouds-during-sunset.jpg?s=612x612&w=0&k=20&c=LJWadbs3B-jSGJBVy9s0f8gZMHi2NvWFXa3VJ2lFcL0="
+                class="h-[50px] w-[50px] object-contain rounded-lg"
+                alt=""
+              />
+              <div class="flex items-center justify-between flex-1">
+                <h1 class="font-semibold text-xl">
+                  air india <span class="text-gray-500 text-lg">(FL101)</span>
+                </h1>
+                <p>500</p>
+              </div>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>Departure:</span>
+              <span>Destination</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>05:30</span>
+              <span>07:25</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>New York</span>
+              <div class="relative flex-1 mx-2 text-center">
+                <hr
+                  class="border-t absolute w-full top-1/2 border-dotted z-0 border-black"
+                />
+                <span class="relative z-10 mx-auto bg-white"> 01h:32m </span>
+              </div>
+              <span>New delhi</span>
+            </div>
+            <div class="w-full text-center mt-2">
+              <button
+                class="mx-auto bg-blue-300 border border-blue-600 rounded-xl py-2 px-5 font-medium hover:bg-blue-500"
+              >
+                Book Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      id="modal"
+      class="hidden z-20 items-center justify-center h-screen w-screen fixed top-0 bg-black bg-opacity-60"
+    ></div>
+    <div
+      id="book-popup"
+      class="REMOVE-THIS-ELEMENT-IF-YOU-ARE-USING-THIS-PAGE hidden flight-popup fixed z-20 inset-0 flex items-center justify-center"
+      style="background-color: rgba(0, 0, 0, 0.3)"
+    ></div>
+    <div
+      id="user-login-phone"
+      class="REMOVE-THIS-ELEMENT-IF-YOU-ARE-USING-THIS-PAGE hidden login-popup fixed z-20 inset-0 flex items-center justify-center"
+      style="background-color: rgba(0, 0, 0, 0.3)"
+    ></div>
+    <div
+      id="user-phone"
+      class="REMOVE-THIS-ELEMENT-IF-YOU-ARE-USING-THIS-PAGE hidden treact-popup fixed z-20 inset-0 flex items-center justify-center"
+      style="background-color: rgba(0, 0, 0, 0.3)"
+    ></div>
+    <div
+      id="otp-wrapper"
+      class="REMOVE-THIS-ELEMENT-IF-YOU-ARE-USING-THIS-PAGE hidden otp-popup fixed z-20 inset-0 flex items-center justify-center"
+      style="background-color: rgba(0, 0, 0, 0.3)"
+    ></div>
+    <script type="module" src="./js/trip.js"></script>
+  </body>
+</html>

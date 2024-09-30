@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/src/style/style.css" />
+    <link rel="stylesheet" href="/src/style/cart.css" />
+    <link rel="stylesheet" href="/src/style/output.css" />
+  </head>
+  <body>
+    <nav></nav>
+    <div
+      id="hamburger-menu"
+      class="hidden absolute top-0 right-0 h-screen w-full bg-white z-10"
+    ></div>
+    <main style="position: relative">
+      <section class="p-3 md:p-[25px] text-lg md:text-2xl lg:flex lg:gap-5">
+        <div class="cart-wrapper p-2 h-fit w-full lg:w-[70%] bg-white">
+          <h1 class="mb-2 text-xl md:text-3xl">Shopping Cart</h1>
+          <div class="flex w-full justify-end">
+            <div class="md:w-[115px]">Price</div>
+            <div class="hidden md:w-[115px] md:block">Total price</div>
+          </div>
+          <hr />
+          <div class="cart-item-wrapper">
+            <!-- <div class="cart-item">
+              <div class="image">
+                <img
+                  src="https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png"
+                  alt=""
+                />
+              </div>
+              <div class="item-detail">
+                <h2 class="name">Essence Mascara Lash Princess</h2>
+                <div class="category">category</div>
+                <div class="in-stoke">Low Stock</div>
+                <div class="shipping-info">shippingInformation</div>
+                <div class="no-of-item">
+                  <button class="remove">-</button>
+                  <span class="count">1</span>
+                  <button class="add">+</button>
+                </div>
+              </div>
+              <div class="price">$12</div>
+            </div> -->
+          </div>
+
+          <br />
+          <hr />
+          <div class="subtotal hidden lg:flex float-end justify-end"></div>
+        </div>
+        <div class="w-full lg:w-[30%]">
+          <div class="cart-payment bg-white p-[10px] mb-5 h-fit">
+            <div class="subtotal"></div>
+
+            <div class="returnPolicy"></div>
+            <br />
+            <button id="checkout" class="payment block w-fit m-auto p-2">
+              Proceed to buy
+            </button>
+          </div>
+          <div class="bg-white p-2 text-xl">
+            <div class="ads-title">Sponsored</div>
+            <div class="ads-card flex flex-col gap-2">
+              <div class="items flex gap-2">
+                <img
+                  src="https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png"
+                  alt=""
+                />
+                <div class="ads-item-wrapper">
+                  <div class="item-title">item 1</div>
+                  <div class="item-price">$120</div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div
+        id="mainModal"
+        class="modal hidden absolute w-full bg-[#000000a6] h-screen top-0 left-0 items-center justify-center"
+      >
+        <div class="modalBody bg-white w-[769px] rounded p-[10px]">
+          <div class="modalHeader py-[1px] px-2 border-b border-[#ccc]">
+            <h2>
+              Proceed to buy
+              <span
+                class="cross close-btn float-right text-sm pr-1 hover:cursor-pointer"
+                >&#10005;</span
+              >
+            </h2>
+          </div>
+          <div id="modalContant" class="py-1 px-2 border-b border-[#ccc]">
+            Subtotal (0 item): $0.0
+          </div>
+          <div class="modalFooter py-1 px-2 text-center">
+            <button class="footerbtn cross close-btn p-[10px]">Confirm</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification-box flex flex-col items-center top-0 right-0 fixed w-full z-50 p-3"
+      >
+        <!-- Notification container -->
+      </div>
+    </main>
+
+    <script type="module" src="/src/script/cart.js"></script>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Store</title>
+    <link rel="stylesheet" href="../style/style.css" />
+    <link rel="stylesheet" href="./css/add-product.css" />
+  </head>
+  <body>
+    <nav></nav>
+    <main>
+      <section>
+        <h1>Add product</h1>
+        <hr />
+        <div class="add-product-wrapper">
+          <form action="#">
+            <div class="input-wrapper">
+              <label for="name">Product name</label>
+              <input type="text" id="name" placeholder="Product name.." />
+              <p class="err"></p>
+            </div>
+            <div class="input-wrapper">
+              <label for="category">Product category</label>
+              <input
+                type="text"
+                id="category"
+                placeholder="Product category.."
+              />
+              <p class="err"></p>
+            </div>
+            <div class="input-wrapper">
+              <label for="decription">Product Decription</label>
+              <textarea
+                id="decription"
+                placeholder="Product category.."
+              ></textarea>
+              <p class="err"></p>
+            </div>
+            <div class="input-wrapper">
+              <label for="price">Product price</label>
+              <input type="text" id="price" placeholder="Product price.." />
+              <p class="err"></p>
+            </div>
+            <div class="input-wrapper">
+              <label for="discount">Product discount</label>
+              <input
+                type="text"
+                id="discount"
+                placeholder="Product discount.."
+              />
+              <p class="err"></p>
+            </div>
+            <div class="input-wrapper">
+              <label for="brand">Product brand</label>
+              <input type="text" id="brand" placeholder="Product brand.." />
+              <p class="err"></p>
+            </div>
+
+            <div class="input-wrapper">
+              <label for="category">Product category</label>
+              <input
+                type="text"
+                id="category"
+                placeholder="Product category.."
+              />
+              <p class="err"></p>
+            </div>
+            <div class="input-wrapper">
+              <label for="warranty">Product warranty</label>
+              <input
+                type="text"
+                id="warranty"
+                placeholder="Product warranty.."
+              />
+              <p class="err"></p>
+            </div>
+            <div class="input-wrapper">
+              <label for="return-policy">Return policy</label>
+              <input
+                type="text"
+                id="return-policy"
+                placeholder="Product return policy.."
+              />
+              <p class="err"></p>
+            </div>
+            <div class="input-wrapper">
+              <label>Stock availablity</label>
+              <div class="radio-wrapper">
+                <input
+                  type="radio"
+                  id="in-stock"
+                  name="stock"
+                  placeholder="Product price.."
+                />
+                <label for="in-stock">In stock</label>
+                <input
+                  type="radio"
+                  name="stock"
+                  id="out-of-stock"
+                  placeholder="Product price.."
+                />
+                <label for="out-of-stock">Out of stock</label>
+              </div>
+
+              <p class="err"></p>
+            </div>
+            <div class="input-wrapper">
+              <label for="quntity">Return quntity</label>
+              <input
+                min="1"
+                type="number"
+                id="quntity"
+                placeholder="Product quntity.."
+              />
+              <p class="err"></p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./js/addproduct.js"></script>
+  </body>
+</html>

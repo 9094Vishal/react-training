@@ -1,0 +1,6 @@
+section {
+  width: calc(100% - 30%);
+  background-color: white;
+  padding: 20px;
+  margin: 50px auto;
+}

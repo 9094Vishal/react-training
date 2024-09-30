@@ -1,0 +1,16 @@
+export const airLines = [
+  "Jet Airways",
+  "Air India",
+  "Delta Airlines",
+  "Emirates",
+  "Qatar Airways",
+  "Lufthansa",
+  "British Airways",
+  "American Airlines",
+  "KLM",
+  "Singapore Airlines",
+  "IndiGo",
+  "Vistara",
+  "GoAir",
+  "SpiceJet",
+];

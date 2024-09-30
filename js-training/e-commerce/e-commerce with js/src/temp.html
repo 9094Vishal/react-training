@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      }
+
+      .container {
+        font-size: 1.25em;
+        padding: 1em;
+      }
+
+      h2 {
+        margin-bottom: 0.5em;
+      }
+
+      p {
+        line-height: 1.75;
+        margin-bottom: 1.25em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="message">
+        <p>
+          As with its immediate predecessor, <i>BEYONCÉ</i> (2013), it was
+          released as both a surprise and a visual album; unlike <i>BEYONCÉ</i>,
+          which featured individual music videos for each track, the
+          <i>LEMONADE</i> visual album took the form of an hour-long film.
+        </p>
+        <p>
+          As with its immediate predecessor, <i>BEYONCÉ</i> (2013), it was
+          released as both a surprise and a visual album; unlike <i>BEYONCÉ</i>,
+          which featured individual music videos for each track, the
+          <i>LEMONADE</i> visual album took the form of an hour-long film.
+        </p>
+        <p>
+          The film version of <i>LEMONADE</i> premiered on American television
+          network <i>HBO</i> on April 23, 2016. Beyoncé had previously teamed up
+          with HBO to debut her 2013 documentary <i>Life Is But a Dream</i> and
+          in 2014 to film her <i>On the Run Tour</i>. <i>LEMONADE</i> was
+          promoted as a documentary style special in the same vein as
+          <i>Life Is But a Dream</i>.
+        </p>
+      </div>
+      <button id="btn">Show more</button>
+    </div>
+    <script>
+      let length = 100,
+        div = document.getElementById("message");
+      const text = div.innerHTML;
+      if (div) {
+        let trunc = div.innerHTML;
+
+        if (trunc.length > length) {
+          (trunc = trunc.substring(0, length)), (trunc += "...");
+          trunc.replace(/\w+$/, "");
+
+          div.innerHTML = trunc;
+        }
+
+        document.getElementById("btn").addEventListener("click", (e) => {
+          if (e.target.innerHTML == "Show more") {
+            div.innerHTML = text;
+            e.target.innerHTML = "Show less";
+          } else {
+            div.innerHTML = trunc;
+            e.target.innerHTML = "Show more";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

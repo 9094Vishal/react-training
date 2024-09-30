@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders</title>
+    <link rel="stylesheet" href="./style/style.css" />
+
+    <link rel="stylesheet" href="/src/style/output.css" />
+  </head>
+  <body class="relative">
+    <nav></nav>
+    <div
+      class="notification-box flex flex-col items-center top-0 right-0 fixed w-full z-50 p-3"
+    ></div>
+    <main>
+      <section
+        class="orderhistory-wrapper w-full md:max-w-[75%] md:my-[50px] md:mx-auto p-2"
+      >
+        <div class="order-card-wrapper p-2 sm:p-5">
+          <h1 class="text-3xl">Purchase history</h1>
+          <br />
+          <div class="order-card-holder flex flex-col gap-2 bg-white">
+            <!-- <div class="order-crad border border-[#a0a0a0] rounded-lg">
+              <div class="order-card-top">
+                <div class="top-left flex w-1/2 justify-between">
+                  <div class="top-detail flex flex-col">
+                    <span>ORDER PLASED</span>
+                    <span>4 July 2024</span>
+                  </div>
+                  <div class="top-detail">
+                    <span>TOTAL</span>
+                    <span>$150</span>
+                  </div>
+                  <div class="top-detail">
+                    <span>SHIP TO</span>
+                    <span>VISHAL</span>
+                  </div>
+                </div>
+                <div class="top-right">
+                  <div class="top-detail flex items-end">
+                    <span>ORDER #125412454</span>
+                    <span>View order details | <span>Invoice </span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-card-bottom p-[10px] flex justify-between">
+                <div class="bottom-left w-full">
+                  <h2 class="mb-2">Deliverd 6 July</h2>
+
+                  <div class="product-details flex gap-5">
+                    <img
+                      src="https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/1.png"
+                      alt=""
+                    />
+                    <div
+                      class="details flex flex-1 items-center justify-between"
+                    >
+                      <div class="title">product</div>
+                      <div class="price">$20</div>
+                      <div class="btns">
+                        <button id="buy-again">Buy again</button
+                        ><button id="view-product">View product</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="bottom-right">
+                  <div class="feedback">Leave seller feedback</div>
+                  <div class="feedback">Write a product review</div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/script/orderhistory.js"></script>
+  </body>
+</html>

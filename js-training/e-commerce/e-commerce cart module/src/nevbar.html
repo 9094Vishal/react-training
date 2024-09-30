@@ -1,0 +1,33 @@
+<!-- this file is made for design latter on this code will goto JS file -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style/style.css  " />
+  </head>
+  <body>
+    <nav>
+      <h1 class="logo cursor-pointer">My Store</h1>
+      <div class="search-wrapper">
+        <select class="filter-menu" name="category" id="filter-menu"></select>
+
+        <div class="search-bar">
+          <input type="text" id="search" placeholder="Search some thing.." />
+          <img src="./assets/images/search.png" alt="" />
+        </div>
+      </div>
+      <div class="nav-links">
+        <span id="login-status">${ checkLogin() ? "Logout" : " Login" }</span
+        ><a href="./cart.html"
+          ><img src="./assets/images/cart.png" alt="" />
+          <p class="cart-count">1</p>
+        </a>
+      </div>
+    </nav>
+    <script type="module" src="./script/script.js"></script>
+  </body>
+</html>

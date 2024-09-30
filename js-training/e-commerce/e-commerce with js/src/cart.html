@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="./style/cart.css" />
+  </head>
+  <body>
+    <nav></nav>
+    <main style="position: relative">
+      <section>
+        <div class="cart-wrapper">
+          <h1 class="title">Shopping Cart</h1>
+          <div class="price-heading">
+            <div>Price</div>
+            <div>Total price</div>
+          </div>
+          <hr />
+          <div class="cart-item-wrapper">
+            <!-- <div class="cart-item">
+              <div class="image">
+                <img
+                  src="https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png"
+                  alt=""
+                />
+              </div>
+              <div class="item-detail">
+                <h2 class="name">Essence Mascara Lash Princess</h2>
+                <div class="category">category</div>
+                <div class="in-stoke">Low Stock</div>
+                <div class="shipping-info">shippingInformation</div>
+                <div class="no-of-item">
+                  <button class="remove">-</button>
+                  <span class="count">1</span>
+                  <button class="add">+</button>
+                </div>
+              </div>
+              <div class="price">$12</div>
+            </div> -->
+          </div>
+
+          <br />
+          <hr />
+          <div class="subtotal"></div>
+        </div>
+        <div class="cart-rightside">
+          <div class="cart-payment">
+            <div class="subtotal"></div>
+
+            <div class="returnPolicy"></div>
+            <br />
+            <button id="checkout" class="payment">Proceed to buy</button>
+          </div>
+          <div class="ads">
+            <div class="ads-title">Sponsored</div>
+            <div class="ads-card">
+              <div class="items">
+                <img
+                src="https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png""
+                alt="" />
+                <div class="ads-item-wrapper">
+                  <div class="item-title">item 1</div>
+                  <div class="item-price">$120</div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div id="mainModal" class="modal modalToggle">
+        <div class="modalBody">
+          <div class="modalHeader">
+            <h2>
+              Proceed to buy
+              <span class="cross close-btn">&#10005;</span>
+            </h2>
+          </div>
+          <div id="modalContant">Subtotal (0 item): $0.0</div>
+          <div class="modalFooter">
+            <button class="footerbtn cross close-btn">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="./script/cart.js"></script>
+  </body>
+</html>

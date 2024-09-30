@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders</title>
+    <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="./style/orderhistory.css" />
+  </head>
+  <body>
+    <nav></nav>
+    <main>
+      <section class="orderhistory-wrapper">
+        <div class="order-card-wrapper">
+          <h1>Purchase history</h1>
+          <br />
+          <div class="order-card-holder">
+            <div class="order-crad">
+              <div class="order-card-top">
+                <div class="top-left">
+                  <div class="top-detail">
+                    <span>ORDER PLASED</span>
+                    <span>4 July 2024</span>
+                  </div>
+                  <div class="top-detail">
+                    <span>TOTAL</span>
+                    <span>$150</span>
+                  </div>
+                  <div class="top-detail">
+                    <span>SHIP TO</span>
+                    <span>VISHAL</span>
+                  </div>
+                </div>
+                <div class="top-right">
+                  <div class="top-detail">
+                    <span>ORDER #125412454</span>
+                    <span>View order details | <span>Invoice </span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-card-bottom">
+                <div class="bottom-left">
+                  <h2>Deliverd 6 July</h2>
+                  <!-- all products in order -->
+                  <div class="product-details">
+                    <img
+                      src="https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/1.png"
+                      alt=""
+                    />
+                    <div class="details">
+                      <div class="title">product</div>
+                      <div class="price">$20</div>
+                      <div class="btns">
+                        <button id="buy-again">Buy again</button
+                        ><button id="view-product">View product</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="bottom-right">
+                  <div class="feedback">Leave seller feedback</div>
+                  <div class="feedback">Write a product review</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./script/orderhistory.js"></script>
+  </body>
+</html>

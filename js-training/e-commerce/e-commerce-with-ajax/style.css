@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+#user-menu ~ #user-menu-dropdown {
+  transform: scaleX(0) scaleY(0);
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  transition-duration: 75ms;
+  opacity: 0;
+  top: 3.25rem;
+}
+#user-menu ~ #user-menu-dropdown:focus-within,
+#user-menu:focus ~ #user-menu-dropdown {
+  transform: scaleX(1) scaleY(1);
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-duration: 100ms;
+  opacity: 1;
+}

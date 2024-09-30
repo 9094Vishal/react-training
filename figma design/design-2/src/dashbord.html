@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashbord</title>
+  </head>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+      <link rel="stylesheet" href="./output.css" />
+      <style>
+        .swiper {
+          width: 100%;
+          /* height: 100%; */
+        }
+
+        .swiper-slide {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .swiper-pagination-bullet-active {
+          background-color: #fdba0e !important;
+        }
+      </style>
+
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      />
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+      />
+      <script
+        defer
+        src="https://unpkg.com/alpinejs@3.2.4/dist/cdn.min.js"
+      ></script>
+    </head>
+    <body class="text-[#1A1A1A] transition-colors">
+      <nav
+        class="dark:bg-[#4D4D4D] bg-[##F7F7F7] dark:text-white flex items-center justify-between px-4 sm:px-[25px] md:px-[55px] lg:px-[75px] xl:px-[81px] border-b dark:border-[#0000001F]"
+      >
+        <div class="text-[18px] font-bold cursor-pointer">
+          <a href="#">IWMYWF</a>
+        </div>
+        <div class="sm:hidden">&#9776;</div>
+        <ul
+          class="items-center hidden sm:flex sm:gap-[22px] lg:gap-[38px] xl:gap-[48px] py-[20px]"
+        >
+          <li class="cursor-pointer hover:text-gray-400 inline-block text-base">
+            <a href="#"> Home</a>
+          </li>
+          <li class="cursor-pointer hover:text-gray-400 inline-block text-base">
+            <a href="#about">About Me</a>
+          </li>
+          <li class="cursor-pointer hover:text-gray-400 inline-block text-base">
+            <a href="#work">Works</a>
+          </li>
+          <li class="cursor-pointer hover:text-gray-400 inline-block text-base">
+            <a href="#clients">Clients</a>
+          </li>
+          <li class="cursor-pointer hover:text-gray-400 inline-block text-base">
+            <div
+              class="bg-gray-500 w-20 mx-auto cursor-pointer rounded-3xl toggler dark:bg-darkBg"
+            >
+              <div
+                class="bg-white w-10 h-10 scale-75 rounded-3xl transition-transform dark:bg-black"
+              ></div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <section class="text-center bg-[#F7F7F7] px-5 md:px-0 md:pb-[88px]">
+        <h1
+          class="text-base sm:text-lg md:text-xl lg:text-3xl xl:text-[44px] font-semibold pt-[75px]"
+        >
+          Make Your Website Way <span class="text-secondry">Faster!</span>
+        </h1>
+        <p
+          class="text-sm md:text-lg lg:text-[22px] md:w-[600px] lg:w-[890px] xl:w-[737px] mx-auto py-[24px]"
+        >
+          Hello there, your website is slow. And each second it takes to load
+          your website loses you 60% more customers. We make your website FAST!
+          Request a free analysis below.
+        </p>
+        <div
+          class="mx-auto dark:bg-[#384752] rounded-md bg-white py-[32px] px-6 xl:w-[744px]"
+        >
+          <div class="flex gap-6 flex-col sm:flex-row">
+            <input
+              type="text"
+              placeholder="Name"
+              class="bg-[#F4F4F4] p-[15px] rounded w-full"
+            /><input
+              type="text"
+              placeholder="Email"
+              class="bg-[#F4F4F4] p-[15px] rounded w-full"
+            />
+          </div>
+          <div class="flex gap-6 flex-col sm:flex-row pt-0 sm:pt-6">
+            <input
+              type="text"
+              placeholder="Name of business"
+              class="bg-[#F4F4F4] p-[15px] rounded w-full"
+            /><input
+              placeholder="Website URL"
+              class="bg-[#F4F4F4] p-[15px] rounded w-full"
+              type="text"
+            />
+          </div>
+          <button class="py-3 px-[60px] bg-secondry mt-8">Analyze</button>
+        </div>
+      </section>
+      <section class="w-full px-5 md:p-10 lg:p-0">
+        <div
+          class="py-[64px] flex flex-col sm:flex-row gap-[140px] justify-center"
+        >
+          <div class="w-full sm:w-[486px]">
+            <div class="" id="progress"></div>
+          </div>
+          <div class="w-full sm:w-[478px]">
+            <div id="aboutme" class=""></div>
+          </div>
+        </div>
+      </section>
+      <div class="w-full h-fit bg-[#F7F7F7] py-[48px]">
+        <div class="w-full text-center">
+          <h1 class="mx-auto text-[20px] md:text-[24px] lg:text-[28px]">
+            Over 50+ Optimized Websites
+          </h1>
+          <div class="bg-secondry h-[3px] mx-auto my-[16px] w-[132px]"></div>
+        </div>
+        <div id="companys" class="text-center pt-[48px]"></div>
+      </div>
+      <section class="lg:py-[48px] px-5 lg:p-0 lg:pl-[82px]">
+        <h1 class="text-[20px] md:text-[24px] lg:text-[28px]">Recent Works</h1>
+        <div class="bg-secondry h-[3px] my-[16px] w-[132px] mb-[40px]"></div>
+        <div
+          class="swiper mySwiper recent-work !h-[630px] md:!h-[440px] lg:!h-[460px] xl:!h-[500px]"
+        >
+          <div class="swiper-wrapper" id="mywork"></div>
+          <div class="swiper-pagination new-pagination"></div>
+        </div>
+      </section>
+      <section class="w-full bg-[#F7F7F7] py-[48px]" id="clients">
+        <div class="w-full text-center">
+          <h1 class="mx-auto text-[20px] md:text-[24px] lg:text-[28px]">
+            What my clients say
+          </h1>
+          <div class="bg-btn h-[3px] mx-auto my-[16px] w-[132px]"></div>
+        </div>
+        <div class="pt-[48px] flex gap-[30px] mx-auto">
+          <div class="w-full relative">
+            <div
+              class="swiper mySwiper clients md:!h-[250px] lg:!h-[260px] xl:!h-[226px] !px-4 md:!px-[158px]"
+            >
+              <div class="swiper-wrapper" id="client"></div>
+              <div
+                class="swiper-button-next !hidden md:!block md:!right-[70px] !text-[#1A1A1A]"
+              ></div>
+              <div
+                class="swiper-button-prev md:!left-[70px] !hidden md:!block !text-[#1A1A1A]"
+              ></div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <footer
+        class="py-[52px] px-5 gap-5 md:px-[81px] flex sm:items-center sm:justify-between flex-col sm:flex-row"
+      >
+        <a href="#"
+          ><h1 class="text-base md:text-lg cursor-pointer">IWMYWF</h1></a
+        >
+        <p>&#169; Copyright 2021. All right reserved</p>
+        <div class="flex items-center gap-4">
+          Connect with me:
+          <i class="fa-brands fa-facebook cursor-pointer"></i
+          ><i class="fa-brands fa-square-twitter cursor-pointer"></i
+          ><i class="fa-brands fa-github cursor-pointer"></i>
+        </div>
+      </footer>
+
+      <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      <script>
+        let dataObj = {
+          currentSkillBefore: {
+            title: "HTML",
+            percent: "20",
+          },
+          currentSkillAfter: {
+            title: "HTML",
+            percent: "95",
+          },
+        };
+        const myWorkData = [
+          {
+            link: "neilpatel.com",
+            befor: "50",
+            after: "70",
+            currentSkillBefore: {
+              title: "HTML",
+              percent: "30",
+            },
+            currentSkillAfter: {
+              title: "HTML",
+              percent: "90",
+            },
+          },
+          {
+            link: "webmanga.net",
+            befor: "20",
+            after: "95",
+            secondBefore: {
+              title: "HTML",
+              percent: "20",
+            },
+            secondAfter: {
+              title: "HTML",
+              percent: "95",
+            },
+          },
+          {
+            link: "wapzar.co",
+            befor: "30",
+            after: "90",
+            thirdBefore: {
+              title: "HTML",
+              percent: "20",
+            },
+            thirdAfter: {
+              title: "HTML",
+              percent: "95",
+            },
+          },
+        ];
+
+        myWorkData.forEach((item) => {
+          Object.keys(item).forEach((key) => {
+            if (typeof item[key] === "object") {
+              dataObj[key] = item[key];
+            }
+          });
+        });
+
+        const workHtml = myWorkData
+          .map(({ link, befor, after }) => {
+            return `
+                <div class="swiper-slide !w-fit">
+                            <div
+                              class="w-full md:w-[536px] py-[24px] px-[18px] rounded-[10px] bg-[#F7F7F7]"
+                            >
+                              <p class="text-[#0645AD]">
+                                <i class="fa-solid fa-globe text-black"></i> &nbsp;
+                                ${link}
+                              </p>
+                              <div class="text-center">
+                                <p class="text-base lg:text-[20px] font-bold">
+                                  PageSpeed Insights
+                                </p>
+                                <div class="flex items-center flex-col md:flex-row gap-2 w-fit mx-auto py-[33px]">
+                                  <div class="">
+                                  <div x-data="skillDisplay" class="">
+                                    <div
+                                        class="flex items-center justify-center"
+                                        x-data="{ circumference: 2 * 22 / 7 * 120 }"
+                                    >
+                                        <svg
+                                        class="transform -rotate-90 w-[129px] h-[129px]"
+                                        viewBox="0 0 258 258"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                        <circle
+                                            cx="129"
+                                            cy="129"
+                                            r="120"
+                                            stroke="currentColor"
+                                            stroke-width="15"
+                                            fill="transparent"
+                                            class="text-gray-700"
+                                        />
+                                        <circle
+                                            cx="129"
+                                            cy="129"
+                                            r="120"
+                                            stroke="currentColor"
+                                            stroke-width="15"
+                                            fill="transparent"
+                                            :stroke-dasharray="circumference"
+                                            :stroke-dashoffset="circumference - currentSkill.percent / 100 * circumference"
+                                            class="text-blue-500"
+                                        />
+                                        </svg>
+
+                                        <span class="absolute text-5xl" x-text="currentSkill.percent%"></span>
+                                    </div>
+                                    </div>
+                                    <p class="pt-1">Before</p>
+                                  </div>
+                                  <div class="">
+                                    <img src="./assets/Rocket.svg" alt="" />
+                                  </div>
+                                  <div class="">
+                                    <div x-data="skillDisplay" class="">
+                                      <div
+                                        class="flex items-center justify-center"
+                                        x-data="{ circumference: 2 * 22 / 7 * 120 }"
+                                      >
+                                        <svg
+                                          class="transform -rotate-90 w-[129px] h-[129px]"
+                                          viewBox="0 0 258 258"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <circle
+                                            cx="129"
+                                            cy="129"
+                                            r="120"
+                                            stroke="currentColor"
+                                            stroke-width="15"
+                                            fill="transparent"
+                                            class="text-[#E3E3E3]"
+                                          />
+                                          <circle
+                                            cx="129"
+                                            cy="129"
+                                            r="120"
+                                            stroke="currentColor"
+                                            stroke-width="15"
+                                            fill="transparent"
+                                            :stroke-dasharray="circumference"
+                                            :stroke-dashoffset="circumference - ${after}/ 100 * circumference"
+                                            class="text-blue-500"
+                                          />
+                                        </svg>
+
+                                        <span
+                                          class="absolute text-2xl font-semibold"
+                                          x-text="${after}%"
+                                        ></span>
+                                      </div>
+                                    </div>
+                                    <p class="pt-1">After</p>
+                                  </div>
+                                </div>
+                                <div
+                                  class="flex flex-wrap items-center justify-center text-start md:gap-[20px] lg:gap-[30px] text-sm md:text-[18px]"
+                                >
+                                  <div class="">
+                                    <p>
+                                      <i
+                                        class="fa-solid fa-bolt w-[17px] h-[31px] text-secondry"
+                                      ></i>
+                                      &nbsp; Javascript loading
+                                    </p>
+                                    <p>
+                                      <i
+                                        class="fa-solid fa-bolt w-[17px] h-[31px] text-secondry"
+                                      ></i>
+                                      &nbsp; Image loading
+                                    </p>
+                                  </div>
+                                  <div class="">
+                                    <p>
+                                      <i
+                                        class="fa-solid fa-bolt w-[17px] h-[31px] text-secondry"
+                                      ></i>
+                                      &nbsp; CSS loading
+                                    </p>
+                                    <p>
+                                      <i
+                                        class="fa-solid fa-bolt w-[17px] h-[31px] text-secondry"
+                                      ></i>
+                                      &nbsp; Database speed
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          `;
+          })
+          .join("");
+        document.getElementById("mywork").innerHTML = workHtml;
+        document.addEventListener("alpine:init", () => {
+          Alpine.data("skillDisplay", () => ({
+            currentSkill: {
+              title: "HTML",
+              percent: "95",
+            },
+          }));
+        });
+      </script>
+      <script type="module" src="./dashbord.js"></script>
+    </body>
+  </html>
+</html>

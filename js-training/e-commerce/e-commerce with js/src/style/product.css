@@ -1,0 +1,266 @@
+.product-page-wrapper {
+  display: flex;
+  gap: 10px;
+}
+.sidebar {
+  width: 15%;
+  height: 100vh;
+  padding: 20px 10px;
+}
+.sidebar .range {
+  margin-top: 10px;
+}
+/* price slider range */
+
+.range-slider {
+  height: 5px;
+  position: relative;
+  background-color: #e1e9f6;
+  border-radius: 2px;
+}
+.range-selected {
+  height: 100%;
+  left: 0%;
+  right: 0%;
+  position: absolute;
+  border-radius: 5px;
+  background-color: #1b53c0;
+}
+
+.range-input {
+  position: relative;
+}
+.range-input input {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -7px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.range-input input::-webkit-slider-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 3px solid #1b53c0;
+  background-color: #fff;
+  pointer-events: auto;
+  -webkit-appearance: none;
+}
+.range-input input::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  border: 3px solid #1b53c0;
+  background-color: #fff;
+  pointer-events: auto;
+  -moz-appearance: none;
+}
+
+.range-price {
+  margin: 10px 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.range-price label {
+  margin-right: 5px;
+}
+
+/* rating filter */
+.rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.rating input {
+  display: none;
+}
+
+.rating label {
+  padding-right: 3px;
+  font-size: 24px;
+  cursor: pointer;
+
+  font-weight: 500;
+}
+
+.rating label:hover,
+.rating label:hover ~ label {
+  color: orange;
+}
+
+.rating input:checked ~ label {
+  color: orange;
+}
+
+.product-card-wrapper {
+  width: 85%;
+}
+.product-rating {
+  display: flex;
+  align-items: center;
+}
+/* products list */
+section {
+  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+section .product-wrapper {
+  background-color: white;
+  border: 1px solid rgba(173, 216, 230, 0.507);
+  width: calc(33% - 25px);
+  position: relative;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-direction: column;
+  cursor: pointer;
+  border-radius: 5px;
+}
+section .product-wrapper .img {
+  height: 200px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+section .product-wrapper .img img {
+  height: 200px;
+  width: 50%;
+  object-fit: contain;
+}
+section .product-wrapper .img img:hover {
+  scale: 1.1;
+}
+
+.product-detail-wrapper {
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 10px;
+  padding: 0 5px 0 0;
+}
+.product-detail-wrapper p {
+  width: 25%;
+}
+.product-detail-wrapper > div {
+  width: 75%;
+}
+
+.add-to-cart-btn {
+  width: 50%;
+  align-self: center;
+}
+.out-of-stock {
+  width: fit-content;
+  font-weight: 500;
+  align-self: center;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  width: 20px !important;
+  height: 20px !important;
+  top: 90% !important;
+  color: #1b53c0 !important;
+}
+
+/* images slider */
+
+.large-swiper {
+  overflow: hidden;
+  position: relative;
+}
+.large-slider-container {
+  margin-bottom: 10px;
+}
+.swiper-slide-inside {
+  height: 100%;
+  width: 100%;
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.prev {
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 4;
+}
+.next {
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 4;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.category {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.title,
+.price {
+  font-weight: 600;
+}
+
+.pagination {
+  padding: 15px;
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+  justify-content: start;
+}
+.pagination button {
+  width: fit-content;
+  cursor: pointer;
+}
+
+.pagination span {
+  cursor: pointer;
+}
+.pagination .disabled {
+  cursor: not-allowed;
+}
+.pagination .active {
+  font-weight: 900;
+  scale: 1.3;
+}

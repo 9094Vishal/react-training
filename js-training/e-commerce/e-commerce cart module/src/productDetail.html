@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product Detail</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="/src/style/output.css" />
+
+    <link rel="stylesheet" href="/src/style/style.css" />
+  </head>
+
+  <body class="relative">
+    <div
+      class="notification-box flex flex-col items-center top-0 right-0 fixed w-full z-50 p-3"
+    >
+      <!-- Notification container -->
+    </div>
+    <nav></nav>
+    <div
+      id="hamburger-menu"
+      class="hidden absolute top-0 right-0 h-screen w-full bg-white z-10"
+    ></div>
+    <div class="md:w-5/6 m-auto md:my-12">
+      <div class="bg-white p-4 md:flex md:gap-6">
+        <!-- card left -->
+        <div class="product-imgs">
+          <div
+            class="img-display h-[300px] md:h-[300px] md:w-[300px] lg:h-[400px] lg:w-[400px] overflow-hidden"
+          >
+            <div
+              class="img-showcase flex w-full h-full transition-all duration-[0.5s] ease"
+            ></div>
+          </div>
+          <div
+            class="img-select flex justify-center h-[100px] md:h-36 gap-2"
+          ></div>
+        </div>
+        <!-- card right -->
+        <div class="product-content w-full md:w-1/2">
+          <!-- <h2 class="product-title">nike shoes</h2>
+          <div class="product-rating"></div>
+
+          <div class="product-price">
+            <p class="last-price">Old Price: <span>$257.00</span></p>
+            <p class="new-price">New Price: <span>$249.00 (5%)</span></p>
+          </div>
+
+          <div class="product-detail">
+            <h2>about this item:</h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
+              eveniet veniam tempora fuga tenetur placeat sapiente architecto
+              illum soluta consequuntur, aspernatur quidem at sequi ipsa!
+            </p>
+
+            <ul>
+              <li>Brand: <span>Black</span></li>
+              <li>Available: <span>in stock</span></li>
+              <li>Category: <span>Shoes</span></li>
+              <li>Warranty: <span>All over the world</span></li>
+              <li>Shipping Fee: <span>Free</span></li>
+            </ul>
+          </div>
+
+          <div class="purchase-info">
+            <input id="quntity" type="number" min="0" value="1" />
+            <button type="button" class="btn">
+              Add to Cart <i class="fas fa-shopping-cart"></i>
+            </button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/script/productDetail.js"></script>
+  </body>
+</html>
