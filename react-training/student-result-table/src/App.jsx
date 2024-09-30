@@ -1,28 +1,22 @@
 import { useMemo, useState } from "react";
-import UserTable from "./components/UserTable";
+import UserTable from "./components/Students";
 import { StudentData } from "./data/Student";
 import Student from "./components/Student";
+import { Route, Routes } from "react-router-dom";
+import AddStudent from "./components/AddStudent";
+import AddResult from "./components/AddResult";
 
 function App() {
-  const students = useMemo(() => StudentData, [StudentData]);
-  const [student, setStudent] = useState({});
-  const [isDataOpen, setIsDataOpen] = useState(true);
-
-  const handleCLick = (id) => {
-    const data = students.find((item) => item.id === id);
-    setIsDataOpen(false);
-
-    setStudent(data);
-  };
-  const handleBackCLick = (id) => {
-    setIsDataOpen(true);
-  };
   return (
     <>
-      {isDataOpen && <Student student={students} handleCLick={handleCLick} />}
-      {!isDataOpen && (
-        <UserTable student={student} handleBackCLick={handleBackCLick} />
-      )}
+      <Routes>
+        <Route path="/" element={<Student />} />
+        <Route path="/:id" element={<UserTable />} />
+        <Route path="/add-student" element={<AddStudent />} />
+        <Route path="/add-result/:id" element={<AddResult />} />
+
+        <Route path="/edit-student/:id" element={<AddStudent />} />
+      </Routes>
     </>
   );
 }

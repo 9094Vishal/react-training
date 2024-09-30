@@ -1,6 +1,24 @@
 import React, { useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { StudentData } from "../data/Student";
+import { getStudents } from "../helper/helper";
 
-const UserTable = ({ student, handleBackCLick }) => {
+const UserTable = ({}) => {
+  const { id } = useParams();
+  console.log("id: ", id);
+  const student = getStudents().find((item) => item.id == id);
+  if (!student || !student.result) {
+    return (
+      <>
+        <h1 className="text-center mt-80 text-2xl">
+          Roll number: {id}'s Data is not available
+        </h1>
+      </>
+    );
+  }
+
+  console.log("student: ", student);
+
   const { name, result } = student;
 
   const { math, science, english, physics, computer } = result;
@@ -45,10 +63,6 @@ const UserTable = ({ student, handleBackCLick }) => {
 
   return (
     <div className="px-10 overflow-y-hidden mt-2">
-      <span className="cursor-pointer" onClick={handleBackCLick}>
-        Back to list
-      </span>
-      {/* <div className="py-6 flex items-center w-full"></div> */}
       <div className="  h-[600px]  flex justify-center flex-col gap-4 items-center">
         <h2 className="text-2xl text-center">{name}</h2>
         <table className="w-full text-sm text-left text-gray-500 border border-slate-500">
