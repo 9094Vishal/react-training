@@ -8,6 +8,7 @@ export const setStudents = (data) => {
   if (isStudent) {
     return false;
   }
+  console.log([...students, data]);
 
   localStorage.setItem("students", JSON.stringify([...students, data]));
   return true;

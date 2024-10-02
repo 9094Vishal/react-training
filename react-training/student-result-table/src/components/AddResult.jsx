@@ -1,7 +1,14 @@
 import React, { Fragment, useState } from "react";
 
-import Input from "./Input";
-import { editStudents, getId, getResult, setStudents } from "../helper/helper";
+// import Input from "./Input";
+import {
+  editStudents,
+  getId,
+  getResult,
+  setResult,
+  setStudents,
+} from "../helper/helper";
+import Input from "mi-input-with-lable";
 import { useNavigate, useParams } from "react-router-dom";
 
 const AddResult = () => {
@@ -91,17 +98,9 @@ const AddResult = () => {
       }
     });
     if (isvalid) {
-      const isAdded = id
-        ? editStudents({ ...student, id: editData.id })
-        : setStudents({ ...student, id: id ? id : getId() });
-      if (isAdded) {
-        navigate("/");
-      } else {
-        setStudentError({
-          ...studentError,
-          phone: "Data already exist!",
-        });
-      }
+      setResult({ ...student, id: id });
+
+      navigate("/");
     }
   };
   return (

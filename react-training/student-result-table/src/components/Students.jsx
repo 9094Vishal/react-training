@@ -1,31 +1,41 @@
 import React, { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { StudentData } from "../data/Student";
 import { getStudents } from "../helper/helper";
 
 const UserTable = ({}) => {
   const { id } = useParams();
-  console.log("id: ", id);
+  const navigate = useNavigate();
+
   const student = getStudents().find((item) => item.id == id);
   if (!student || !student.result) {
     return (
-      <>
+      <div className="w-full text-center">
         <h1 className="text-center mt-80 text-2xl">
           Roll number: {id}'s Data is not available
         </h1>
-      </>
+        <button
+          className="px-5 py-2 bg-slate-300 mt-2 text-center rounded-sm"
+          onClick={() => navigate(`/add-result/${id}`)}
+        >
+          Add Result Student
+        </button>
+      </div>
     );
   }
-
-  console.log("student: ", student);
 
   const { name, result } = student;
 
   const { math, science, english, physics, computer } = result;
-  const total = math + science + english + physics + computer;
+  const total =
+    Number(math) +
+    Number(science) +
+    Number(english) +
+    Number(physics) +
+    Number(computer);
   let isFail = false;
   Object.keys(result).forEach((item) => {
-    if (result[item] < 40) {
+    if (Number(result[item]) < 40) {
       isFail = true;
     }
   });
@@ -68,21 +78,17 @@ const UserTable = ({}) => {
         <table className="w-full text-sm text-left text-gray-500 border border-slate-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-300">
             <tr>
-              <th scope="col" className="px-6 py-3 border border-slate-500">
-                Physics
-              </th>
-              <th scope="col" className="px-6 py-3 border border-slate-500">
-                Maths
-              </th>
-              <th scope="col" className="px-6 py-3 border border-slate-500">
-                English
-              </th>
-              <th scope="col" className="px-6 py-3 border border-slate-500">
-                Science
-              </th>
-              <th scope="col" className="px-6 py-3 border border-slate-500">
-                Computer
-              </th>
+              {Object.keys(result).map((subject, id) => {
+                return (
+                  <th
+                    scope="col"
+                    key={id}
+                    className="px-6 py-3 border border-slate-500"
+                  >
+                    {subject}
+                  </th>
+                );
+              })}
               <th scope="col" className="px-6 py-3 border border-slate-500">
                 Total
               </th>
@@ -96,11 +102,13 @@ const UserTable = ({}) => {
           </thead>
           <tbody>
             <tr className="bg-white">
-              <td className="px-6 py-4 border border-slate-500 ">{physics}</td>
-              <td className="px-6 py-4 border border-slate-500">{math}</td>
-              <td className="px-6 py-4 border border-slate-500">{english}</td>
-              <td className="px-6 py-4 border border-slate-500">{science}</td>
-              <td className="px-6 py-4 border border-slate-500">{computer}</td>
+              {Object.values(result).map((subject, id) => {
+                return (
+                  <td key={id} className="px-6 py-4 border border-slate-500 ">
+                    {subject}
+                  </td>
+                );
+              })}
               <td className="px-6 py-4 border border-slate-500">{total}</td>
               <td className="px-6 py-4 border border-slate-500">
                 {percentage}

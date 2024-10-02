@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 
-import Input from "./Input";
+import Input from "mi-input-with-lable";
 import {
   editStudents,
   getId,
@@ -75,8 +75,6 @@ const AddStudent = () => {
     Object.keys(student).forEach((item) => {
       if (student[item] == "") {
         data[item] = "This field is required!";
-        console.log(data);
-
         setStudentError(data);
         isvalid = false;
       }

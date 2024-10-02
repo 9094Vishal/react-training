@@ -2,11 +2,13 @@ import React, { useMemo, useState } from "react";
 import { StudentData } from "../data/Student";
 import { useNavigate } from "react-router-dom";
 import { getId, getStudents } from "../helper/helper";
+import ConfirmationPopUp from "./ConfirmationPopUp";
 
 const Student = ({}) => {
   const navigate = useNavigate();
   const [student, setStudents] = useState(getStudents());
-  console.log(getId());
+  const [isDeleteModelOpen, setIsDeletedeModelOpen] = useState(false);
+  const [index, setIndex] = useState(0);
 
   const handleCLick = (id) => {
     navigate(`/${id}`);
@@ -17,17 +19,35 @@ const Student = ({}) => {
   const handleResult = (id) => {
     navigate(`/add-result/${id}`);
   };
-  const handleDelete = (id) => {
-    const data = getStudents().filter((item) => item.id != id);
+  const handelClose = () => {
+    setIsDeletedeModelOpen(false);
+  };
+  const handleDelete = () => {
+    const data = getStudents().filter((item) => item.id != index);
     setStudents(data);
+    setIsDeletedeModelOpen(false);
     localStorage.setItem("students", JSON.stringify([...data]));
   };
   return (
     <div className="px-10">
-      <h2 className="my-2 text-2xl text-center text-red-600">Students data</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="my-2 text-2xl text-center text-red-600">
+          Students data
+        </h2>
+        <button onClick={() => navigate("add-student")}>Add student</button>
+      </div>
+
       <div className="overflow-x-auto">
         {Object.keys(student).length == 0 ? (
-          "Data not found!"
+          <div className="text-center">
+            <p>Data not found!</p>
+            <button
+              className="px-5 py-2 bg-slate-300 rounded-sm"
+              onClick={() => navigate("add-student")}
+            >
+              Add New Student
+            </button>
+          </div>
         ) : (
           <table className="w-full text-sm text-left text-gray-500 border border-slate-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-300">
@@ -100,7 +120,10 @@ const Student = ({}) => {
                     >
                       <button
                         className="hover:bg-red-500 bg-transparent border border-red-500 py-2 px-5 rounded-md mr-2"
-                        onClick={() => handleDelete(id)}
+                        onClick={() => {
+                          setIndex(id);
+                          setIsDeletedeModelOpen(true);
+                        }}
                       >
                         Delete
                       </button>
@@ -112,6 +135,12 @@ const Student = ({}) => {
           </table>
         )}
       </div>
+      {isDeleteModelOpen && (
+        <ConfirmationPopUp
+          handelClose={handelClose}
+          handelDelete={handleDelete}
+        />
+      )}
     </div>
   );
 };
