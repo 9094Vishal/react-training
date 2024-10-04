@@ -4,6 +4,7 @@ import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchFood from "./SearchFood";
 import Profile from "./Profile";
+import { Link } from "react-router-dom";
 const HomeHeader = () => {
   return (
     <div
@@ -14,14 +15,16 @@ const HomeHeader = () => {
         backgroundSize: "cover",
       }}
     >
-      <div className="flex justify-between items-center  px-20 py-4">
+      <div className="flex justify-between items-center  px-20 py-2">
         <a href="https://www.zomato.com/mobile" className="cursor-pointer">
           <FontAwesomeIcon icon={faThumbsUp} />
           &nbsp; Get the App
         </a>
         <ul className="flex gap-3 items-center">
-          <li className="cursor-pointer">Add Restaurant</li>
-          <li className="cursor-pointer">
+          <Link className="cursor-pointer" to="/partner-with-us">
+            Add Restaurant
+          </Link>
+          <li className="">
             <Profile />
           </li>
         </ul>

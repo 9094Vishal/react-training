@@ -4,10 +4,10 @@ import GetTheApp from "../components/GetTheApp";
 
 const Home = () => {
   return (
-    <div>
+    <>
       <HomeHeader />
       <GetTheApp />
-    </div>
+    </>
   );
 };
 

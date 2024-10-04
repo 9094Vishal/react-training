@@ -7,12 +7,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import ReactSelect from "react-select";
 import Select from "react-select";
+import AsyncSelect from "react-select/async";
 
 const SearchFood = () => {
   const options = [
     {
       value: "Sola",
       label: "Sola, ahmdabad",
+    },
+    {
+      value: "Sola bhagvat",
+      label: "Sola bhagvat, ahmdabad",
+    },
+    {
+      value: "Sola mandir",
+      label: "Sola mandir, ahmdabad",
+    },
+    {
+      value: "Science sity Sola",
+      label: "Science sity, Sola, ahmdabad",
+    },
+    {
+      value: "Science sity road",
+      label: "Science sity road, Sola, ahmdabad",
     },
   ];
   const food = [
@@ -30,9 +47,24 @@ const SearchFood = () => {
     locationOption?.value != ""
       ? (location = locationOption.value)
       : (location = "Ahmedabad");
-    console.log("location", location);
-    console.log("locationOption", locationOption);
   };
+  const filterLocations = (inputValue) => {
+    return options.filter((i) =>
+      i.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
+  };
+  const loadFoodItem = (location) => {};
+  const handleOnchange = (e) => {
+    setlocationOption(e);
+    loadFoodItem(e.value);
+  };
+  const promiseLocation = (inputValue) =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(filterLocations(inputValue));
+      }, 1000);
+    });
+
   return (
     <div className="flex bg-white text-black h-[3.4rem] gap-3 rounded-md p-2 items-center">
       <div className="flex items-center gap-2">
@@ -41,7 +73,7 @@ const SearchFood = () => {
           className="text-btnColor h-5 w-5"
         />
 
-        <ReactSelect
+        <AsyncSelect
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
@@ -52,10 +84,12 @@ const SearchFood = () => {
           }}
           inputId="location"
           name="location"
+          cacheOptions
           placeholder={"Search location.."}
-          onChange={setlocationOption}
+          onChange={handleOnchange}
           value={locationOption}
-          options={options}
+          defaultOptions={options}
+          loadOptions={promiseLocation}
         />
       </div>
 
@@ -66,7 +100,7 @@ const SearchFood = () => {
           className="text-slate-300 h-5 w-5"
         />
 
-        <Select
+        <AsyncSelect
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
@@ -76,6 +110,7 @@ const SearchFood = () => {
             }),
           }}
           inputId="food"
+          cacheOptions
           name="food"
           placeholder={"Search food.."}
           onChange={handleSubmit}
