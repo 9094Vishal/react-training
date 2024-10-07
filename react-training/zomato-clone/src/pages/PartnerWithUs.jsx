@@ -17,9 +17,9 @@ const PartnerWithUs = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (isLogin) {
-    //   navigate("/partner-with-us/new");
-    // }
+    if (isLogin) {
+      navigate("/partner-with-us/new");
+    }
     return () => {};
   }, []);
   const cardData = [

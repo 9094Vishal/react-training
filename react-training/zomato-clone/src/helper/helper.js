@@ -37,3 +37,6 @@ export const logOut = () => {
   localStorage.removeItem("isLogin");
   localStorage.removeItem("user");
 };
+export const getRegistratonData = () => {
+  return JSON.parse(localStorage.getItem("registrationData")) || {};
+};

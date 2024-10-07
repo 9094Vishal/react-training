@@ -30,7 +30,7 @@ const HomeHeader = () => {
         </ul>
       </div>
       <div className="flex h-full items-center justify-center gap-5 flex-col">
-        <h1 className="text-5xl font-semibold">Zomato</h1>
+        <h1 className="text-5xl font-semibold">Zomato </h1>
         <p className="text-3xl">Discover the best food & drinks in Ahmedabad</p>
         <SearchFood />
       </div>

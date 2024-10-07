@@ -7,7 +7,7 @@ import Login from "../components/Login";
 import OtpPopup from "../components/Otp";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/loginContext";
-import Profile from "./Profile";
+import Profile from "../components/Profile";
 const RestaurantResto = () => {
   const [loginModel, setLoginModel] = useState(false);
   const [otpModel, setOtpModel] = useState(false);
@@ -18,9 +18,6 @@ const RestaurantResto = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (isLogin) {
-    //   navigate("/partner-with-us/new");
-    // }
     return () => {};
   }, []);
   const cardData = [
@@ -68,9 +65,7 @@ const RestaurantResto = () => {
             </p>
             <button
               className="bg-blue-500 py-2 text-[17px] rounded-md w-[350px] text-white"
-              onClick={() => {
-                isLogin ? navigate("/partner-with-us/new") : handleClick;
-              }}
+              onClick={() => {}}
             >
               Register your restaurant
             </button>
