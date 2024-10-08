@@ -5,75 +5,73 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import ReactSelect from "react-select";
 import Select from "react-select";
-import AsyncSelect from "react-select/async";
+import { getLocations, searchFoodByLocation } from "../helper/helper";
+import { useLocation, useNavigate } from "react-router-dom";
+let locationOptions = [
+  {
+    value: "Sola",
+    label: "Sola, ahmdabad",
+  },
+  {
+    value: "Sola bhagvat",
+    label: "Sola bhagvat, ahmdabad",
+  },
+  {
+    value: "Sola mandir",
+    label: "Sola mandir, ahmdabad",
+  },
+  {
+    value: "Science sity Sola",
+    label: "Science sity, Sola, ahmdabad",
+  },
+  {
+    value: "Science sity road",
+    label: "Science sity road, Sola, ahmdabad",
+  },
+];
 
+let food = [
+  {
+    value: "Sola",
+    label: "Manchuriyan",
+  },
+];
 const SearchFood = () => {
-  const options = [
-    {
-      value: "Sola",
-      label: "Sola, ahmdabad",
-    },
-    {
-      value: "Sola bhagvat",
-      label: "Sola bhagvat, ahmdabad",
-    },
-    {
-      value: "Sola mandir",
-      label: "Sola mandir, ahmdabad",
-    },
-    {
-      value: "Science sity Sola",
-      label: "Science sity, Sola, ahmdabad",
-    },
-    {
-      value: "Science sity road",
-      label: "Science sity road, Sola, ahmdabad",
-    },
-  ];
-  const food = [
-    {
-      value: "Sola",
-      label: "Manchuriyan",
-    },
-  ];
-  const [locationOption, setlocationOption] = useState(null);
+  const [locationOption, setlocationOption] = useState({
+    label: "Ahmedabad",
+    value: ",,Ahmedabad",
+  });
   const [foodOption, setfoodOption] = useState(null);
-
+  const [foodOptionList, setfoodOptionList] = useState(
+    searchFoodByLocation(",,Ahmedabad")
+  );
+  const navigation = useNavigate();
   const handleSubmit = (val) => {
     setfoodOption(val);
-    let location = "";
-    locationOption?.value != ""
-      ? (location = locationOption.value)
-      : (location = "Ahmedabad");
+    console.log(val);
+    const url = `/${locationOption.label}?food=${val.title}`;
+
+    navigation(url);
   };
-  const filterLocations = (inputValue) => {
-    return options.filter((i) =>
-      i.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
-  };
-  const loadFoodItem = (location) => {};
+
   const handleOnchange = (e) => {
+    console.log(e);
     setlocationOption(e);
-    loadFoodItem(e.value);
+    setfoodOptionList(searchFoodByLocation(e.value));
+
+    setfoodOption(null);
   };
-  const promiseLocation = (inputValue) =>
-    new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(filterLocations(inputValue));
-      }, 1000);
-    });
 
   return (
-    <div className="flex bg-white text-black h-[3.4rem] gap-3 rounded-md p-2 items-center">
+    <div className="flex bg-white text-black h-[3.4rem] gap-3 rounded-md p-2 items-center shadow-md">
       <div className="flex items-center gap-2">
         <FontAwesomeIcon
           icon={faLocationDot}
           className="text-btnColor h-5 w-5"
         />
 
-        <AsyncSelect
+        <Select
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
@@ -84,12 +82,10 @@ const SearchFood = () => {
           }}
           inputId="location"
           name="location"
-          cacheOptions
           placeholder={"Search location.."}
           onChange={handleOnchange}
           value={locationOption}
-          defaultOptions={options}
-          loadOptions={promiseLocation}
+          options={getLocations()}
         />
       </div>
 
@@ -100,7 +96,7 @@ const SearchFood = () => {
           className="text-slate-300 h-5 w-5"
         />
 
-        <AsyncSelect
+        <Select
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
@@ -110,12 +106,13 @@ const SearchFood = () => {
             }),
           }}
           inputId="food"
-          cacheOptions
           name="food"
           placeholder={"Search food.."}
           onChange={handleSubmit}
           value={foodOption}
-          options={food}
+          options={foodOptionList}
+          getOptionLabel={(x) => x.title}
+          getOptionValue={(x) => x.title}
         />
       </div>
     </div>

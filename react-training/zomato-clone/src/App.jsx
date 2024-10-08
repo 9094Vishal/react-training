@@ -8,6 +8,10 @@ import { getLoginUser } from "./helper/helper";
 import PartnerWithUs from "./pages/PartnerWithUs";
 import RestaurantResto from "./pages/RestaurantResto";
 import AddNewRestaurant from "./pages/AddNewRestaurant";
+import ViewHotel from "./components/ViewHotel";
+import ViewRequestPage from "./pages/ViewRequestPage";
+import SearchFoodPage from "./pages/SearchFoodPage";
+import RestaurantInfo from "./components/RestaurantInfo";
 
 function App() {
   const [isLogin, setIsLogin] = useState(getLoginUser());
@@ -20,6 +24,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="/:city" element={<SearchFoodPage />} />
+          <Route path="/restaurant" element={<RestaurantInfo />} />
+
           <Route path="/partner-with-us" element={<PartnerWithUs />}></Route>
           <Route
             path="/partner-with-us/new"
@@ -29,6 +36,13 @@ function App() {
             path="/partner-with-us/new/add/"
             element={<AddNewRestaurant />}
           />
+          <Route
+            path="/partner-with-us/new/edit/"
+            element={<AddNewRestaurant />}
+          />
+          <Route path="/partner-with-us/view" element={<ViewHotel />} />
+          <Route path="/orders/request" element={<ViewRequestPage />} />
+
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

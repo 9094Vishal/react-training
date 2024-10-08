@@ -1,4 +1,4 @@
-import { faFolder } from "@fortawesome/free-regular-svg-icons";
+import { faClock, faFolder } from "@fortawesome/free-regular-svg-icons";
 import {
   faBellConcierge,
   faCaretRight,
@@ -25,25 +25,23 @@ const getSideBarData = (activeId) => {
     },
     {
       id: 2,
-      title: "Menu and operational details",
+      title: "Menu",
       subTitle: "Add menu",
       icon: <FontAwesomeIcon icon={faHotel} />,
       isActive: false,
     },
     {
       id: 3,
-      title: "Restaurant documents",
-      subTitle: "Ducuments",
-      icon: <FontAwesomeIcon icon={faFolder} style={{ color: "#ccd63d" }} />,
+      title: "Timings",
+      subTitle: "Restayrant timing",
+      icon: <FontAwesomeIcon icon={faClock} style={{ color: "#FFD43B" }} />,
       isActive: false,
     },
     {
       id: 4,
-      title: "Partner contract",
-      subTitle: "Let's make a relationship",
-      icon: (
-        <FontAwesomeIcon icon={faFileContract} style={{ color: "#c6d129" }} />
-      ),
+      title: "Restaurant documents",
+      subTitle: "Ducuments",
+      icon: <FontAwesomeIcon icon={faFolder} style={{ color: "#ccd63d" }} />,
       isActive: false,
     },
   ];
@@ -68,7 +66,7 @@ const RastaurantRegistrationSideBar = ({ activeId, setActiveId }) => {
     setActiveId(id);
   };
   return (
-    <div className=" bg-white rounded-2xl shadow w-[25%]">
+    <div className=" bg-white rounded-2xl shadow w-[25%] h-fit sticky top-0">
       <h1 className="p-2">Complete your registration</h1>
       <hr />
       <ul className="py-2 ">

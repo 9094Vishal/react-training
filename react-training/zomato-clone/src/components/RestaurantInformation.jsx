@@ -3,22 +3,22 @@ import React, { useContext, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { AddRestaurantContext } from "../context/AddRestaurantContext";
 import { getRegistratonData } from "../helper/helper";
-let initialValues = {
-  restaurantName: "",
-  ownerDetails: {
-    fullName: "",
-    email: "",
-    phone: "",
-  },
-  restaurantAddressDetails: {
-    shop: "",
-    area: "",
-    city: "",
-    landmark: "",
-  },
-};
+
 const RestaurantInformation = () => {
-  const [data, setData] = useState(initialValues);
+  const [data, setData] = useState({
+    restaurantName: "",
+    ownerDetails: {
+      fullName: "",
+      email: "",
+      phone: "",
+    },
+    restaurantAddressDetails: {
+      shop: "",
+      area: "",
+      city: "",
+      landmark: "",
+    },
+  });
 
   const { setActiveId } = useContext(AddRestaurantContext);
   const schema = Yup.object().shape({
@@ -41,8 +41,8 @@ const RestaurantInformation = () => {
   useEffect(() => {
     const regiData = getRegistratonData();
 
-    if (regiData.restaurantInformation) {
-      setData({ ...regiData.restaurantInformation });
+    if (regiData.restaurantName) {
+      setData({ ...regiData });
     }
 
     return () => {};
@@ -57,11 +57,10 @@ const RestaurantInformation = () => {
         validationSchema={schema}
         onSubmit={(values, { setSubmitting }) => {
           let regiData = getRegistratonData();
-          const data = { restaurantInformation: values };
+
+          const data = { ...values };
           localStorage.setItem("complatedTap", 1);
           regiData = JSON.stringify({ ...regiData, ...data });
-          console.log("data: ", data);
-          console.log("regiData: ", regiData);
           localStorage.setItem("registrationData", regiData);
 
           setSubmitting(false);

@@ -1,8 +1,30 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
+import {
+  getLoginUser,
+  getRegistratonData,
+  setReaturantDataToMainList,
+} from "../helper/helper";
+import PopUpModel from "./PopUpModel";
 
 const Documents = () => {
+  const [initialValues, setInitialValue] = useState({
+    panNo: "",
+    GSTNo: "",
+    restaurantImage: "",
+  });
+
+  useEffect(() => {
+    const regiData = getRegistratonData();
+
+    if (regiData.documents) {
+      setInitialValue({ ...regiData.documents });
+    }
+
+    return () => {};
+  }, []);
+  const [openSuccesModel, setOpenSuccessModel] = useState(false);
   const panRegex = /[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}/;
   const GSTRegex =
     /\d{2}[A-Za-z]{5}\d{4}[A-Z]{1}[A-Za-z\d]{1}[Z]{1}[A-Za-z\d]{1}/;
@@ -10,7 +32,8 @@ const Documents = () => {
     <div className="w-full">
       <h1 className="text-3xl">Restaurant Documents</h1>
       <Formik
-        initialValues={{ panNo: "", GSTNo: "", restaurantImage: "" }}
+        enableReinitialize
+        initialValues={initialValues}
         validationSchema={Yup.object().shape({
           panNo: Yup.string()
             .required("This field is required")
@@ -21,10 +44,21 @@ const Documents = () => {
             .matches(GSTRegex, "Please enter valid PAN number"),
         })}
         onSubmit={(values) => {
-          const data = JSON.stringify({ documents: values });
-          localStorage.setItem("complatedTap", 1);
-          localStorage.setItem("registrationData", data);
-          setActiveId(2);
+          let regiData = getRegistratonData();
+
+          let data = { documents: values };
+          localStorage.setItem("complatedTap", 2);
+
+          if (regiData.documents) {
+            regiData = {
+              ...regiData,
+              ...data,
+            };
+          } else regiData = { ...regiData, ...data };
+          setOpenSuccessModel(true);
+          localStorage.setItem("registrationData", JSON.stringify(regiData));
+          setReaturantDataToMainList(regiData);
+          setLoginData(getLoginUser());
         }}
       >
         <Form>
@@ -43,15 +77,11 @@ const Documents = () => {
                 className="w-full block border border-gray-300 outline-gray-300 py-2 px-3 rounded-lg"
                 type="text"
               />
-              <ErrorMessage
-                component="span"
-                name="restaurantImage"
-                className="!text-red-500"
-              />
+              <ErrorMessage name="panNo" className="!text-red-500" />
             </div>
             <div className="p-3">
               <Field
-                placeholder="PAN Number (DROPP4521G)"
+                placeholder="Pan number (AAPFU0939F)"
                 name="panNo"
                 className="w-full block border border-gray-300 outline-gray-300 py-2 px-3 rounded-lg uppercase"
                 type="text"
@@ -86,6 +116,14 @@ const Documents = () => {
           </div>
         </Form>
       </Formik>
+      {openSuccesModel && (
+        <PopUpModel
+          msg={"Resturant data sucessfully added.."}
+          setModel={setOpenSuccessModel}
+          title={"Success"}
+          redirect={"/"}
+        />
+      )}
     </div>
   );
 };

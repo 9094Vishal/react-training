@@ -83,7 +83,7 @@ const Profile = () => {
           </ul>
         )}
         {isLogin && (
-          <div className="hidden md:flex md:flex-row flex-col items-center justify-start md:space-x-1 pb-3 md:pb-0 navigation-menu">
+          <div className="hidden md:flex md:flex-row flex-col items-center  justify-start md:space-x-1 pb-3 md:pb-0 navigation-menu">
             {/* Dropdown menu */}
             <div className="relative">
               <button
@@ -115,7 +115,7 @@ const Profile = () => {
               <div
                 className={`dropdown-menu absolute ${
                   openMenu ? "" : "hidden transition duration-[0.3s] ease-out"
-                } bg-white text-black  rounded-lg py-2 w-48`}
+                } bg-white text-black  rounded-lg py-2 w-48 z-20 shadow-md`}
               >
                 <Link to="/" className="block px-6 py-2 hover:bg-slate-200">
                   Profile

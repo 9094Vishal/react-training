@@ -65,7 +65,9 @@ const RestaurantResto = () => {
             </p>
             <button
               className="bg-blue-500 py-2 text-[17px] rounded-md w-[350px] text-white"
-              onClick={() => {}}
+              onClick={() => {
+                navigate("/partner-with-us/new/add/");
+              }}
             >
               Register your restaurant
             </button>

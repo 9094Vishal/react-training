@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import heroImg from "../assets/zomate-hero.png";
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchFood from "./SearchFood";
 import Profile from "./Profile";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/loginContext";
 const HomeHeader = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <div
       className={`relative h-[486px] mb-16 text-white`}
@@ -21,9 +24,20 @@ const HomeHeader = () => {
           &nbsp; Get the App
         </a>
         <ul className="flex gap-3 items-center">
-          <Link className="cursor-pointer" to="/partner-with-us">
-            Add Restaurant
-          </Link>
+          {user.isReastaurant ? (
+            <>
+              <Link className="cursor-pointer" to="/orders/request">
+                Request
+              </Link>
+              <Link className="cursor-pointer" to="/partner-with-us/new/edit/">
+                Edit Restaurant
+              </Link>
+            </>
+          ) : (
+            <Link className="cursor-pointer" to="/partner-with-us">
+              Add Restaurant
+            </Link>
+          )}
           <li className="">
             <Profile />
           </li>

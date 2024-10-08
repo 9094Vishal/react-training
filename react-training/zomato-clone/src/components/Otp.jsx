@@ -15,7 +15,6 @@ import {
 import { AuthContext } from "../context/loginContext";
 
 const OtpPopup = ({ setOtpModel, otp, phone }) => {
-  console.log("otp: ", otp);
   let userOtp = useMemo(() => otp, [otp]);
   const { setLoginData } = useContext(AuthContext);
 
