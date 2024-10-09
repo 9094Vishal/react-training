@@ -130,6 +130,8 @@ export const searchFoodByLocation = (location) => {
 
   return Hotels.map((item) => item.menuItem).flat();
 };
+
+// this will first filter on address then match the food title
 export const getHotelsByFood = (title, location) => {
   const allRestaurants = getListOfRestaurants();
   const Hotels = allRestaurants.filter((item) => {
@@ -139,23 +141,70 @@ export const getHotelsByFood = (title, location) => {
       data.length == 1 &&
       data[0].toString().toLowerCase() == city.toString().toLowerCase()
     ) {
-      return item;
+      return item.menuItem.find((menu) => menu.title == title);
     }
     if (
       data[0].toString().toLowerCase() == area.toString().toLowerCase() ||
       data[1].toString().toLowerCase() == landmark.toString().toLowerCase() ||
       data[2].toString().toLowerCase() == city.toString().toLowerCase()
     ) {
-      return item;
+      return item.menuItem.find((menu) => menu.title == title);
     }
   });
 
-  console.log("Hotels: ", Hotels);
+  // console.log("Hotels: ", Hotels);
   return Hotels;
 };
+// this will give us single hotel by its id
 export const getHotelById = (id) => {
   return getListOfRestaurants()?.find((hotel) => hotel.id == id) || null;
 };
 export const getHotelData = (id) => {
   return getListOfRestaurants().find((item) => item.id == id);
+};
+export const getFoodListData = ({ menuItem }) => {
+  const category = getListOfCategory();
+
+  const main = [];
+  category.forEach((item) => {
+    const list = [];
+    menuItem.forEach((menu) => {
+      if (menu.foodCategory == item.id) {
+        list.push({ ...menu });
+      }
+    });
+    main.push({ menu: [...list], category: item.category });
+  });
+  return main;
+};
+
+export const getListOfCategory = () => {
+  return [
+    {
+      category: "Gujarati",
+      id: "1",
+    },
+    {
+      category: "Panjabi",
+      id: "2",
+    },
+    {
+      category: "Chinise",
+      id: "3",
+    },
+  ];
+};
+
+export const getCart = () => {
+  const { user } = getLoginUser();
+  return user.cart || [];
+};
+export const address = (data) => {
+  const { area, city, landmark, shop } = data;
+  return (
+    (shop ? `${shop},` : "") +
+    (area ? `${area},` : "") +
+    (landmark ? `${landmark},` : "") +
+    (city ? `${city}` : "")
+  );
 };

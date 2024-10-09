@@ -1,8 +1,10 @@
+import { v4 as uuidv4 } from "uuid";
 import { ErrorMessage, Field, FieldArray, Form, Formik, insert } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { AddRestaurantContext } from "../context/AddRestaurantContext";
 import { getRegistratonData } from "../helper/helper";
+import { Flex, Switch } from "antd";
 
 const MenuAndTime = () => {
   const [initialValues, setInitialValue] = useState({
@@ -10,6 +12,7 @@ const MenuAndTime = () => {
       {
         foodCategory: "",
         title: "",
+        isActive: true,
         price: "",
         image: "",
         description: "",
@@ -54,6 +57,7 @@ const MenuAndTime = () => {
           onSubmit={(values) => {
             let regiData = getRegistratonData();
             let data = { ...values };
+
             localStorage.setItem("complatedTap", 2);
 
             if (regiData?.menuItem) {
@@ -69,7 +73,7 @@ const MenuAndTime = () => {
           }}
           validationSchema={formSchema}
         >
-          {({ values }) => (
+          {({ values, setFieldValue }) => (
             <Form>
               <FieldArray name="menuItem">
                 {({ insert, remove, push }) => (
@@ -81,36 +85,50 @@ const MenuAndTime = () => {
                             className="bg-white p-3 rounded-xl shadow my-3"
                             key={index}
                           >
-                            <div
-                              role="group"
-                              aria-labelledby="checkbox-group"
-                              className="flex items-center gap-2"
-                            >
-                              <label>
+                            {" "}
+                            <Flex justify="space-between">
+                              <div
+                                role="group"
+                                aria-labelledby="checkbox-group"
+                                className="flex items-center gap-2"
+                              >
+                                <label>
+                                  <Field
+                                    type="radio"
+                                    name={`menuItem.${index}.foodCategory`}
+                                    value={category.panjabi}
+                                  />{" "}
+                                  Panjabi
+                                </label>
+                                <label className="">
+                                  <Field
+                                    type="radio"
+                                    name={`menuItem.${index}.foodCategory`}
+                                    value={category.gujarati}
+                                  />{" "}
+                                  Gujarati
+                                </label>
+                                <label>
+                                  <Field
+                                    type="radio"
+                                    name={`menuItem.${index}.foodCategory`}
+                                    value={category.chiniess}
+                                  />{" "}
+                                  Chiniess
+                                </label>
+                              </div>
+
+                              <label
+                                role="group"
+                                aria-labelledby="checkbox-group"
+                              >
                                 <Field
-                                  type="radio"
-                                  name={`menuItem.${index}.foodCategory`}
-                                  value={category.panjabi}
+                                  type="checkbox"
+                                  name={`menuItem.${index}.isActive`}
                                 />{" "}
-                                Panjabi
+                                Available
                               </label>
-                              <label className="">
-                                <Field
-                                  type="radio"
-                                  name={`menuItem.${index}.foodCategory`}
-                                  value={category.gujarati}
-                                />{" "}
-                                Gujarati
-                              </label>
-                              <label>
-                                <Field
-                                  type="radio"
-                                  name={`menuItem.${index}.foodCategory`}
-                                  value={category.chiniess}
-                                />{" "}
-                                Chiniess
-                              </label>
-                            </div>
+                            </Flex>
                             <ErrorMessage
                               component="p"
                               name={`menuItem.${index}.foodCategory`}
@@ -187,6 +205,8 @@ const MenuAndTime = () => {
                         push({
                           foodCategory: [],
                           title: "",
+                          isActive: ``,
+                          id: uuidv4(),
                           price: "",
                           description: "",
                         });

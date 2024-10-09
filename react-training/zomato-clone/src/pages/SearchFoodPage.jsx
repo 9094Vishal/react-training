@@ -9,8 +9,7 @@ const SearchFoodPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const food = searchParams.get("food");
-  console.log("city: ", city);
-  console.log("food: ", food);
+
   const [foodData, setFoodData] = useState([]);
   useEffect(() => {
     setFoodData(getHotelsByFood(food, city));

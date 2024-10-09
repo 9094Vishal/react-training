@@ -15,7 +15,6 @@ const RestaurantInfo = () => {
   const id = searchParams.get("hotelId");
   const food = searchParams.get("food");
   const [hotelData, setHotelData] = useState(null);
-  console.log("hotelData: ", hotelData);
   useEffect(() => {
     setHotelData(getHotelData(id));
     return () => {};

@@ -49,14 +49,12 @@ const SearchFood = () => {
   const navigation = useNavigate();
   const handleSubmit = (val) => {
     setfoodOption(val);
-    console.log(val);
     const url = `/${locationOption.label}?food=${val.title}`;
 
     navigation(url);
   };
 
   const handleOnchange = (e) => {
-    console.log(e);
     setlocationOption(e);
     setfoodOptionList(searchFoodByLocation(e.value));
 
