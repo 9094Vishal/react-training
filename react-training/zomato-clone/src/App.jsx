@@ -76,10 +76,6 @@ function App() {
 
       if (index > -1) {
         if (Number(cart[cartIndex].food[index].quntity) > 1) {
-          console.log(
-            "Number(cart[cartIndex].food[index].quntity): ",
-            Number(cart[cartIndex].food[index].quntity)
-          );
           cart[cartIndex].food[index] = {
             ...cart[cartIndex].food[index],
             quntity: Number(cart[cartIndex].food[index].quntity) - 1,
@@ -94,7 +90,6 @@ function App() {
     }
     const { user } = isLogin;
     user.cart = cart;
-    console.log(user);
 
     updateUser(user);
     setCartData(cart);
@@ -110,7 +105,6 @@ function App() {
       const data = hotelData.find((item) => item.id == element.foodId);
       list.push({ ...data, quntity: element.quntity });
     });
-    console.log("list: ", list);
     return list;
   };
 

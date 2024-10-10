@@ -1,35 +1,60 @@
 import {
   Button,
+  Card,
   Collapse,
   Divider,
   Dropdown,
   Flex,
   Image,
+  Modal,
   Select,
   Spin,
 } from "antd";
 import React, { Fragment, memo, useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import notFound from "../assets/emptyCart.png";
-import { address, getHotelById } from "../helper/helper";
+import { address, getDefaultAddress, getHotelById } from "../helper/helper";
 import { CartContext } from "../context/CartContext";
+import { AuthContext } from "../context/loginContext";
+import { faStopwatch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SelectAddressDrawer from "./SelectAddressDrawer";
 const Cart = () => {
   const [queryPerams] = useSearchParams();
   const hotelId = queryPerams.get("hotelId");
   const { itemInCart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
+  const [userAddress, setUserAddress] = useState(getDefaultAddress());
+
   let mode = "online";
   const handleChange = (value) => {
     mode = value;
   };
   const [hotel, setHotel] = useState(null);
   const [cartItem, setCartItem] = useState(null);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState({
+    total: 0,
+    totalWithGst: 0,
+    gst: "0%",
+  });
   useEffect(() => {
     setHotel(getHotelById(hotelId));
     setCartItem(itemInCart(hotelId));
 
     return () => {};
   }, []);
+  useEffect(() => {
+    const sum = cartItem?.reduce((a, b) => {
+      return a + b.price * b.quntity;
+    }, 0);
+    setTotal({
+      total: `₹${sum}`,
+      totalWithGst: `₹${((sum / 100) * 18 + sum).toFixed(2)}`,
+      gst: `₹${((sum / 100) * 18).toFixed(2)}`,
+    });
+
+    return () => {};
+  }, [cartItem]);
   if (!hotelId) {
     return (
       <div className="flex items-center justify-center h-screen w-full">
@@ -42,26 +67,40 @@ const Cart = () => {
   const totalItemCollaps = [
     {
       key: "1",
-      label: `Total ${total}`,
+      label: `Total ${total.total}`,
       children: (
         <>
           <Flex justify="space-between">
             <p>Total Price</p>
-            <p>{total}</p>
+            <p>{total.totalWithGst}</p>
           </Flex>
           <Flex justify="space-between">
             <p>GST (18%)</p>
-            <p>140</p>
+            <p className="font-medium">{total.gst}</p>
           </Flex>
           <Divider />
           <Flex justify="space-between">
-            <p>Grand Total (18%)</p>
-            <p>140</p>
+            <p>Grand Total </p>
+            <p className="font-semibold">{total.totalWithGst}</p>
           </Flex>
         </>
       ),
     },
   ];
+  const [open, setOpen] = useState(false);
+  const [childrenDrawer, setChildrenDrawer] = useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+  const showChildrenDrawer = () => {
+    setChildrenDrawer(true);
+  };
+  const onChildrenDrawerClose = () => {
+    setChildrenDrawer(false);
+  };
   return (
     <div className="mx-20 my-3">
       <div className="">
@@ -96,22 +135,32 @@ const Cart = () => {
           </div>
           <ul className="bg-white p-2 shadow rounded-lg mt-3">
             <li>
-              <p>Delivery in 22 min</p>
-            </li>
-            <li>
               <p>
-                Delivery at <span className="font-medium">home</span>
-              </p>
-              <p>
-                Jay goga kiramna golsheri, neasr matfati maletan opade ni same
-                patyan...
+                <FontAwesomeIcon
+                  icon={faStopwatch}
+                  className="text-btnColor h-5 w-5"
+                />{" "}
+                Delivery in 22 min
               </p>
             </li>
-            <li>
-              <p>
-                Vishal Prajapati, <span className="font-medium">901645133</span>
-              </p>
-            </li>
+            <Card>
+              <div className="my-2 flex justify-between items-center">
+                {userAddress && (
+                  <div className="flex-1">
+                    {userAddress.default && (
+                      <p className="text-btnColor">Default Address</p>
+                    )}
+                    <p>{userAddress.addressType}</p>
+                    <p>{userAddress.name}</p>
+                    <p>{userAddress.phone}</p>
+                    <p>
+                      {userAddress.address} {userAddress.city}
+                    </p>{" "}
+                  </div>
+                )}
+                <button onClick={showDrawer}>Select Address</button>
+              </div>
+            </Card>
             <li>
               <Collapse items={totalItemCollaps} ghost />
             </li>
@@ -139,15 +188,42 @@ const Cart = () => {
             },
           ]}
         />
-        <button
-          disabled={!cartItem}
-          className={`bg-btnColor text-white px-10 py-2 rounded-md hover:border-none hover:opacity-75 ${
-            !cartItem && "cursor-not-allowed"
-          }`}
-        >
-          <span className="font-medium"> &#8377; 45</span> Order Now
-        </button>
+        {userAddress ? (
+          <button
+            disabled={!cartItem}
+            className={`bg-btnColor text-white px-10 py-2 rounded-md hover:border-none hover:opacity-75 ${
+              !cartItem && "cursor-not-allowed"
+            }`}
+          >
+            <span>
+              <span>{total.totalWithGst}</span> Order now
+            </span>
+          </button>
+        ) : (
+          <button
+            disabled={!cartItem}
+            onClick={showDrawer}
+            className={`bg-btnColor text-white px-10 py-2 rounded-md hover:border-none hover:opacity-75 ${
+              !cartItem && "cursor-not-allowed"
+            }`}
+          >
+            Select Address at next step
+          </button>
+        )}
       </Flex>
+      {open && (
+        <SelectAddressDrawer
+          open={open}
+          childrenDrawer={childrenDrawer}
+          onClose={onClose}
+          setChildrenDrawer={setChildrenDrawer}
+          setOpen={setOpen}
+          showChildrenDrawer={showChildrenDrawer}
+          showDrawer={showDrawer}
+          onChildrenDrawerClose={onChildrenDrawerClose}
+          setUserAddress={setUserAddress}
+        />
+      )}
     </div>
   );
 };
@@ -163,20 +239,20 @@ export const CartItem = ({
   setCartItem,
   cartItem,
 }) => {
-  const { addToCart, deleteCart } = useContext(CartContext);
+  const { addToCart, deleteCart, itemInCart } = useContext(CartContext);
 
   const [qun, setQun] = useState(Number(quntity));
   const handleAdd = () => {
     addToCart(hotelId, foodId);
     setQun((pr) => pr + 1);
+    setCartItem(itemInCart(hotelId));
   };
   const handleremove = () => {
-    if (qun == 1) {
-      setCartItem(cartItem.filter((item) => item.id != foodId));
-    } else {
+    deleteCart(hotelId, foodId);
+    if (qun > 1) {
       setQun((pr) => pr - 1);
     }
-    deleteCart(hotelId, foodId);
+    setCartItem(itemInCart(hotelId));
   };
 
   return (

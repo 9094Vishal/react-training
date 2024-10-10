@@ -1,3 +1,5 @@
+import { array } from "yup";
+
 export const sendOtp = () => {
   const otp = Math.floor(100000 + Math.random() * 900000);
   console.log("otp: ", otp);
@@ -207,4 +209,29 @@ export const address = (data) => {
     (landmark ? `${landmark},` : "") +
     (city ? `${city}` : "")
   );
+};
+
+export const AddUserAddress = (address) => {
+  const { user } = getLoginUser();
+
+  if (user.address) {
+    const index = user.address.findIndex((i) => i.id == address.id);
+    if (index > -1) {
+      user.address[index] = address;
+    } else {
+      user.address = [...user.address, address];
+    }
+  } else {
+    user.address = [address];
+  }
+  // console.log("user: ", user);
+  updateUser(user);
+};
+export const getDefaultAddress = () => {
+  const { user } = getLoginUser();
+  if (user.address) {
+    return user.address.find((item) => item.default);
+  } else {
+    return null;
+  }
 };

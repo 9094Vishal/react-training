@@ -26,3 +26,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   position: absolute;
   background: transparent;
 }
+.ant-collapse-header {
+  padding: 12px 16px 12px 0 !important;
+}
