@@ -175,7 +175,9 @@ export const getFoodListData = ({ menuItem }) => {
         list.push({ ...menu });
       }
     });
-    main.push({ menu: [...list], category: item.category });
+    if (list.length != 0) {
+      main.push({ menu: [...list], category: item.category });
+    }
   });
   return main;
 };
@@ -216,6 +218,13 @@ export const AddUserAddress = (address) => {
 
   if (user.address) {
     const index = user.address.findIndex((i) => i.id == address.id);
+    if (address.default) {
+      user.address = user.address.map((item) => {
+        item.default = false;
+        return item;
+      });
+    }
+
     if (index > -1) {
       user.address[index] = address;
     } else {
@@ -224,9 +233,10 @@ export const AddUserAddress = (address) => {
   } else {
     user.address = [address];
   }
-  // console.log("user: ", user);
+
   updateUser(user);
 };
+
 export const getDefaultAddress = () => {
   const { user } = getLoginUser();
   if (user.address) {
@@ -234,4 +244,28 @@ export const getDefaultAddress = () => {
   } else {
     return null;
   }
+};
+export const getUserAddressById = (id) => {
+  const { user } = getLoginUser();
+  if (user.address) {
+    return user.address.find((item) => item.id == id);
+  } else {
+    return null;
+  }
+};
+export const deleteAddress = (id) => {
+  const { user } = getLoginUser();
+
+  if (user.address) {
+    user.address = user.address.filter((i) => i.id != id);
+  }
+
+  updateUser(user);
+};
+
+export const EditUserProfile = (id, data) => {
+  const { user } = getLoginUser();
+  user.profileData = data;
+
+  updateUser(user);
 };

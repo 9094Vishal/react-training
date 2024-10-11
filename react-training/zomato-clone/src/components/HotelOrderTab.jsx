@@ -19,9 +19,11 @@ const HotelOrderTab = () => {
   const [foods, setFoods] = useState(null);
   useEffect(() => {
     setFoods(getFoodListData(hotelData));
-    return () => {};
-  }, []);
-
+    return () => {
+      setFoods(null);
+    };
+  }, [hotelData]);
+  // console.log("hotelData: ", foods);
   return (
     <div className="flex gap-3">
       {/* <div className="w-1/4">
@@ -37,13 +39,13 @@ const HotelOrderTab = () => {
         </div>
         <hr className="my-3" />
         {foods &&
-          foods.map(({ category, menu }) => {
+          foods.map(({ category, menu }, id) => {
             return (
-              <div key={category}>
+              <div key={id}>
                 <p className="text-xl font-semibold">{category}</p>
-                {menu.map(({ description, image, title, price, id }) => {
+                {menu.map(({ description, image, title, price, id }, index) => {
                   return (
-                    <Flex gap={"10px"} key={id}>
+                    <Flex gap={"10px"} className="my-3" key={index}>
                       <Image height={"130px"} src={image} />
                       <Flex
                         justify="space-between"

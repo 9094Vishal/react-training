@@ -1,23 +1,22 @@
+import { faStopwatch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Button,
   Card,
   Collapse,
   Divider,
-  Dropdown,
+  Drawer,
   Flex,
   Image,
-  Modal,
   Select,
   Spin,
 } from "antd";
-import React, { Fragment, memo, useContext, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import notFound from "../assets/emptyCart.png";
-import { address, getDefaultAddress, getHotelById } from "../helper/helper";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/loginContext";
-import { faStopwatch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { address, getDefaultAddress, getHotelById } from "../helper/helper";
+import AddAddres from "./AddAddres";
 import SelectAddressDrawer from "./SelectAddressDrawer";
 const Cart = () => {
   const [queryPerams] = useSearchParams();
@@ -42,7 +41,7 @@ const Cart = () => {
     setCartItem(itemInCart(hotelId));
 
     return () => {};
-  }, []);
+  }, [queryPerams]);
   useEffect(() => {
     const sum = cartItem?.reduce((a, b) => {
       return a + b.price * b.quntity;
@@ -88,18 +87,36 @@ const Cart = () => {
     },
   ];
   const [open, setOpen] = useState(false);
-  const [childrenDrawer, setChildrenDrawer] = useState(false);
+  const [childrenDrawer, setChildrenDrawer] = useState({
+    isOpen: false,
+    editId: false,
+    id: null,
+  });
   const showDrawer = () => {
     setOpen(true);
   };
   const onClose = () => {
     setOpen(false);
   };
-  const showChildrenDrawer = () => {
-    setChildrenDrawer(true);
+
+  const showChildrenDrawer = (isEdit = false, id = null) => {
+    setChildrenDrawer({
+      isOpen: true,
+      isEdit,
+      id,
+    });
   };
+
   const onChildrenDrawerClose = () => {
-    setChildrenDrawer(false);
+    setChildrenDrawer({
+      isOpen: false,
+      editId: false,
+      id: null,
+    });
+  };
+
+  const handleOrder = () => {
+    console.log(mode);
   };
   return (
     <div className="mx-20 my-3">
@@ -118,10 +135,10 @@ const Cart = () => {
       {cartItem ? (
         <>
           <div className="bg-white p-2 shadow rounded-lg">
-            {cartItem.map(({ title, quntity, price, id }) => {
+            {cartItem.map(({ title, quntity, price, id }, index) => {
               return (
                 <CartItem
-                  key={id}
+                  key={index}
                   price={price}
                   quntity={quntity}
                   title={title}
@@ -191,6 +208,7 @@ const Cart = () => {
         {userAddress ? (
           <button
             disabled={!cartItem}
+            onClick={handleOrder}
             className={`bg-btnColor text-white px-10 py-2 rounded-md hover:border-none hover:opacity-75 ${
               !cartItem && "cursor-not-allowed"
             }`}
@@ -223,6 +241,21 @@ const Cart = () => {
           onChildrenDrawerClose={onChildrenDrawerClose}
           setUserAddress={setUserAddress}
         />
+      )}
+      {childrenDrawer.isOpen && (
+        <Drawer
+          title="Address"
+          width={520}
+          closable={true}
+          onClose={onChildrenDrawerClose}
+          open={childrenDrawer.isOpen}
+        >
+          <AddAddres
+            isEdit={childrenDrawer.isEdit}
+            addressId={childrenDrawer.id}
+            onChildrenDrawerClose={onChildrenDrawerClose}
+          />
+        </Drawer>
       )}
     </div>
   );

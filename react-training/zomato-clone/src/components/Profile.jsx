@@ -5,6 +5,7 @@ import Login from "./Login";
 import OtpPopup from "./Otp";
 import { AuthContext } from "../context/loginContext";
 import { logOut } from "../helper/helper";
+import { Dropdown, Modal, Space } from "antd";
 
 const Profile = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -14,9 +15,6 @@ const Profile = () => {
   const [userOtp, setUserOtp] = useState("");
   const { user, isLogin, setLoginData } = useContext(AuthContext);
 
-  const handleClick = (e) => {
-    setOpenMenu(true);
-  };
   useEffect(() => {
     // Clicking outside of an open dropdown menu closes it
     window.addEventListener("click", function (e) {
@@ -49,6 +47,24 @@ const Profile = () => {
       });
     };
   }, []);
+  const items = [
+    {
+      label: <Link to="/profile">Profile</Link>,
+      key: "1",
+    },
+    {
+      label: <Link to="/orders">Orders</Link>,
+      key: "2",
+    },
+    {
+      label: <Link to="/notification">Notification</Link>,
+      key: "3",
+    },
+    {
+      label: <Link to="/profile">Reviews</Link>,
+      key: "4",
+    },
+  ];
 
   return (
     <div className="">
@@ -85,17 +101,25 @@ const Profile = () => {
         {isLogin && (
           <div className="hidden md:flex md:flex-row flex-col items-center  justify-start md:space-x-1 pb-3 md:pb-0 navigation-menu">
             {/* Dropdown menu */}
-            <div className="relative">
+            <Dropdown
+              menu={{
+                items,
+              }}
+            >
               <button
                 type="button"
-                onClick={handleClick}
                 className="dropdown-toggle py-2 px-3  flex items-center gap-2 rounded"
               >
                 <span className="pointer-events-none select-none flex items-center gap-1">
-                  <div className="relative h-12 w-12">
-                    <img src={userImg} className="w-full h-full" />
+                  <div className="relative h-12 w-12 rounded-full">
+                    <img
+                      src={user.profileData ? user.profileData.image : userImg}
+                      className="w-full h-full rounded-full"
+                    />
                   </div>
-                  Vishal
+                  <p className="max-w-[8ch] whitespace-nowrap  text-ellipsis overflow-hidden">
+                    {user.profileData ? user.profileData.name : "User"}
+                  </p>
                 </span>
                 <svg
                   className="w-3 h-3 pointer-events-none"
@@ -112,35 +136,7 @@ const Profile = () => {
                   />
                 </svg>
               </button>
-              <div
-                className={`dropdown-menu absolute ${
-                  openMenu ? "" : "hidden transition duration-[0.3s] ease-out"
-                } bg-white text-black  rounded-lg py-2 w-48 z-20 shadow-md`}
-              >
-                <Link to="/" className="block px-6 py-2 hover:bg-slate-200">
-                  Profile
-                </Link>
-                <Link href="/" className="block px-6 py-2 hover:bg-slate-200">
-                  Notification
-                </Link>
-                <Link href="/" className="block px-6 py-2 hover:bg-slate-200">
-                  Bookmarks
-                </Link>
-                <Link href="/" className="block px-6 py-2 hover:bg-slate-200">
-                  Reviews
-                </Link>
-                <div
-                  onClick={() => {
-                    setLoginData({});
-                    logOut();
-                    setOpenMenu(false);
-                  }}
-                  className="block px-6 py-2 hover:bg-slate-200"
-                >
-                  Logout
-                </div>
-              </div>
-            </div>
+            </Dropdown>
           </div>
         )}
       </div>

@@ -29,3 +29,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .ant-collapse-header {
   padding: 12px 16px 12px 0 !important;
 }
+.ant-card-body {
+  padding: 0 !important;
+}

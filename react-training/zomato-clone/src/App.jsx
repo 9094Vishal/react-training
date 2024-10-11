@@ -20,6 +20,10 @@ import RestaurantInfo from "./components/RestaurantInfo";
 import { CartContext } from "./context/CartContext";
 import Cart from "./components/Cart";
 import MenuItem from "antd/es/menu/MenuItem";
+import Profile from "./pages/Profile";
+import AddAddres from "./components/AddAddres";
+import Notification from "./pages/Notification";
+import Orders from "./pages/Orders";
 
 function App() {
   const [isLogin, setIsLogin] = useState(getLoginUser());
@@ -132,8 +136,10 @@ function App() {
             <Route path="/:city" element={<SearchFoodPage />} />
             <Route path="/restaurant" element={<RestaurantInfo />} />
             <Route path="/cart" element={<Cart />} />
-
-            <Route path="/partner-with-us" element={<PartnerWithUs />}></Route>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/notification" element={<Notification />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/partner-with-us" element={<PartnerWithUs />} />
             <Route
               path="/partner-with-us/new"
               element={<RestaurantResto />}

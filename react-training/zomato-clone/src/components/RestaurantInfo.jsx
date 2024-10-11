@@ -1,13 +1,14 @@
 import React, { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSearchParams } from "react-router-dom";
-import { faStar } from "@fortawesome/free-regular-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiamondTurnRight } from "@fortawesome/free-solid-svg-icons";
 import RestaurantTabBar from "./RestaurantTabBar";
 import { getHotelData } from "../helper/helper";
 import { HotelContext } from "../context/HotelContext";
 import { Image } from "antd";
+import RestaurantInfoHotelInfo from "./RestaurantInfoHotelInfo";
 
 const RestaurantInfo = () => {
   const [searchParams] = useSearchParams();
@@ -18,7 +19,7 @@ const RestaurantInfo = () => {
   useEffect(() => {
     setHotelData(getHotelData(id));
     return () => {};
-  }, []);
+  }, [searchParams, id]);
   const address = (data) => {
     const { area, city, landmark, shop } = data;
     return (
@@ -39,17 +40,7 @@ const RestaurantInfo = () => {
           src={hotelData?.documents?.restaurantImage}
         />
       </div>
-      <div className="flex items-start justify-between mt-3">
-        <div>
-          <p>{(hotelData && hotelData.restaurantName) || ""}</p>
-          <p>{hotelData && address(hotelData.restaurantAddressDetails)}</p>
-        </div>
-        <div>
-          <span className="bg-green-400">
-            3.0 <FontAwesomeIcon icon={faStar} style={{ color: "#ff330f" }} />
-          </span>
-        </div>
-      </div>
+      <RestaurantInfoHotelInfo hotelData={hotelData} />
       <span>Open now - 8am - 10pm</span>
       <div className="my-2">
         <a

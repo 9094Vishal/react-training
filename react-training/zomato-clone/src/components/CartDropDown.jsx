@@ -19,8 +19,13 @@ const CartDropDown = () => {
     return {
       key: index + 1,
       label: (
-        <div>
-          <Flex gap={15} align="center">
+        <>
+          <Flex
+            gap={15}
+            align="center"
+            justify="space-between"
+            className="w-full"
+          >
             <div onClick={() => navigate(`/restaurant?hotelId=${id}`)}>
               <p>{restaurantName}</p>
               <span className="text-blue-500 ">
@@ -31,20 +36,21 @@ const CartDropDown = () => {
               Cart
             </Button>
           </Flex>
-        </div>
+        </>
       ),
     };
   });
 
   return (
-    <div className="fixed bottom-3 right-4">
+    <div className="fixed bottom-3 right-6">
       <Dropdown
         menu={{
           items,
         }}
-        placement="top"
       >
-        <Button className="bg-btnColor text-white px-10">View Cart</Button>
+        <Button className="bg-btnColor text-white px-10 hover:!text-white border-none hover:!bg-btnColor hover:!border-none">
+          View Cart
+        </Button>
       </Dropdown>
     </div>
   );

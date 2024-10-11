@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Checkbox, Form, Input, Select } from "antd";
-import { AddUserAddress } from "../helper/helper";
+import {
+  AddUserAddress,
+  getLoginUser,
+  getUserAddressById,
+} from "../helper/helper";
 import { v4 as uuidv4 } from "uuid";
+import { AuthContext } from "../context/loginContext";
 const { Option } = Select;
 
 const formItemLayout = {
@@ -34,13 +39,31 @@ const tailFormItemLayout = {
     },
   },
 };
-const AddAddres = () => {
+const AddAddres = ({
+  isEdit = false,
+  addressId = null,
+  onChildrenDrawerClose,
+}) => {
   const [form] = Form.useForm();
+  const { setLoginData } = useContext(AuthContext);
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
-    AddUserAddress({ ...values, id: uuidv4() });
+    if (isEdit && addressId) {
+      AddUserAddress({ ...values, id: addressId });
+    } else AddUserAddress({ ...values, id: uuidv4() });
+    onChildrenDrawerClose();
+    setLoginData(getLoginUser());
   };
-
+  useEffect(() => {
+    if (isEdit && addressId) {
+      const data = getUserAddressById(addressId);
+      console.log("data: ", data);
+      form.setFieldsValue({
+        ...data,
+      });
+    }
+    return () => {};
+  }, []);
   return (
     <Form
       {...formItemLayout}

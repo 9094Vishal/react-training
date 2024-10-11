@@ -1,39 +1,52 @@
-import React, { useContext, useState } from "react";
-import { Button, Card, Divider, Drawer } from "antd";
 import {
   faPenToSquare,
-  faPlus,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+  faSquarePlus,
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AddAddres from "./AddAddres";
-import { AuthContext } from "../context/loginContext";
+import { Card, Drawer, Flex, Grid } from "antd";
+import React, { useContext, useState } from "react";
 import { deleteAddress, getLoginUser } from "../helper/helper";
-const SelectAddressDrawer = ({
-  open,
-  onClose,
-  showChildrenDrawer,
-  setUserAddress,
-}) => {
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import AddAddres from "./AddAddres";
+
+const Address = () => {
+  const navigator = useNavigate();
   const [user, setUser] = useState(getLoginUser().user);
+  const [childrenDrawer, setChildrenDrawer] = useState({
+    isOpen: false,
+    editId: false,
+    id: null,
+  });
+  const showChildrenDrawer = (isEdit = false, id = null) => {
+    setChildrenDrawer({
+      isOpen: true,
+      isEdit,
+      id,
+    });
+  };
+  const onChildrenDrawerClose = () => {
+    setChildrenDrawer({
+      isOpen: false,
+      editId: false,
+      id: null,
+    });
+  };
   return (
-    <>
-      <Drawer
-        title="Select Address"
-        width={520}
-        closable={true}
-        onClose={onClose}
-        open={open}
-      >
-        <Button
+    <div>
+      <h1>Address</h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+        <Card
+          className="flex items-center justify-center text-center   w-full"
+          hoverable
           onClick={() => {
             showChildrenDrawer();
           }}
         >
-          <FontAwesomeIcon icon={faPlus} /> Add new Address
-        </Button>
-        <Divider />
-        <p>Saved Addesses</p>
+          <FontAwesomeIcon icon={faSquarePlus} className="h-5 w-5" />
+          <p className="text-xl">Add Address</p>
+        </Card>
         {user.address &&
           user.address.map(
             (
@@ -48,15 +61,7 @@ const SelectAddressDrawer = ({
               },
               index
             ) => (
-              <Card
-                key={id}
-                className="my-2"
-                hoverable
-                onClick={() => {
-                  setUserAddress(user.address[index]);
-                  onClose();
-                }}
-              >
+              <Card key={id} className="h-[150px]">
                 <div className="flex justify-between items-center">
                   <div className="flex-1">
                     {isDefault && (
@@ -64,7 +69,7 @@ const SelectAddressDrawer = ({
                     )}
                     <p>{addressType}</p>
                     <p>{name}</p>
-                    <p>{phone}</p>
+
                     <p>
                       {address} {city}
                     </p>
@@ -72,10 +77,8 @@ const SelectAddressDrawer = ({
                   <div className="flex gap-3">
                     <button
                       className="hover:opacity-50"
-                      onClick={(e) => {
-                        e.stopPropagation();
+                      onClick={() => {
                         showChildrenDrawer(true, id);
-                        setUser(getLoginUser()?.user);
                       }}
                     >
                       <FontAwesomeIcon
@@ -85,8 +88,7 @@ const SelectAddressDrawer = ({
                     </button>
                     <button
                       className="text-btnColor hover:opacity-50"
-                      onClick={(e) => {
-                        e.stopPropagation();
+                      onClick={() => {
                         deleteAddress(id);
                         setUser(getLoginUser()?.user);
                       }}
@@ -98,8 +100,24 @@ const SelectAddressDrawer = ({
               </Card>
             )
           )}
-      </Drawer>
-    </>
+      </div>
+      {childrenDrawer.isOpen && (
+        <Drawer
+          title="Address"
+          width={500}
+          closable={true}
+          onClose={onChildrenDrawerClose}
+          open={childrenDrawer.isOpen}
+        >
+          <AddAddres
+            isEdit={childrenDrawer.isEdit}
+            addressId={childrenDrawer.id}
+            onChildrenDrawerClose={onChildrenDrawerClose}
+          />
+        </Drawer>
+      )}
+    </div>
   );
 };
-export default SelectAddressDrawer;
+
+export default Address;

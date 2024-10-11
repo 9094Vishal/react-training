@@ -9,6 +9,7 @@ import {
   faTelegram,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 const aboutZomato = [
   "Who We Are",
   "Blog",
@@ -53,9 +54,9 @@ const Footer = () => {
 
   return (
     <div className="px-20 my-5 bg-white">
-      <div>
+      <Link to={"/"} className="inline-block ">
         <img src={zomato} />
-      </div>
+      </Link>
       <div className="flex justify-between items-start mt-3 flex-wrap">
         <ul>
           <li className="font-medium text-xl">About Zomato</li>
