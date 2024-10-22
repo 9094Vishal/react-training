@@ -6,7 +6,7 @@ const {
   deleteUser,
   updateUserData,
 } = require("../controllers/usersControllers");
-const joiMiddleware = require("../middleware/joiMiddleware");
+const joiMiddleware = require("../middleware/schemaValidation");
 const schema = require("../schemas/schemsa");
 const userRouter = express.Router();
 const verifyToken = require("../middleware/authMiddleware");

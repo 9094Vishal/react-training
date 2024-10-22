@@ -12,12 +12,12 @@ export const getAllUsers = () => {
 export const getUserByNumber = (phone) => {
   return getAllUsers().find((user) => user.phone == phone) || null;
 };
-export const login = () => {
+export const login = (token, user) => {
   localStorage.setItem("isLogin", true);
+  localStorage.setItem("token", token);
+  localStorage.setItem("user", JSON.stringify(user));
 };
-export const createUser = (user) => {
-  localStorage.setItem("users", JSON.stringify([...getAllUsers(), user]));
-};
+
 export const updateUser = (user) => {
   let allUsers = getAllUsers();
   allUsers = allUsers.map((item) => {
@@ -30,21 +30,7 @@ export const updateUser = (user) => {
   localStorage.setItem("users", JSON.stringify([...allUsers]));
   localStorage.setItem("user", JSON.stringify(user));
 };
-export const setLoginUser = (phone) => {
-  let user = getUserByNumber(phone);
-  if (!user) {
-    user = {
-      phone,
-    };
-  }
-  let regiData = getHotelById(phone);
 
-  if (regiData) {
-    localStorage.setItem("registrationData", JSON.stringify(regiData));
-  }
-
-  localStorage.setItem("user", JSON.stringify(user));
-};
 export const getLoginUser = () => {
   const data = {
     user: JSON.parse(localStorage.getItem("user")) || {},
