@@ -5,9 +5,15 @@ import schema from "../schemas/validationSchema.js";
 import twilioRouter from "./twilioSMS.js";
 import users from "./user.js";
 import path from "path";
+import { fileURLToPath } from "url"; // Import fileURLToPath
 import restaurantRoute from "./restaurant.js";
+
+// Set up __dirname manually
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const router = express.Router();
-const __dirname = import.meta.dirname;
+
 router.use("/public", express.static(path.join(__dirname, "../../public")));
 
 router.use("/restaurant", restaurantRoute);

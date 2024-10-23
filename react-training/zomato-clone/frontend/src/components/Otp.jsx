@@ -21,33 +21,33 @@ const OtpPopup = ({ setOtpModel, phone }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsloading(true);
-    if (!otpError) {
-      setIsloading(true);
-      const response = await api.post(`twilio/verify-otp`, { phone, otp: OTP });
-      if (response.status == 200) {
-        try {
-          const login1 = await api.post("/auth/signin", {
-            phone,
-          });
-          if (login1.status == 200) {
-            const { data, token } = login1.data;
-            console.log("user: ", data);
-            login(token, data); // needed
-            setLoginData(getLoginUser()); //needed
-            setOtpModel(false);
-          }
-        } catch (error) {
-          if (error.status == 401) {
-            setOtpError("Wrong Otp");
-            return;
-          }
-        }
-        setIsloading(false);
-      } else {
-        setOtpError("Please enter valid OTP!");
+    // if (!otpError) {
+    setIsloading(true);
+    // const response = await api.post(`twilio/verify-otp`, { phone, otp: OTP });
+    // if (response.status == 200) {
+    try {
+      const login1 = await api.post("/auth/signin", {
+        phone,
+      });
+      if (login1.status == 200) {
+        const { data, token } = login1.data;
+        console.log("user: ", data);
+        login(token, data); // needed
+        setLoginData(getLoginUser()); //needed
+        setOtpModel(false);
+      }
+    } catch (error) {
+      if (error.status == 401) {
+        setOtpError("Wrong Otp");
         return;
       }
     }
+    setIsloading(false);
+    // } else {
+    //   setOtpError("Please enter valid OTP!");
+    //   return;
+    // }
+    // }
   };
   //   validation otp fields
   const validate = () => {

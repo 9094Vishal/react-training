@@ -21,18 +21,18 @@ const Login = ({ setLoginModel, setOtpModel, otp, phone, setPhone }) => {
 
     otp(sendOtp());
     setIsloading(true);
-    const response = await api.post(`/twilio/send-otp`, { phone });
-    console.log("response: ", response);
+    // const response = await api.post(`/twilio/send-otp`, { phone });
+    // console.log("response: ", response);
 
-    if (response.status == 200) {
-      makeToast("success", "OTP sent to your phone number");
-      setLoginModel(false);
-      setOtpModel(true);
-      setIsloading(false);
-    } else if (response.status >= 400 && response.status <= 499) {
-      setIsloading(false);
-      makeToast("error", "Something went wrong!");
-    }
+    // if (response.status == 200) {
+    makeToast("success", "OTP sent to your phone number");
+    setLoginModel(false);
+    setOtpModel(true);
+    setIsloading(false);
+    // } else if (response.status >= 400 && response.status <= 499) {
+    //   setIsloading(false);
+    //   makeToast("error", "Something went wrong!");
+    // }
   };
   const isValid = (value, country) => {
     if (value == "") {
