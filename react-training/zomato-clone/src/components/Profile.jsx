@@ -4,16 +4,49 @@ import { Link } from "react-router-dom";
 import Login from "./Login";
 import OtpPopup from "./Otp";
 import { AuthContext } from "../context/loginContext";
-import { getLoginUser, logOut } from "../helper/helper";
+import { logOut } from "../helper/helper";
 import { Dropdown, Modal, Space } from "antd";
 
 const Profile = () => {
+  const [openMenu, setOpenMenu] = useState(false);
   const [loginModel, setLoginModel] = useState(false);
   const [otpModel, setOtpModel] = useState(false);
   const [phone, setPhone] = useState(null);
   const [userOtp, setUserOtp] = useState("");
   const { user, isLogin, setLoginData } = useContext(AuthContext);
 
+  useEffect(() => {
+    // Clicking outside of an open dropdown menu closes it
+    window.addEventListener("click", function (e) {
+      if (!e.target.matches(".dropdown-toggle")) {
+        document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+          if (!menu.contains(e.target)) {
+            setOpenMenu(false);
+          }
+        });
+      }
+    });
+
+    // Mobile menu toggle
+
+    const mobileMenuButton = document.querySelector(".mobile-menu-button");
+    const mobileMenu = document.querySelector(".navigation-menu");
+
+    mobileMenuButton.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+    return () => {
+      window.removeEventListener("click", function (e) {
+        if (!e.target.matches(".dropdown-toggle")) {
+          document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+            if (!menu.contains(e.target)) {
+              setOpenMenu(false);
+            }
+          });
+        }
+      });
+    };
+  }, []);
   const items = [
     {
       label: <Link to="/profile">Profile</Link>,
@@ -30,19 +63,6 @@ const Profile = () => {
     {
       label: <Link to="/profile">Reviews</Link>,
       key: "4",
-    },
-    {
-      label: (
-        <div
-          onClick={() => {
-            logOut();
-            setLoginData(getLoginUser());
-          }}
-        >
-          Log out
-        </div>
-      ),
-      key: "5",
     },
   ];
 
@@ -88,7 +108,7 @@ const Profile = () => {
             >
               <button
                 type="button"
-                className="py-2 px-3  flex items-center gap-2 rounded"
+                className="dropdown-toggle py-2 px-3  flex items-center gap-2 rounded"
               >
                 <span className="pointer-events-none select-none flex items-center gap-1">
                   <div className="relative h-12 w-12 rounded-full">

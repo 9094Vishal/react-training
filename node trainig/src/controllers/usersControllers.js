@@ -28,9 +28,10 @@ const addNewUser = (req, res) => {
     res.status(201).json({
       data: newUser,
     });
-  } catch (error) {
-    console.log("error", error);
-  }
+  } catch (error) {}
+
+  //    validate json here
+  //   if validate create and if not validate give 400
 };
 
 function deleteUser(req, res) {

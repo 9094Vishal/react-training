@@ -24,9 +24,6 @@ import Profile from "./pages/Profile";
 import AddAddres from "./components/AddAddres";
 import Notification from "./pages/Notification";
 import Orders from "./pages/Orders";
-import toast, { Toaster } from "react-hot-toast";
-import { ToastContext } from "./context/ToastContext";
-import UploadImage from "./components/UploadImage";
 
 function App() {
   const [isLogin, setIsLogin] = useState(getLoginUser());
@@ -121,13 +118,6 @@ function App() {
     setIsLogin(data);
   };
 
-  const makeToast = (type = null, messages) => {
-    type != null
-      ? toast[type](messages)
-      : toast(messages, {
-          duration: 40000,
-        });
-  };
   return (
     <AuthContext.Provider value={{ ...isLogin, setLoginData }}>
       <CartContext.Provider
@@ -140,61 +130,34 @@ function App() {
           getTotalofCart,
         }}
       >
-        <ToastContext.Provider value={{ makeToast }}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="/:city" element={<SearchFoodPage />} />
-              <Route path="/restaurant" element={<RestaurantInfo />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/temp" element={<UploadImage />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/notification" element={<Notification />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/partner-with-us" element={<PartnerWithUs />} />
-              <Route
-                path="/partner-with-us/new"
-                element={<RestaurantResto />}
-              ></Route>
-              <Route
-                path="/partner-with-us/new/add/"
-                element={<AddNewRestaurant />}
-              />
-              <Route
-                path="/partner-with-us/new/edit/"
-                element={<AddNewRestaurant />}
-              />
-              <Route path="/partner-with-us/view" element={<ViewHotel />} />
-              <Route path="/orders/request" element={<ViewRequestPage />} />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/:city" element={<SearchFoodPage />} />
+            <Route path="/restaurant" element={<RestaurantInfo />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/notification" element={<Notification />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/partner-with-us" element={<PartnerWithUs />} />
+            <Route
+              path="/partner-with-us/new"
+              element={<RestaurantResto />}
+            ></Route>
+            <Route
+              path="/partner-with-us/new/add/"
+              element={<AddNewRestaurant />}
+            />
+            <Route
+              path="/partner-with-us/new/edit/"
+              element={<AddNewRestaurant />}
+            />
+            <Route path="/partner-with-us/view" element={<ViewHotel />} />
+            <Route path="/orders/request" element={<ViewRequestPage />} />
 
-              <Route path="*" element={<NoPage />} />
-            </Route>
-          </Routes>
-          <Toaster
-            position="top-center"
-            reverseOrder={false}
-            gutter={8}
-            toastOptions={{
-              style: {
-                border: "1px solid #713200",
-                padding: "10px",
-                color: "#713200",
-              },
-              success: {
-                style: {
-                  borderColor: "green",
-                  color: "green",
-                },
-              },
-              error: {
-                style: {
-                  borderColor: "red",
-                  color: "red",
-                },
-              },
-            }}
-          />
-        </ToastContext.Provider>
+            <Route path="*" element={<NoPage />} />
+          </Route>
+        </Routes>
       </CartContext.Provider>
     </AuthContext.Provider>
   );

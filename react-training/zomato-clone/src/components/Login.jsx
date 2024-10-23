@@ -1,34 +1,19 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import startsWith from "lodash.startswith";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { sendOtp } from "../helper/helper";
-import axios from "axios";
-import api from "../api/Axios";
-import { Spin } from "antd";
-import toast from "react-hot-toast";
-import { ToastContext } from "../context/ToastContext";
+
 const Login = ({ setLoginModel, setOtpModel, otp, phone, setPhone }) => {
   const [phoneError, setPhoneError] = useState(null);
-  const [isLoading, setIsloading] = useState(false);
-  const { makeToast } = useContext(ToastContext);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
     otp(sendOtp());
-    setIsloading(true);
-    const response = await api.post(`/twilio/send-otp`, { phone });
-    console.log("response: ", response);
-    if (response.status == 200) {
-      makeToast("success", "OTP sent to your phone number");
-      setLoginModel(false);
-      setOtpModel(true);
-      setIsloading(false);
-    }
+    setLoginModel(false);
+    setOtpModel(true);
   };
   const isValid = (value, country) => {
     if (value == "") {
@@ -88,7 +73,7 @@ const Login = ({ setLoginModel, setOtpModel, otp, phone, setPhone }) => {
                 phoneError && "cursor-not-allowed"
               } rounded-md`}
             >
-              Get Otp {isLoading && <Spin />}
+              Get Otp
             </button>
           </form>
         </div>

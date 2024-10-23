@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
-// const User = require("../models/useModel");
+const User = require("../models/useModel");
 const jwt = require("jsonwebtoken");
 
 router.post("/signup", async (req, res) => {
-  // try {
-  //   const { username, password } = req.body;
-  //   const user = new User({ username, password });
-  //   // await user.save();
-  //   res.status(201).json({ message: "user Added!" });
-  // } catch (error) {
-  //   console.log("error: ", error);
-  //   res.status(500).json({ error: "server error" });
-  // }
+  try {
+    const { username, password } = req.body;
+    const user = new User({ username, password });
+    // await user.save();
+    res.status(201).json({ message: "user Added!" });
+  } catch (error) {
+    console.log("error: ", error);
+    res.status(500).json({ error: "server error" });
+  }
 });
 
 router.post("/login", async (req, res) => {
