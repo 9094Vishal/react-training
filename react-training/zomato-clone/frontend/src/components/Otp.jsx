@@ -1,43 +1,52 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useMemo, useState } from "react";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import { Spin } from "antd";
 import OTPInput, { ResendOTP } from "otp-input-react";
-import {
-  createUser,
-  getLoginUser,
-  getUserByNumber,
-  login,
-  sendOtp,
-  setLoginUser,
-} from "../helper/helper";
+import React, { useContext, useMemo, useState } from "react";
+import "react-phone-input-2/lib/style.css";
+import api from "../api/Axios";
 import { AuthContext } from "../context/loginContext";
+import { ToastContext } from "../context/ToastContext";
+import { getLoginUser, login } from "../helper/helper";
 
-const OtpPopup = ({ setOtpModel, otp, phone }) => {
-  let userOtp = useMemo(() => otp, [otp]);
+const OtpPopup = ({ setOtpModel, phone }) => {
   const { setLoginData } = useContext(AuthContext);
+  const [isLoading, setIsloading] = useState(false);
+  const { makeToast } = useContext(ToastContext);
 
   const [otpError, setOtpError] = useState(null);
   const [OTP, setOTP] = useState("");
 
   //   this will handel login and signup with otp
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsloading(true);
     if (!otpError) {
-      if (OTP != userOtp) {
-        setOtpError("Wrong Otp");
+      setIsloading(true);
+      const response = await api.post(`twilio/verify-otp`, { phone, otp: OTP });
+      if (response.status == 200) {
+        try {
+          const login1 = await api.post("/auth/signin", {
+            phone,
+          });
+          if (login1.status == 200) {
+            const { data, token } = login1.data;
+            console.log("user: ", data);
+            login(token, data); // needed
+            setLoginData(getLoginUser()); //needed
+            setOtpModel(false);
+          }
+        } catch (error) {
+          if (error.status == 401) {
+            setOtpError("Wrong Otp");
+            return;
+          }
+        }
+        setIsloading(false);
+      } else {
+        setOtpError("Please enter valid OTP!");
         return;
       }
-      const user = getUserByNumber(phone);
-      if (!user) {
-        createUser({ phone: phone });
-      }
-      login();
-      setLoginData(getLoginUser());
-      setLoginUser(phone);
-      setOtpModel(false);
     }
   };
   //   validation otp fields
@@ -73,6 +82,8 @@ const OtpPopup = ({ setOtpModel, otp, phone }) => {
                 autoFocus
                 OTPLength={6}
                 otpType="number"
+                isInputNum={true}
+                shouldAutoFocus={true}
                 disabled={false}
                 inputStyles={{
                   border: `1px solid ${otpError ? "red" : "black"}`,
@@ -83,7 +94,19 @@ const OtpPopup = ({ setOtpModel, otp, phone }) => {
               {otpError && (
                 <div className="text-start text-btnColor">{otpError}</div>
               )}
-              <ResendOTP onResendClick={() => (userOtp = sendOtp())} />
+              <ResendOTP
+                onResendClick={async () => {
+                  setIsloading(true);
+                  setOTP("");
+                  const response = await api.post(`/twilio/send-otp`, {
+                    phone,
+                  });
+                  if (response.status == 200) {
+                    makeToast("success", "OTP sent to your phone number");
+                    setIsloading(false);
+                  }
+                }}
+              />
             </div>
             <button
               type="submit"
@@ -91,7 +114,7 @@ const OtpPopup = ({ setOtpModel, otp, phone }) => {
                 otpError && "cursor-not-allowed"
               } rounded-md`}
             >
-              Submit
+              Submit {isLoading && <Spin />}
             </button>
           </form>
         </div>

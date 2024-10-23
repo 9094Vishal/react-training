@@ -32,3 +32,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .ant-card-body {
   padding: 0 !important;
 }
+.ant-spin-dot-item {
+  background-color: white !important;
+}

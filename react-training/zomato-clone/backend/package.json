@@ -1,8 +1,9 @@
 {
-  "name": "node-trainig",
+  "name": "zomato",
   "version": "1.0.0",
-  "description": "Node trainig in MI inhouse ",
-  "main": "index.js",
+  "description": "This is zomato backend project where you can register user, register hotels, view hotels, and order foods",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,7 +16,9 @@
     "express": "^4.21.1",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.7.1",
-    "multer": "^1.4.5-lts.1"
+    "mongoose": "^8.7.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.7",
+    "twilio": "^5.3.4"
   }
 }
