@@ -1,22 +1,43 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProfileHeader from "./ProfileHeader";
 import { Button, Form, Input } from "antd";
 import { AuthContext } from "../context/loginContext";
-import { EditUserProfile, getLoginUser } from "../helper/helper";
+import { EditUserProfile, getLoginUser, updateUser } from "../helper/helper";
+import UploadImage from "./UploadImage";
+import api from "../api/Axios";
+import { ToastContext } from "../context/ToastContext";
 
 const EditProfile = ({ handleCancel }) => {
   const { user, setLoginData } = useContext(AuthContext);
-
+  const [selectedImage, setSelectedImage] = useState(null);
+  const { makeToast } = useContext(ToastContext);
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-    EditUserProfile(user.phone, values);
-    handleCancel();
-    setLoginData(getLoginUser());
+  const onFinish = async (values) => {
+    if (selectedImage) {
+      console.log("file", selectedImage);
+      try {
+        const fileData = new FormData();
+        fileData.append("profile", selectedImage);
+        const response = await api.put(`/user/profile/${user._id}`, fileData);
+        values.image = response.data.image;
+      } catch (error) {
+        makeToast("error", "Image upload fail!");
+      }
+    }
+    const response = await api.put(`/user/${user._id}`, values);
+    if (response.status === 200) {
+      const { data } = response;
+      updateUser(data.data);
+      handleCancel();
+      setLoginData(getLoginUser());
+      makeToast("success", "Profile Updated.");
+    } else {
+      makeToast("error", "Something went wrong!");
+    }
   };
   useEffect(() => {
-    if (user.profileData) {
-      const data = user.profileData;
+    if (user.name) {
+      const data = user;
 
       form.setFieldsValue({
         ...data,
@@ -69,18 +90,12 @@ const EditProfile = ({ handleCancel }) => {
       }}
       scrollToFirstError
     >
-      <Form.Item
-        name="image"
-        label="Image Url"
-        rules={[
-          {
-            required: true,
-            message: "Please input your Image!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+      <UploadImage
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
+        image={user?.image || null}
+      />
+
       <Form.Item
         name="name"
         label="Name"

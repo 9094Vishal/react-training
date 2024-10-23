@@ -33,6 +33,7 @@ const schema = {
     .object()
     .keys({
       name: joi.string().min(2).max(20).required(),
+      image: joi.string(),
       phone: joi
         .string()
         .pattern(/[0-9]{12}/)
@@ -40,6 +41,66 @@ const schema = {
         .length(12),
       isReastaurant: joi.boolean(),
       city: joi.string().required(),
+    })
+    .options({
+      abortEarly: false,
+    }),
+  reastaurantSchema: joi
+    .object()
+    .keys({
+      restaurantAddressDetails: joi
+        .object()
+        .keys({
+          area: joi.string().required(),
+          city: joi.string().required(),
+          landmark: joi.string().empty(""),
+          shop: joi.string().required(),
+        })
+        .required(),
+      ownerId: joi.string().required(),
+      restaurantName: joi.string().required(),
+      timing: joi
+        .array()
+        .items(
+          joi
+            .object()
+            .keys({
+              startTime: joi.string().required(),
+              endTime: joi.string().required(),
+            })
+            .required()
+        )
+        .required(),
+      ownerDetails: joi
+        .object()
+        .keys({
+          email: joi.string().empty(""),
+          fullName: joi.string().required(),
+          phone: joi.string().required(),
+        })
+        .required(),
+      menuItem: joi
+        .array()
+        .items(
+          joi
+            .object()
+            .keys({
+              description: joi.string().required(),
+              foodCategory: joi.string().required(),
+              id: joi.string().required(),
+              image: joi.string().required(),
+              isActive: joi.boolean(),
+              price: joi.number().required(),
+              title: joi.string().required(),
+            })
+            .required()
+        )
+        .required(),
+      documents: joi.object().keys({
+        panNo: joi.string().required(),
+        restaurantImage: joi.string().required(),
+        GSTNo: joi.string().required(),
+      }),
     })
     .options({
       abortEarly: false,

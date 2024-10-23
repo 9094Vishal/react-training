@@ -14,7 +14,6 @@ const client = new Twilio(
 
 export const sendOTP = async (req, res, next) => {
   const { phone } = req.body;
-  console.log("phone : ", phone);
   try {
     const otpResponse = await client.verify.v2
       .services(TWILIO_SERVICE_SID)
@@ -26,9 +25,10 @@ export const sendOTP = async (req, res, next) => {
       .status(200)
       .send(`OTP send successfully!, ${JSON.stringify(otpResponse)}`);
   } catch (error) {
+    console.log("error: ", error);
     res
       .status(error?.status || 400)
-      .send(error?.message || "Something went wrong!");
+      .json({ error: error?.message || "Something went wrong!" });
   }
 };
 

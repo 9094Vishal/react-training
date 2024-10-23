@@ -36,13 +36,11 @@ const ProfileHeader = ({ isShow = true }) => {
       <Flex gap={5} align="center" className="mx-4">
         <div className="h-20 w-20 border-4 border-white rounded-full">
           <Image
-            src={user.profileData ? user.profileData.image : userImg}
+            src={user.image ? user.image : userImg}
             className="h-full w-full !rounded-full"
           />
         </div>
-        <div className="uppercase">
-          {user.profileData ? user.profileData.name : "User"}
-        </div>
+        <div className="uppercase">{user.name ? user.name : "User"}</div>
       </Flex>
 
       <Flex justify="center" align="center" vertical className="mr-4">

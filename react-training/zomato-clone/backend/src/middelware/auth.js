@@ -9,8 +9,7 @@ const verifytoken = (req, res, next) => {
   }
   try {
     const decode = jwt.verify(token, "zomato");
-    req.id = decode._id;
-    console.log(" req._id: ", req._id);
+    // req.id = decode._id;
     next();
   } catch (error) {
     res

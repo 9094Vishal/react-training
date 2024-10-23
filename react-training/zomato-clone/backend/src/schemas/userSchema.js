@@ -14,6 +14,8 @@ const userSchema = new mongoose.Schema({
       default: { type: Boolean, default: false },
       name: String,
       phone: String,
+      state: String,
+      pin: String,
     },
   ],
 });

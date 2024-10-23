@@ -3,7 +3,59 @@ import Users from "../schemas/userSchema.js";
 import verifytoken from "../middelware/auth.js";
 import validateData from "../middelware/validate.js";
 import schema from "../schemas/validationSchema.js";
+import path from "path";
+import multer from "multer";
 const router = express.Router();
+const __dirname = import.meta.dirname;
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const ext = file.mimetype.split("/")[0];
+    const imagePath = path.join(__dirname, "../../public/images");
+    if (ext === "image") {
+      cb(null, imagePath);
+    }
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: 100000,
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb);
+  },
+}).single("profile");
+
+// check file type
+const checkFileType = (file, cb) => {
+  const filetypes = /jpeg|jpg|png/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb("Error: Images only! (jpeg, jpg, or png)");
+  }
+};
+
+router.put("/profile/:id", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.status(500).json({ error: err });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: "Please send image!" });
+    }
+    const uploadedFile = req.file.filename;
+    res.status(201).json({
+      message: "Image uploaded",
+      image: `http://localhost:3000/public/images/${uploadedFile}`,
+    });
+  });
+});
 
 router.get("/", async (req, res) => {
   try {
@@ -95,6 +147,7 @@ router.put(
 router.delete("/:id/:addressId", verifytoken, async (req, res) => {
   const id = req.params.id;
   const addressId = req.params.addressId;
+  console.log("addressId: ", addressId);
 
   try {
     const response = await Users.findById(id);

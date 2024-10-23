@@ -1,12 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
 import { Button, Checkbox, Form, Input, Select } from "antd";
-import {
-  AddUserAddress,
-  getLoginUser,
-  getUserAddressById,
-} from "../helper/helper";
-import { v4 as uuidv4 } from "uuid";
+import React, { useContext, useEffect } from "react";
+import api from "../api/Axios";
 import { AuthContext } from "../context/loginContext";
+import { ToastContext } from "../context/ToastContext";
+import { getLoginUser, getUserAddressById, updateUser } from "../helper/helper";
 const { Option } = Select;
 
 const formItemLayout = {
@@ -45,15 +42,27 @@ const AddAddres = ({
   onChildrenDrawerClose,
 }) => {
   const [form] = Form.useForm();
-  const { setLoginData } = useContext(AuthContext);
-  const onFinish = (values) => {
+  const { user, setLoginData } = useContext(AuthContext);
+
+  const { makeToast } = useContext(ToastContext);
+
+  const onFinish = async (values) => {
     console.log("Received values of form: ", values);
-    if (isEdit && addressId) {
-      AddUserAddress({ ...values, id: addressId });
-    } else AddUserAddress({ ...values, id: uuidv4() });
-    onChildrenDrawerClose();
-    setLoginData(getLoginUser());
+    const response = await api.put(`/user/address/${user._id}`, {
+      address: isEdit && addressId ? { ...values, id: addressId } : values,
+    });
+    if (response?.status === 200) {
+      const { data } = response.data;
+      console.log("data: ", data);
+      makeToast("success", "Address added successful!");
+      updateUser(data);
+      onChildrenDrawerClose();
+      setLoginData(getLoginUser());
+    } else {
+      makeToast("error", "Something went Wrong!");
+    }
   };
+
   useEffect(() => {
     if (isEdit && addressId) {
       const data = getUserAddressById(addressId);
@@ -146,6 +155,38 @@ const AddAddres = ({
           {
             required: true,
             message: "Please input your City!",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        name="state"
+        label="State"
+        rules={[
+          {
+            required: true,
+            message: "Please input your State!",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        name="pin"
+        label="Pin Code"
+        rules={[
+          {
+            required: true,
+            message: "Please input your Pin code!",
+          },
+          {
+            max: 6,
+            message: "Pin must be 6 digits",
+          },
+          {
+            min: 6,
+            message: "Pin must be 6 digits",
           },
         ]}
       >

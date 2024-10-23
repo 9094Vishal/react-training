@@ -49,7 +49,7 @@ const RestaurantInformation = () => {
   }, []);
   return (
     <div className="w-full">
-      <h1 className="text-3xl">Restaurant information</h1>
+      <h1 className="text-3xl mb-3">Restaurant information</h1>
 
       <Formik
         enableReinitialize={true}

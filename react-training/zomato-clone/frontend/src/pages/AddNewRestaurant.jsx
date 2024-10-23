@@ -8,7 +8,7 @@ const AddNewRestaurant = () => {
 
   return (
     <div className="bg-[#F4F6FB]  py-10  w-full ">
-      <div className="flex gap-5 w-[80%] mx-auto">
+      <div className="flex gap-5 w-[90%] mx-auto">
         <AddRestaurantContext.Provider value={{ activeId, setActiveId }}>
           <RastaurantRegistrationSideBar
             setActiveId={setActiveId}

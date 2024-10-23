@@ -18,11 +18,7 @@ const HomeHeader = () => {
         backgroundSize: "cover",
       }}
     >
-      <div className="flex justify-between items-center  px-20 py-2">
-        <a href="https://www.zomato.com/mobile" className="cursor-pointer">
-          <FontAwesomeIcon icon={faThumbsUp} />
-          &nbsp; Get the App
-        </a>
+      <div className="flex justify-end items-center  px-20 py-2">
         <ul className="flex gap-3 items-center">
           {user.isReastaurant ? (
             <>

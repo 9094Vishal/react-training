@@ -35,7 +35,7 @@ const RestaurantTiming = () => {
   });
   return (
     <div className="w-full">
-      <h1 className="text-3xl">Restaurant Menu & timing</h1>
+      <h1 className="text-3xl mb-3">Restaurant Menu & timing</h1>
       <div>
         <Formik
           enableReinitialize

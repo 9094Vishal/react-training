@@ -17,7 +17,7 @@ const getSideBarData = (activeId) => {
       icon: (
         <FontAwesomeIcon
           icon={faBellConcierge}
-          style={{ color: "#cfc22a" }}
+          style={{ color: "#FFD411" }}
           className="h-full w-full"
         />
       ),
@@ -27,21 +27,21 @@ const getSideBarData = (activeId) => {
       id: 2,
       title: "Menu",
       subTitle: "Add menu",
-      icon: <FontAwesomeIcon icon={faHotel} />,
+      icon: <FontAwesomeIcon icon={faHotel} style={{ color: "#FFD411" }} />,
       isActive: false,
     },
     {
       id: 3,
       title: "Timings",
       subTitle: "Restayrant timing",
-      icon: <FontAwesomeIcon icon={faClock} style={{ color: "#FFD43B" }} />,
+      icon: <FontAwesomeIcon icon={faClock} style={{ color: "#FFD411" }} />,
       isActive: false,
     },
     {
       id: 4,
       title: "Restaurant documents",
       subTitle: "Ducuments",
-      icon: <FontAwesomeIcon icon={faFolder} style={{ color: "#ccd63d" }} />,
+      icon: <FontAwesomeIcon icon={faFolder} style={{ color: "#FFD411" }} />,
       isActive: false,
     },
   ];
@@ -66,7 +66,7 @@ const RastaurantRegistrationSideBar = ({ activeId, setActiveId }) => {
     setActiveId(id);
   };
   return (
-    <div className=" bg-white rounded-2xl shadow w-[25%] h-fit sticky top-0">
+    <div className=" bg-white rounded-2xl shadow w-[30%] h-fit sticky top-0">
       <h1 className="p-2">Complete your registration</h1>
       <hr />
       <ul className="py-2 ">
@@ -80,9 +80,7 @@ const RastaurantRegistrationSideBar = ({ activeId, setActiveId }) => {
               <span className="absolute left-0 h-10 w-[3px] bg-blue-700 rounded-r"></span>
               <div className="relative flex flex-col items-center">
                 <span
-                  className={`h-10  w-10 p-2 rounded-full bg-[#F4F6FB] text-center ${
-                    isActive ? "grayscale-0" : " grayscale"
-                  } border-gray-500 border-2`}
+                  className={`h-10  w-10 p-2 rounded-full bg-[#F4F6FB] text-center  border-gray-500 border-2`}
                 >
                   {icon}
                 </span>
@@ -90,7 +88,7 @@ const RastaurantRegistrationSideBar = ({ activeId, setActiveId }) => {
               </div>
               <div>
                 <p>{title}</p>
-                <p>{subTitle}</p>
+                <p className="text-gray-400 text-sm ">{subTitle}</p>
                 {isActive && (
                   <p className={`text-sm text-blue-500`}>
                     Continue <FontAwesomeIcon icon={faCaretRight} />

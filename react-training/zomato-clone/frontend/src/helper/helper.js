@@ -13,21 +13,13 @@ export const getUserByNumber = (phone) => {
   return getAllUsers().find((user) => user.phone == phone) || null;
 };
 export const login = (token, user) => {
+  console.log(token);
   localStorage.setItem("isLogin", true);
   localStorage.setItem("token", token);
   localStorage.setItem("user", JSON.stringify(user));
 };
 
 export const updateUser = (user) => {
-  let allUsers = getAllUsers();
-  allUsers = allUsers.map((item) => {
-    if (item.phone == user.phone) {
-      return user;
-    } else {
-      return item;
-    }
-  });
-  localStorage.setItem("users", JSON.stringify([...allUsers]));
   localStorage.setItem("user", JSON.stringify(user));
 };
 
@@ -199,30 +191,6 @@ export const address = (data) => {
   );
 };
 
-export const AddUserAddress = (address) => {
-  const { user } = getLoginUser();
-
-  if (user.address) {
-    const index = user.address.findIndex((i) => i.id == address.id);
-    if (address.default) {
-      user.address = user.address.map((item) => {
-        item.default = false;
-        return item;
-      });
-    }
-
-    if (index > -1) {
-      user.address[index] = address;
-    } else {
-      user.address = [...user.address, address];
-    }
-  } else {
-    user.address = [address];
-  }
-
-  updateUser(user);
-};
-
 export const getDefaultAddress = () => {
   const { user } = getLoginUser();
   if (user.address) {
@@ -233,25 +201,26 @@ export const getDefaultAddress = () => {
 };
 export const getUserAddressById = (id) => {
   const { user } = getLoginUser();
+  console.log("id: ", id);
+  console.log("user: ", user);
+
   if (user.address) {
-    return user.address.find((item) => item.id == id);
+    return user.address.find((item) => item._id == id);
   } else {
     return null;
   }
 };
 export const deleteAddress = (id) => {
+  console.log("id: ", id);
   const { user } = getLoginUser();
 
   if (user.address) {
-    user.address = user.address.filter((i) => i.id != id);
+    user.address = user.address.filter((i) => i._id != id);
   }
-
-  updateUser(user);
+  console.log(user);
+  // updateUser(user);
 };
 
 export const EditUserProfile = (id, data) => {
-  const { user } = getLoginUser();
-  user.profileData = data;
-
   updateUser(user);
 };

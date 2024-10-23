@@ -8,10 +8,16 @@ import CartDropDown from "./CartDropDown";
 const Layout = () => {
   const { user } = useContext(AuthContext);
   const route = useLocation();
-  console.log("route: ");
+  let showNav = true;
+
+  // all list of paths where you don't want nav bar
+  const paths = ["/", "/partner-with-us", "/partner-with-us/new"];
+  if (paths.includes(route.pathname)) {
+    showNav = false;
+  }
   return (
     <>
-      {route.pathname != "/" && <MainHeader />}
+      {showNav && <MainHeader />}
       <Outlet />
       {user.cart && user.cart.length != 0 && <CartDropDown />}
       <Footer />

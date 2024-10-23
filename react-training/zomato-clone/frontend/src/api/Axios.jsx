@@ -9,14 +9,16 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    //import token from local storage
     let token = localStorage.getItem("token") || "";
-    //configuring header
-    config.headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`, //based on your project requirement
-    };
+
+    // Only set Content-Type to application/json if not sending FormData
+    if (!(config.data instanceof FormData)) {
+      config.headers["Content-Type"] = "application/json";
+    }
+
+    // Always set Accept and Authorization headers
+    config.headers.Accept = "application/json";
+    config.headers.Authorization = `${token}`; // Based on your project requirement
 
     return config;
   },
@@ -27,6 +29,9 @@ instance.interceptors.response.use(
   (response) => {
     //success status
     if (response.status === 200) {
+      return response;
+    }
+    if (response.status === 201) {
       return response;
     }
     //error status
@@ -44,7 +49,8 @@ instance.interceptors.response.use(
   (error) => {
     //unauthorised error
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem("token");
+      console.log("user not verify");
+      // localStorage.removeItem("token");
     }
     //internal server error
     else if (error.response && error.response.status === 500) {

@@ -30,7 +30,7 @@ const Documents = () => {
     /\d{2}[A-Za-z]{5}\d{4}[A-Z]{1}[A-Za-z\d]{1}[Z]{1}[A-Za-z\d]{1}/;
   return (
     <div className="w-full">
-      <h1 className="text-3xl">Restaurant Documents</h1>
+      <h1 className="text-3xl mb-3">Restaurant Documents</h1>
       <Formik
         enableReinitialize
         initialValues={initialValues}

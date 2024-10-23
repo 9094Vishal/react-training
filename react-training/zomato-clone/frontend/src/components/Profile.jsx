@@ -93,12 +93,12 @@ const Profile = () => {
                 <span className="pointer-events-none select-none flex items-center gap-1">
                   <div className="relative h-12 w-12 rounded-full">
                     <img
-                      src={user.profileData ? user.profileData.image : userImg}
+                      src={user.image ? user.image : userImg}
                       className="w-full h-full rounded-full"
                     />
                   </div>
                   <p className="max-w-[8ch] whitespace-nowrap  text-ellipsis overflow-hidden">
-                    {user.profileData ? user.profileData.name : "User"}
+                    {user.name ? user.name : "User"}
                   </p>
                 </span>
                 <svg

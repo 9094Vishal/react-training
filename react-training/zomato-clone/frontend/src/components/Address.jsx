@@ -2,17 +2,26 @@ import {
   faPenToSquare,
   faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, Drawer, Flex, Grid } from "antd";
-import React, { useContext, useState } from "react";
-import { deleteAddress, getLoginUser } from "../helper/helper";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Card, Drawer } from "antd";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../context/loginContext";
+import { deleteAddress, getLoginUser, updateUser } from "../helper/helper";
 import AddAddres from "./AddAddres";
+import PopUpModel from "./PopUpModel";
+
+import api from "../api/Axios";
+import { ToastContext } from "../context/ToastContext";
 
 const Address = () => {
-  const navigator = useNavigate();
-  const [user, setUser] = useState(getLoginUser().user);
+  const { user, setLoginData } = useContext(AuthContext);
+  const [openSuccesModel, setOpenSuccessModel] = useState({
+    isOpen: false,
+    id: null,
+  });
+
+  const { makeToast } = useContext(ToastContext);
   const [childrenDrawer, setChildrenDrawer] = useState({
     isOpen: false,
     editId: false,
@@ -32,6 +41,25 @@ const Address = () => {
       id: null,
     });
   };
+
+  const handleDelete = async (id) => {
+    console.log("id: ", id);
+    // deleteAddress(id);
+    try {
+      const response = await api.delete(`user/${user._id}/${id}`);
+      if (response.status === 200) {
+        const { data } = response.data;
+        makeToast("success", "Address deleted!");
+        setOpenSuccessModel({
+          isOpen: false,
+          id: null,
+        });
+        updateUser(data);
+        setLoginData(getLoginUser());
+      }
+    } catch (error) {}
+  };
+
   return (
     <div>
       <h1>Address</h1>
@@ -50,19 +78,11 @@ const Address = () => {
         {user.address &&
           user.address.map(
             (
-              {
-                id,
-                name,
-                default: isDefault,
-                phone,
-                address,
-                city,
-                addressType,
-              },
+              { _id, name, default: isDefault, address, city, addressType },
               index
             ) => (
-              <Card key={id} className="h-[150px]">
-                <div className="flex justify-between items-center">
+              <div key={index} className="h-[150px] p-3 border  rounded-md">
+                <div className="flex justify-between  h-full">
                   <div className="flex-1">
                     {isDefault && (
                       <p className="text-btnColor">Default Address</p>
@@ -74,11 +94,11 @@ const Address = () => {
                       {address} {city}
                     </p>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 items-center justify-center h-full">
                     <button
                       className="hover:opacity-50"
                       onClick={() => {
-                        showChildrenDrawer(true, id);
+                        showChildrenDrawer(true, _id);
                       }}
                     >
                       <FontAwesomeIcon
@@ -88,16 +108,15 @@ const Address = () => {
                     </button>
                     <button
                       className="text-btnColor hover:opacity-50"
-                      onClick={() => {
-                        deleteAddress(id);
-                        setUser(getLoginUser()?.user);
-                      }}
+                      onClick={() =>
+                        setOpenSuccessModel({ isOpen: true, id: _id })
+                      }
                     >
                       <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
                     </button>
                   </div>
                 </div>
-              </Card>
+              </div>
             )
           )}
       </div>
@@ -115,6 +134,15 @@ const Address = () => {
             onChildrenDrawerClose={onChildrenDrawerClose}
           />
         </Drawer>
+      )}
+      {openSuccesModel.isOpen && (
+        <PopUpModel
+          msg={"Are you sure you want to delete?"}
+          setModel={setOpenSuccessModel}
+          title={"Delete!"}
+          type={"error"}
+          onConfirm={() => handleDelete(openSuccesModel.id)}
+        />
       )}
     </div>
   );
