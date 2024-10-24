@@ -1,25 +1,29 @@
-import { v4 as uuidv4 } from "uuid";
-import { ErrorMessage, Field, FieldArray, Form, Formik, insert } from "formik";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Flex, Image } from "antd";
+import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import * as Yup from "yup";
 import { AddRestaurantContext } from "../context/AddRestaurantContext";
 import { getRegistratonData } from "../helper/helper";
-import { Flex, Image, Switch } from "antd";
-import UploadImage from "./UploadImage";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ToastContext } from "../context/ToastContext";
+import api from "../api/Axios";
+import { AuthContext } from "../context/loginContext";
 
 const MenuAndTime = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreviews, setImagePreviews] = useState({});
+  const { makeToast } = useContext(ToastContext);
+  const { user } = useContext(AuthContext);
   const [initialValues, setInitialValue] = useState({
     menuItem: [
       {
-        images: "",
+        image: "",
         foodCategory: "",
         title: "",
         isActive: true,
+        id: uuidv4(),
         price: "",
-        image: "",
         description: "",
       },
     ],
@@ -39,42 +43,30 @@ const MenuAndTime = () => {
     panjabi: "2",
     chiniess: "3",
   };
-  const MAX_FILE_SIZE = 102400; //100KB
 
   const { setActiveId } = useContext(AddRestaurantContext);
   const formSchema = Yup.object().shape({
     menuItem: Yup.array().of(
       Yup.object().shape({
-        images: Yup.mixed()
-          .required("Food image is required")
-          .test("fileFormat", "Only PDF files are allowed", (value) => {
-            if (value) {
-              const supportedFormats = [
-                "jpg",
-                "gif",
-                "png",
-                "jpeg",
-                "svg",
-                "webp",
-              ];
-              return supportedFormats.includes(value.name.split(".").pop());
-            }
-            return true;
-          })
-          .test("fileSize", "File size must not be more than 3MB", (value) => {
-            if (value) {
-              return value.size <= 3145728;
-            }
-            return true;
-          }),
+        image: Yup.mixed().required("Food image is required"),
         foodCategory: Yup.string().required("This field is required"),
         title: Yup.string().required("This field is required"),
         description: Yup.string().required("This field is required"),
         price: Yup.string().required("This field is required"),
-        image: Yup.string().required("This field is required"),
       })
     ),
   });
+  const handleImageUpload = (event, index, setFieldValue) => {
+    const file = event.target.files[0];
+    if (file) {
+      setFieldValue(`menuItem.${index}.image`, file);
+      setImagePreviews((prevState) => ({
+        ...prevState,
+        [index]: URL.createObjectURL(file),
+      }));
+    }
+  };
+
   return (
     <div className="w-full">
       <h1 className="text-3xl mb-3">Restaurant Menu </h1>
@@ -85,21 +77,27 @@ const MenuAndTime = () => {
           onSubmit={(values) => {
             console.log("values: ", values);
 
-            // let regiData = getRegistratonData();
-            // let data = { ...values };
-            // localStorage.setItem("complatedTap", 2);
-            // if (regiData?.menuItem) {
-            //   regiData = {
-            //     ...regiData,
-            //     menuItem: [...data.menuItem],
-            //   };
-            // } else regiData = { ...regiData, ...data };
+            let regiData = getRegistratonData();
+            let data = { ...values };
+            localStorage.setItem("complatedTap", 2);
+            if (regiData?.menuItem) {
+              regiData = {
+                ...regiData,
+                menuItem: [...data.menuItem],
+              };
+            } else regiData = { ...regiData, ...data };
+            regiData.menuItem = regiData.menuItem.map((item) => {
+              item.image = JSON.stringify(item.image);
+              console.log("item.image: ", item.image);
+              return item;
+            });
+            console.log("regiData: ", regiData);
             // localStorage.setItem("registrationData", JSON.stringify(regiData));
             // setActiveId(3);
           }}
           validationSchema={formSchema}
         >
-          {({ values, setFieldValue }) => (
+          {({ values, setFieldValue, validateForm }) => (
             <Form>
               <FieldArray name="menuItem">
                 {({ insert, remove, push }) => (
@@ -114,7 +112,7 @@ const MenuAndTime = () => {
                             {" "}
                             <div className="flex gap-5 items-center">
                               <label
-                                htmlFor={`doc`}
+                                htmlFor={`menuItem.${index}.image`}
                                 className="flex items-center flex-col p-4 gap-3 rounded-3xl border border-gray-300 border-dashed bg-gray-50 cursor-pointer w-52 h-28 justify-center"
                               >
                                 <FontAwesomeIcon icon={faPlus} />
@@ -125,48 +123,38 @@ const MenuAndTime = () => {
                                 </div>
                                 <input
                                   type="file"
-                                  id="doc"
-                                  name={`menuItem.${index}.images`}
-                                  accept="png, jpg"
+                                  id={`menuItem.${index}.image`}
+                                  name={`menuItem.${index}.image`}
+                                  accept="image/*"
                                   // className="!hidden"
                                   hidden
                                   onChange={(event) => {
                                     console.log(values);
-                                    // setFieldValue("menuItem", {
-                                    //   menuItem: [
-                                    //     {
-                                    //       ...initialValues.menuItem,
-                                    //       [initialValues.menuItem[index]]: {
-                                    //         ...initialValues.menuItem[index],
-                                    //         images: event.target.files[0],
-                                    //       },
-                                    //     },
-                                    //   ],
-                                    // });
-                                    values.menuItem[index].images =
-                                      event.target.files[0];
-                                    console.log(event.target.files[0]); // Log the selected file
-                                    setSelectedImage(event.target.files[0]); // Update the state with the selected file
+                                    handleImageUpload(
+                                      event,
+                                      index,
+                                      setFieldValue
+                                    );
+                                    // values.menuItem[index].images =
+                                    //   event.target.files[0];
+                                    // console.log(event.target.files[0]); // Log the selected file
+                                    // setSelectedImage(event.target.files[0]); // Update the state with the selected file
                                   }}
                                 />
                               </label>
-                              {(selectedImage || item.image) && (
+                              {imagePreviews[index] && (
                                 <div>
                                   <Image
                                     alt="not found"
                                     className="!w-28 object-cover rounded-full"
-                                    src={
-                                      selectedImage
-                                        ? URL.createObjectURL(selectedImage)
-                                        : item.image
-                                    }
+                                    src={imagePreviews[index]}
                                   />
                                 </div>
                               )}
                             </div>
                             <ErrorMessage
                               component="p"
-                              name={`menuItem.${index}.images`}
+                              name={`menuItem.${index}.image`}
                               className="!text-red-500"
                             />
                             <Flex justify="space-between">
@@ -245,19 +233,6 @@ const MenuAndTime = () => {
                                 />
                               </div>
                             </div>
-                            {/* <div className="flex-1">
-                              <Field
-                                placeholder="Image url"
-                                name={`menuItem.${index}.image`}
-                                className="w-full block border border-gray-300 outline-gray-300 py-2 px-3 rounded-lg"
-                                type="text"
-                              />
-                              <ErrorMessage
-                                component="span"
-                                name={`menuItem.${index}.image`}
-                                className="!text-red-500"
-                              />
-                            </div> */}
                             <div className="flex-1 mt-3">
                               <Field
                                 placeholder="Description"
@@ -274,7 +249,39 @@ const MenuAndTime = () => {
                             <button
                               type="button"
                               className="bg-[#D5D5D5] rounded-md py-2 w-36 hover:opacity-60 mt-2"
-                              onClick={() => remove(index)}
+                              onClick={async () => {
+                                let isError = false;
+                                console.log(
+                                  "values.menuItem[index]: ",
+                                  values.menuItem[index]
+                                );
+                                Object.keys(values.menuItem[index]).forEach(
+                                  (item) => {
+                                    if (
+                                      values.menuItem[index][item] == "" ||
+                                      values.menuItem[index][item] == null
+                                    ) {
+                                      if (
+                                        values.menuItem[index][item] ==
+                                        "isActive"
+                                      ) {
+                                      } else isError = true;
+                                    }
+                                  }
+                                );
+
+                                if (!isError) {
+                                  console.log("image", imagePreviews);
+                                  // const response = await api.delete(
+                                  //   `/restaurant/${user._id}/${values.menuItem[index].id}`
+                                  // );
+                                  // if (response.status === 200) {
+                                  //   makeToast("success", "Menu item deleted!");
+                                  //   remove(index);
+                                  // }
+                                }
+                                // else remove(index);
+                              }}
                             >
                               Remove
                             </button>
@@ -284,16 +291,48 @@ const MenuAndTime = () => {
                     <button
                       type="button"
                       className="bg-[#D5D5D5] rounded-md py-2 w-36 hover:opacity-60 mt-2"
-                      onClick={() => {
-                        push({
-                          images: "",
-                          foodCategory: [],
-                          title: "",
-                          isActive: ``,
-                          id: uuidv4(),
-                          price: "",
-                          description: "",
-                        });
+                      onClick={async () => {
+                        const errors = await validateForm();
+
+                        if (values.menuItem == 0) {
+                          push({
+                            image: "",
+                            foodCategory: "",
+                            title: "",
+                            id: uuidv4(),
+                            isActive: ``,
+                            price: "",
+                            description: "",
+                          });
+                        } else if (Object.keys(errors).length === 0) {
+                          const data =
+                            values.menuItem[values.menuItem.length - 1];
+                          const file = new FormData();
+                          console.log("data.menuItem: ", data);
+                          file.append("food", data.image);
+                          file.append("data", JSON.stringify(data));
+
+                          const response = await api.put(
+                            `/restaurant/${user._id}`,
+                            file
+                          );
+                          if (response) {
+                            makeToast("success", "Food item added.");
+                            console.log("response: ", response);
+                          }
+
+                          push({
+                            image: "",
+                            foodCategory: "",
+                            title: "",
+                            isActive: ``,
+                            price: "",
+                            description: "",
+                          });
+                        } else {
+                          console.log(errors); // Log or handle errors
+                          makeToast("error", "Please feel food item!");
+                        }
                       }}
                     >
                       Add to menu
