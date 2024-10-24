@@ -24,8 +24,8 @@ const reastaurantSchema = new mongoose.Schema({
     {
       description: String,
       foodCategory: String,
-      id: String,
       image: String,
+      id: String,
       isActive: { type: Boolean, default: false },
       price: Number,
       title: String,

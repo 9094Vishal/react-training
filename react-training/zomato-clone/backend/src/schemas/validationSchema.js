@@ -79,23 +79,7 @@ const schema = {
           phone: joi.string().required(),
         })
         .required(),
-      menuItem: joi
-        .array()
-        .items(
-          joi
-            .object()
-            .keys({
-              description: joi.string().required(),
-              foodCategory: joi.string().required(),
-              id: joi.string().required(),
-              image: joi.string().required(),
-              isActive: joi.boolean(),
-              price: joi.number().required(),
-              title: joi.string().required(),
-            })
-            .required()
-        )
-        .required(),
+
       documents: joi.object().keys({
         panNo: joi.string().required(),
         restaurantImage: joi.string().required(),
@@ -105,6 +89,16 @@ const schema = {
     .options({
       abortEarly: false,
     }),
+  menuItem: joi
+    .object()
+    .keys({
+      description: joi.string().required(),
+      foodCategory: joi.string().required(),
+      isActive: joi.boolean(),
+      price: joi.number().required(),
+      title: joi.string().required(),
+    })
+    .required(),
 };
 
 export default schema;
