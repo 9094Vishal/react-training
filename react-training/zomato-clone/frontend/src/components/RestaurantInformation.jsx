@@ -2,14 +2,16 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { AddRestaurantContext } from "../context/AddRestaurantContext";
-import { getRegistratonData } from "../helper/helper";
+import { getLoginUser, getRegistratonData, updateUser } from "../helper/helper";
 import PopUpModel from "./PopUpModel";
 import UploadImage from "./UploadImage";
+import api from "../api/Axios";
+import { AuthContext } from "../context/loginContext";
 
 const RestaurantInformation = () => {
-  const [openSuccesModel, setOpenSuccessModel] = useState(false);
+  const [openSuccesModel, setOpenSuccessModel] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
-
+  const { user, setLoginData } = useContext(AuthContext);
   const [data, setData] = useState({
     restaurantName: "",
     ownerDetails: {
@@ -74,18 +76,43 @@ const RestaurantInformation = () => {
         enableReinitialize={true}
         initialValues={data}
         validationSchema={schema}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={async (values, { setSubmitting }) => {
           console.log("values: ", values);
-          setOpenSuccessModel(true);
 
-          let regiData = getRegistratonData();
+          const formData = new FormData();
 
-          const data = { ...values };
-          localStorage.setItem("complatedTap", 1);
-          regiData = JSON.stringify({ ...regiData, ...data });
-          localStorage.setItem("registrationData", regiData);
+          // Append text fields
+          formData.append("restaurantName", values.restaurantName);
+          formData.append("panNo", values.panNo);
+          formData.append("GSTNo", values.GSTNo);
+          formData.append("ownerId", user._id);
 
-          setSubmitting(false);
+          // Append nested fields (ownerDetails)
+          formData.append("ownerDetails", JSON.stringify(values.ownerDetails));
+
+          // Append restaurant address details
+          formData.append(
+            "restaurantAddressDetails",
+            JSON.stringify(values.restaurantAddressDetails)
+          );
+
+          // Append the selected image (ensure the image is in File/Blob format)
+          if (selectedImage) {
+            formData.append("food", selectedImage);
+          }
+
+          const response = await api.post("/restaurant", formData);
+          if (response.status === 201) {
+            const { data, user } = response.data;
+            console.log("user: ", user);
+            updateUser(user);
+            setLoginData(getLoginUser());
+
+            setOpenSuccessModel({
+              isOpen: true,
+              navigate: `/restaurant?hotelId=${data._id}`,
+            });
+          }
         }}
       >
         {({ values, setFieldValue, validateForm }) => {
@@ -123,7 +150,7 @@ const RestaurantInformation = () => {
                   setSelectedImage={setSelectedImage}
                   title="Hotel image"
                   props={{ name: "restaurantImage" }}
-                  onChangeImage={() => setFieldValue}
+                  onChangeImage={(name, file) => setFieldValue(name, file)}
                 />
                 <ErrorMessage
                   component="p"
@@ -314,7 +341,7 @@ const RestaurantInformation = () => {
               </div>
               <div className="text-end pr-4">
                 <button
-                  className="bg-[#D5D5D5] rounded-md py-2 w-36 hover:opacity-60 mt-2"
+                  className="bg-btnColor text-white rounded-md py-2 w-36 hover:opacity-70 mt-2"
                   type="submit"
                 >
                   submit
@@ -324,12 +351,12 @@ const RestaurantInformation = () => {
           );
         }}
       </Formik>
-      {openSuccesModel && (
+      {openSuccesModel.isOpen && (
         <PopUpModel
           msg={"Resturant data sucessfully added.."}
           setModel={setOpenSuccessModel}
           title={"Success"}
-          redirect={"/"}
+          redirect={openSuccesModel.navigate}
           type={"success"}
         />
       )}

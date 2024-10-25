@@ -1,14 +1,38 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Tabs } from "antd";
 import HotelOverviewTab from "./HotelOverviewTab";
 import HotelOrderTab from "./HotelOrderTab";
 import { HotelContext } from "../context/HotelContext";
+import { AuthContext } from "../context/loginContext";
+import MenuAndTime from "./MenuAndTime";
+import api from "../api/Axios";
 const onChange = (key) => {
   //   console.log(key);
 };
-const RestaurantTabBar = () => {
+const RestaurantTabBar = ({ id }) => {
+  const [foods, setFoods] = useState([]);
+
+  const loadFoodData = async () => {
+    const data = await api.get(`/restaurant/foods/${id}`);
+    if (data) {
+      console.log("data: ", data.data.data);
+      setFoods(data.data);
+    }
+  };
+  useEffect(() => {
+    loadFoodData();
+    return () => {};
+  }, []);
+
   const tabs = ["Order"];
-  const tabData = [<HotelOrderTab />];
+  const { user } = useContext(AuthContext);
+  const tabData = [<HotelOrderTab foods={foods} setFoods={setFoods} />];
+  if (id == user.restaurantId) {
+    tabs.push("View menu");
+    tabData.push(
+      <HotelOrderTab isOwner={true} foods={foods} setFoods={setFoods} />
+    );
+  }
   return (
     <Tabs
       size={"large"}

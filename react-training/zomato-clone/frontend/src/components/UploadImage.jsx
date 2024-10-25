@@ -1,7 +1,7 @@
 import { faPlus, faRemove, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "antd";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 
 const UploadImage = ({
   selectedImage,
@@ -11,6 +11,7 @@ const UploadImage = ({
   props,
   onChangeImage = null,
 }) => {
+  console.log("selectedImage: ", selectedImage);
   return (
     <div className="flex gap-5 mb-5 items-center justify-center">
       {!selectedImage && image == null && (
@@ -26,7 +27,7 @@ const UploadImage = ({
           <input
             type="file"
             id="doc"
-            name={props.name ? props.name : "myImage"}
+            name={props?.name ? props.name : "myImage"}
             accept="png, jpg"
             className="!hidden"
             hidden
@@ -34,25 +35,28 @@ const UploadImage = ({
               console.log(event.target.files[0]); // Log the selected file
               setSelectedImage(event.target.files[0]); // Update the state with the selected file
               if (onChangeImage) {
-                onChangeImage("restaurantImage", event.target.files[0]);
+                onChangeImage(props?.name, event.target.files[0]);
               }
             }}
           />
         </label>
       )}
 
-      {(selectedImage || image) && (
+      {(selectedImage != null || image != null) && (
         <div>
           <Image
             alt="not found"
             className=" !h-52 object-cover rounded-xl"
-            src={image != null ? image : URL.createObjectURL(selectedImage)}
+            src={
+              selectedImage != null ? URL.createObjectURL(selectedImage) : image
+            }
           />
         </div>
       )}
       {(selectedImage || image) && (
         <div
           onClick={() => {
+            onChangeImage(props?.name, "");
             setSelectedImage(null);
           }}
           className="flex items-center flex-col p-4 gap-3 rounded-3xl border border-red-400 border-dashed bg-gray-50 cursor-pointer  justify-center"
@@ -65,4 +69,4 @@ const UploadImage = ({
 };
 
 // Export the UploadAndDisplayImage component as default
-export default UploadImage;
+export default memo(UploadImage);

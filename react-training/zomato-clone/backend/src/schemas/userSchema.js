@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+let ObjectId = mongoose.Schema.Types.ObjectId;
 const userSchema = new mongoose.Schema({
   phone: String,
   image: String,
@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
       pin: String,
     },
   ],
+  restaurantId: { type: ObjectId, ref: "restaurant" },
 });
 const Users = mongoose.model("Users", userSchema);
 

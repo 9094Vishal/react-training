@@ -31,7 +31,7 @@ import UploadImage from "./components/UploadImage";
 function App() {
   const [isLogin, setIsLogin] = useState(getLoginUser());
   const [cartData, setCartData] = useState([]);
-
+  console.log(isLogin);
   const addToCart = (hotelId, foodId) => {
     let cart = getCart();
     const cartIndex = cart.findIndex((i) => i.hotelId == hotelId);

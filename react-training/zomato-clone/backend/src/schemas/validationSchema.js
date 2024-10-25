@@ -34,6 +34,7 @@ const schema = {
     .keys({
       name: joi.string().min(2).max(20).required(),
       image: joi.string(),
+      restaurantId: joi.string().empty(""),
       phone: joi
         .string()
         .pattern(/[0-9]{12}/)
@@ -53,24 +54,12 @@ const schema = {
         .keys({
           area: joi.string().required(),
           city: joi.string().required(),
-          landmark: joi.string().empty(""),
-          shop: joi.string().required(),
+          address: joi.string().required(),
         })
         .required(),
       ownerId: joi.string().required(),
       restaurantName: joi.string().required(),
-      timing: joi
-        .array()
-        .items(
-          joi
-            .object()
-            .keys({
-              startTime: joi.string().required(),
-              endTime: joi.string().required(),
-            })
-            .required()
-        )
-        .required(),
+
       ownerDetails: joi
         .object()
         .keys({
@@ -80,11 +69,9 @@ const schema = {
         })
         .required(),
 
-      documents: joi.object().keys({
-        panNo: joi.string().required(),
-        restaurantImage: joi.string().required(),
-        GSTNo: joi.string().required(),
-      }),
+      panNo: joi.string().required(),
+      restaurantImage: joi.binary().required(),
+      GSTNo: joi.string().required(),
     })
     .options({
       abortEarly: false,
@@ -98,6 +85,18 @@ const schema = {
       price: joi.number().required(),
       title: joi.string().required(),
     })
+    .required(),
+  timing: joi
+    .array()
+    .items(
+      joi
+        .object()
+        .keys({
+          startTime: joi.string().required(),
+          endTime: joi.string().required(),
+        })
+        .required()
+    )
     .required(),
 };
 

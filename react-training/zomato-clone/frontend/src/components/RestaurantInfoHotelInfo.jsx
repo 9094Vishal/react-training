@@ -12,11 +12,11 @@ const RestaurantInfoHotelInfo = ({ hotelData }) => {
     <div className="flex item-start justfy-between mt-3 w-full">
       <div
         className="flex-1 cursor-pointer"
-        onClick={() => {
-          navigate(`/restaurant?hotelId=${hotelData?.id}`);
-        }}
+        // onClick={() => {
+        //   navigate(`/restaurant?hotelId=${hotelData?._id}`);
+        // }}
       >
-        <p>{(hotelData && hotelData.restaurantName) || "Food zone"}</p>
+        <p>{(hotelData && hotelData.restaurantName) || "N/a"}</p>
 
         <p className="text-sm text-gray-400">
           {(hotelData && address(hotelData.restaurantAddressDetails)) ||

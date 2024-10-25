@@ -182,11 +182,10 @@ export const getCart = () => {
   return user.cart || [];
 };
 export const address = (data) => {
-  const { area, city, landmark, shop } = data;
+  const { address, area, city } = data;
   return (
-    (shop ? `${shop},` : "") +
+    (address ? `${address},` : "") +
     (area ? `${area},` : "") +
-    (landmark ? `${landmark},` : "") +
     (city ? `${city}` : "")
   );
 };
