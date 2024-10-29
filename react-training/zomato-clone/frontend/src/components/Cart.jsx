@@ -18,6 +18,7 @@ import { AuthContext } from "../context/loginContext";
 import { address, getDefaultAddress, getHotelById } from "../helper/helper";
 import AddAddres from "./AddAddres";
 import SelectAddressDrawer from "./SelectAddressDrawer";
+import api from "../api/Axios";
 const Cart = () => {
   const [queryPerams] = useSearchParams();
   const hotelId = queryPerams.get("hotelId");
@@ -30,30 +31,37 @@ const Cart = () => {
     mode = value;
   };
   const [hotel, setHotel] = useState(null);
-  const [cartItem, setCartItem] = useState(null);
+  const [cart, setCart] = useState(null);
+  const [cartItem, setCartItem] = useState([]);
   const [total, setTotal] = useState({
     total: 0,
     totalWithGst: 0,
     gst: "0%",
   });
+  const getCartDeta = async () => {
+    const response = await api.get(`/cart/hotelCart/${user._id}/${hotelId}`);
+    setCart(response.data.cartData[0]);
+    console.log("response.data.cartData: ", response.data.cartData[0]);
+  };
   useEffect(() => {
+    getCartDeta();
     setHotel(getHotelById(hotelId));
     setCartItem(itemInCart(hotelId));
 
     return () => {};
   }, [queryPerams]);
   useEffect(() => {
-    const sum = cartItem?.reduce((a, b) => {
-      return a + b.price * b.quntity;
-    }, 0);
-    setTotal({
-      total: `₹${sum}`,
-      totalWithGst: `₹${((sum / 100) * 18 + sum).toFixed(2)}`,
-      gst: `₹${((sum / 100) * 18).toFixed(2)}`,
-    });
-
-    return () => {};
-  }, [cartItem]);
+    if (cart) {
+      const sum = cart.menuItem.reduce((a, b) => {
+        return a + b.price * b.quntity;
+      }, 0);
+      setTotal({
+        total: `₹${sum}`,
+        totalWithGst: `₹${((sum / 100) * 18 + sum).toFixed(2)}`,
+        gst: `₹${((sum / 100) * 18).toFixed(2)}`,
+      });
+    }
+  }, [cart]);
   if (!hotelId) {
     return (
       <div className="flex items-center justify-center h-screen w-full">
@@ -121,21 +129,21 @@ const Cart = () => {
   return (
     <div className="mx-20 my-3">
       <div className="">
-        {hotel ? (
+        {cart ? (
           <>
             <p>{hotel.restaurantName}</p>{" "}
             <span className="text-sm text-gray-400">
-              {address(hotel.restaurantAddressDetails)}
+              {address(cart.hotelData.restaurantAddressDetails)}
             </span>
           </>
         ) : (
           <Spin />
         )}
       </div>
-      {cartItem ? (
+      {cart ? (
         <>
           <div className="bg-white p-2 shadow rounded-lg">
-            {cartItem.map(({ title, quntity, price, id }, index) => {
+            {cart.menuItem.map(({ title, quntity, price, id }, index) => {
               return (
                 <CartItem
                   key={index}

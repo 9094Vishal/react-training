@@ -1,4 +1,5 @@
 import { array } from "yup";
+import api from "../api/Axios";
 
 export const sendOtp = () => {
   const otp = Math.floor(100000 + Math.random() * 900000);
@@ -73,13 +74,14 @@ export const setReaturantDataToMainList = (data) => {
     }
   }
 };
-export const getLocations = () => {
-  const allRestaurants = getListOfRestaurants();
+export const getLocations = (allRestaurants) => {
+  console.log("allRestaurants: ", allRestaurants);
+  // const allRestaurants = getListOfRestaurants();
   return allRestaurants.map((item) => {
-    const { area, city, landmark } = item.restaurantAddressDetails;
+    const { area, city, address } = item.restaurantAddressDetails;
     const data =
+      (address ? `${address},` : "") +
       (area ? `${area},` : "") +
-      (landmark ? `${landmark},` : "") +
       (city ? `${city}` : "");
 
     return {
@@ -88,10 +90,11 @@ export const getLocations = () => {
     };
   });
 };
-export const searchFoodByLocation = (location) => {
-  const allRestaurants = getListOfRestaurants();
-  const Hotels = allRestaurants.filter((item) => {
-    const { area, city, landmark } = item.restaurantAddressDetails;
+export const searchFoodByLocation = async (location, allRestaurants) => {
+  console.log("allRestaurants: ", allRestaurants);
+  // const allRestaurants = getListOfRestaurants();
+  const Hotels = allRestaurants?.filter((item) => {
+    const { address, area, city } = item.restaurantAddressDetails;
     const data = location.toString().split(",");
     if (
       data.length == 1 &&
@@ -100,22 +103,41 @@ export const searchFoodByLocation = (location) => {
       return item;
     }
     if (
-      data[0].toString().toLowerCase() == area.toString().toLowerCase() ||
-      data[1].toString().toLowerCase() == landmark.toString().toLowerCase() ||
+      data[0].toString().toLowerCase() == address.toString().toLowerCase() ||
+      data[1].toString().toLowerCase() == area.toString().toLowerCase() ||
       data[2].toString().toLowerCase() == city.toString().toLowerCase()
     ) {
       return item;
     }
   });
+  console.log(Hotels);
+  const ids = Hotels.map((i) => i._id);
+  // console.log("ids: ", ids);
+  const response = await api.get(`restaurant/food?ids=${ids.join(",")}`);
+  if (response) {
+    console.log("response: ", response);
+    // Create a new array to hold unique objects
+    const uniqueObjects = [];
 
-  return Hotels.map((item) => item.menuItem).flat();
+    // Use a Set to track titles that have been added
+    const titles = new Set();
+
+    response.data.forEach((item) => {
+      if (!titles.has(item.title)) {
+        titles.add(item.title);
+        uniqueObjects.push(item);
+      }
+    });
+
+    return uniqueObjects;
+  }
 };
 
 // this will first filter on address then match the food title
 export const getHotelsByFood = (title, location) => {
   const allRestaurants = getListOfRestaurants();
   const Hotels = allRestaurants.filter((item) => {
-    const { area, city, landmark } = item.restaurantAddressDetails;
+    const { area, city, address } = item.restaurantAddressDetails;
     const data = location.toString().split(",");
     if (
       data.length == 1 &&
@@ -124,8 +146,8 @@ export const getHotelsByFood = (title, location) => {
       return item.menuItem.find((menu) => menu.title == title);
     }
     if (
+      data[1].toString().toLowerCase() == address.toString().toLowerCase() ||
       data[0].toString().toLowerCase() == area.toString().toLowerCase() ||
-      data[1].toString().toLowerCase() == landmark.toString().toLowerCase() ||
       data[2].toString().toLowerCase() == city.toString().toLowerCase()
     ) {
       return item.menuItem.find((menu) => menu.title == title);
@@ -136,8 +158,9 @@ export const getHotelsByFood = (title, location) => {
   return Hotels;
 };
 // this will give us single hotel by its id
-export const getHotelById = (id) => {
-  return getListOfRestaurants()?.find((hotel) => hotel.id == id) || null;
+export const getHotelById = async (id) => {
+  const response = await api.get(`/restaurant/${id}`);
+  if (response && response.data) return response.data.data;
 };
 export const getHotelData = (id) => {
   return getListOfRestaurants().find((item) => item.id == id);

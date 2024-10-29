@@ -1,7 +1,7 @@
 import { faPlus, faRemove, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "antd";
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 const UploadImage = ({
   selectedImage,
@@ -11,10 +11,16 @@ const UploadImage = ({
   props,
   onChangeImage = null,
 }) => {
-  console.log("selectedImage: ", selectedImage);
+  const [imageUrl, setImageUrl] = useState(null);
+  useEffect(() => {
+    if (image) {
+      setImageUrl(image);
+    }
+  }, [image]);
+
   return (
     <div className="flex gap-5 mb-5 items-center justify-center">
-      {!selectedImage && image == null && (
+      {!selectedImage && imageUrl == null && (
         <label
           htmlFor="doc"
           className="flex items-center flex-col p-4 gap-3 rounded-3xl border border-gray-300 border-dashed bg-gray-50 cursor-pointer w-52 h-28 justify-center"
@@ -42,22 +48,25 @@ const UploadImage = ({
         </label>
       )}
 
-      {(selectedImage != null || image != null) && (
+      {(selectedImage != null || imageUrl != null) && (
         <div>
           <Image
             alt="not found"
             className=" !h-52 object-cover rounded-xl"
             src={
-              selectedImage != null ? URL.createObjectURL(selectedImage) : image
+              selectedImage != null
+                ? URL.createObjectURL(selectedImage)
+                : imageUrl
             }
           />
         </div>
       )}
-      {(selectedImage || image) && (
+      {(selectedImage || imageUrl) && (
         <div
           onClick={() => {
             onChangeImage(props?.name, "");
             setSelectedImage(null);
+            setImageUrl(null);
           }}
           className="flex items-center flex-col p-4 gap-3 rounded-3xl border border-red-400 border-dashed bg-gray-50 cursor-pointer  justify-center"
         >

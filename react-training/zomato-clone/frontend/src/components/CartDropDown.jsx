@@ -1,21 +1,35 @@
 import { Button, Dropdown, Flex } from "antd";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/loginContext";
 import { getHotelById } from "../helper/helper";
 import { Link, useNavigate } from "react-router-dom";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CartContext } from "../context/CartContext";
+import api from "../api/Axios";
 
 const CartDropDown = () => {
   const navigate = useNavigate();
-  const {
-    user: { cart },
-  } = useContext(AuthContext);
-  const listOfHotels = [];
-  cart.forEach((element) => {
-    listOfHotels.push(getHotelById(element.hotelId));
-  });
-  const items = listOfHotels.map(({ id, restaurantName }, index) => {
+  const { cartData } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
+  const [listOfHotels, setListOfHotels] = useState([]);
+
+  const getHotels = async () => {
+    const listOfId = [];
+    cartData.forEach(async (element) => {
+      listOfId.push(element.hotelId);
+    });
+    const response = await api.post("/restaurant/byIds", {
+      restaurantIds: listOfId,
+    });
+    if (response) {
+      setListOfHotels(response.data.restaurants);
+    }
+  };
+  useEffect(() => {
+    getHotels();
+  }, []);
+  const items = listOfHotels.map(({ _id, restaurantName }, index) => {
     return {
       key: index + 1,
       label: (
@@ -26,13 +40,13 @@ const CartDropDown = () => {
             justify="space-between"
             className="w-full"
           >
-            <div onClick={() => navigate(`/restaurant?hotelId=${id}`)}>
+            <div onClick={() => navigate(`/restaurant?hotelId=${_id}`)}>
               <p>{restaurantName}</p>
               <span className="text-blue-500 ">
                 View Hotel <FontAwesomeIcon icon={faCaretRight} />
               </span>
             </div>
-            <Button onClick={() => navigate(`/cart?hotelId=${id}`)}>
+            <Button onClick={() => navigate(`/cart?hotelId=${_id}`)}>
               Cart
             </Button>
           </Flex>

@@ -17,6 +17,7 @@ const HotelOrderTab = ({ isOwner = false, foods, setFoods }) => {
     getTotalofCart,
   } = useContext(CartContext);
   const { hotelData } = useContext(HotelContext);
+
   const [isMenuDrawerOpen, setIsMenuDrawerOpen] = useState(false);
 
   useEffect(() => {
@@ -55,52 +56,56 @@ const HotelOrderTab = ({ isOwner = false, foods, setFoods }) => {
             return (
               <div key={id}>
                 <p className="text-xl font-semibold">{category}</p>
-                {menu.map(({ description, image, title, price, id }, index) => {
-                  return (
-                    <Flex gap={"10px"} className="my-3" key={index}>
-                      <Image
-                        height={"130px"}
-                        width={"170px"}
-                        className="object-contain"
-                        src={image}
-                      />
-                      <Flex
-                        justify="space-between"
-                        align="center"
-                        className="flex-1"
-                      >
-                        <div>
-                          <p className="text-xl font-medium">{title}</p>
-                          <span className="text-white bg-[#F2A266] rounded px-1 my-3">
-                            BESTSELLER
-                          </span>
-                          <br />
-                          <Rate allowHalf defaultValue={2.8} disabled />
-                          <p className="my-3">₹{price}</p>
-                        </div>
-                        <div>
-                          {!isOwner ? (
-                            <button
-                              className="bg-btnColor py-2 px-6 rounded-md text-white hover:opacity-70"
-                              onClick={() => addToCart(hotelData.id, id)}
-                            >
-                              Add to cart
-                            </button>
-                          ) : (
-                            <div>
-                              <button className="bg-btnColor py-2 px-6 rounded-md text-white hover:opacity-70">
-                                Edit
-                              </button>{" "}
-                              <button className="hover:bg-btnColor py-2 px-6 rounded-md text-btnColor border border-btnColor hover:text-white">
-                                Delete
+                {menu.map(
+                  ({ description, image, title, price, _id }, index) => {
+                    return (
+                      <Flex gap={"10px"} className="my-3" key={index}>
+                        <Image
+                          height={"130px"}
+                          width={"170px"}
+                          className="object-contain"
+                          src={image}
+                        />
+                        <Flex
+                          justify="space-between"
+                          align="center"
+                          className="flex-1"
+                        >
+                          <div>
+                            <p className="text-xl font-medium">{title}</p>
+                            <span className="text-white bg-[#F2A266] rounded px-1 my-3">
+                              BESTSELLER
+                            </span>
+                            <br />
+                            <Rate allowHalf defaultValue={2.8} disabled />
+                            <p className="my-3">₹{price}</p>
+                          </div>
+                          <div>
+                            {!isOwner ? (
+                              <button
+                                className="bg-btnColor py-2 px-6 rounded-md text-white hover:opacity-70"
+                                onClick={() =>
+                                  addToCart(hotelData._id, _id, price)
+                                }
+                              >
+                                Add to cart
                               </button>
-                            </div>
-                          )}
-                        </div>
+                            ) : (
+                              <div>
+                                <button className="bg-btnColor py-2 px-6 rounded-md text-white hover:opacity-70">
+                                  Edit
+                                </button>{" "}
+                                <button className="hover:bg-btnColor py-2 px-6 rounded-md text-btnColor border border-btnColor hover:text-white">
+                                  Delete
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </Flex>
                       </Flex>
-                    </Flex>
-                  );
-                })}
+                    );
+                  }
+                )}
                 <hr className="my-3" />
               </div>
             );

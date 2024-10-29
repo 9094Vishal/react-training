@@ -2,16 +2,21 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { AddRestaurantContext } from "../context/AddRestaurantContext";
-import { getLoginUser, getRegistratonData, updateUser } from "../helper/helper";
+import { getLoginUser, updateUser } from "../helper/helper";
 import PopUpModel from "./PopUpModel";
 import UploadImage from "./UploadImage";
 import api from "../api/Axios";
 import { AuthContext } from "../context/loginContext";
+import { useLocation } from "react-router-dom";
 
 const RestaurantInformation = () => {
   const [openSuccesModel, setOpenSuccessModel] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const { user, setLoginData } = useContext(AuthContext);
+  const [registrationData, setRegistrationData] = useState(null);
+  const route = useLocation();
+  const isEdit = route.pathname == "/partner-with-us/new/edit/";
+
   const [data, setData] = useState({
     restaurantName: "",
     ownerDetails: {
@@ -32,8 +37,6 @@ const RestaurantInformation = () => {
   const panRegex = /[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}/;
   const GSTRegex =
     /\d{2}[A-Za-z]{5}\d{4}[A-Z]{1}[A-Za-z\d]{1}[Z]{1}[A-Za-z\d]{1}/;
-
-  const { setActiveId } = useContext(AddRestaurantContext);
   const schema = Yup.object().shape({
     restaurantName: Yup.string().required("This field id reaquired!"),
     ownerDetails: Yup.object().shape({
@@ -57,16 +60,24 @@ const RestaurantInformation = () => {
       .required("This field is required")
       .matches(GSTRegex, "Please enter valid PAN number"),
   });
-
+  const getRegistratonData = async () => {
+    const data = await api.get(`/restaurant/registration/${user._id}`);
+    if (data) {
+      setRegistrationData(data.data.data);
+    }
+  };
   useEffect(() => {
-    const regiData = getRegistratonData();
+    if (!registrationData) {
+      getRegistratonData();
+    }
 
-    if (regiData.restaurantName) {
-      setData({ ...regiData });
+    if (registrationData) {
+      delete registrationData.image;
+      setData({ ...data, ...registrationData });
     }
 
     return () => {};
-  }, []);
+  }, [registrationData]);
 
   return (
     <div className="w-full">
@@ -100,13 +111,18 @@ const RestaurantInformation = () => {
           if (selectedImage) {
             formData.append("food", selectedImage);
           }
-
-          const response = await api.post("/restaurant", formData);
+          let response;
+          if (isEdit) {
+            response = await api.put("/restaurant", formData);
+          } else {
+            response = await api.post("/restaurant", formData);
+          }
           if (response.status === 201) {
             const { data, user } = response.data;
-            console.log("user: ", user);
-            updateUser(user);
-            setLoginData(getLoginUser());
+            if (!isEdit) {
+              updateUser(user);
+              setLoginData(getLoginUser());
+            }
 
             setOpenSuccessModel({
               isOpen: true,
@@ -151,6 +167,9 @@ const RestaurantInformation = () => {
                   title="Hotel image"
                   props={{ name: "restaurantImage" }}
                   onChangeImage={(name, file) => setFieldValue(name, file)}
+                  // image={
+                  //   registrationData?.image ? registrationData.image : null
+                  // }
                 />
                 <ErrorMessage
                   component="p"

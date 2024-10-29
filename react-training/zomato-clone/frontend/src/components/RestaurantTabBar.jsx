@@ -15,18 +15,18 @@ const RestaurantTabBar = ({ id }) => {
   const loadFoodData = async () => {
     const data = await api.get(`/restaurant/foods/${id}`);
     if (data) {
-      console.log("data: ", data.data.data);
-      setFoods(data.data);
+      console.log("data: ", data);
+      setFoods(data.data.data);
     }
   };
   useEffect(() => {
     loadFoodData();
-    return () => {};
   }, []);
 
   const tabs = ["Order"];
   const { user } = useContext(AuthContext);
   const tabData = [<HotelOrderTab foods={foods} setFoods={setFoods} />];
+
   if (id == user.restaurantId) {
     tabs.push("View menu");
     tabData.push(
